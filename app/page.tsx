@@ -385,7 +385,7 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-12 sm:mb-16">
             <a
-              href="https://wa.me/5491100000000"
+              href="https://wa.me/5492974749605?text=Hola!%20queria%20encargar%20"
               className="bg-background text-accent px-8 sm:px-10 py-4 font-display text-xl sm:text-2xl tracking-widest hover:bg-background/90 transition-colors"
             >
               WHATSAPP
