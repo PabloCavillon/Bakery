@@ -1,65 +1,427 @@
-import Image from "next/image";
+const products = [
+  {
+    emoji: "🍪",
+    name: "COO-CHIPS",
+    desc: "Vainilla, manteca noisette, chips de chocolate negro y con leche.",
+    price: "$4.500",
+    tag: "CLÁSICA",
+    rotate: "-rotate-[0.8deg]",
+  },
+  {
+    emoji: "🍓",
+    name: "COO-FRAMBUESA",
+    desc: "Pistacho, dulce de frambuesas, frosting y más pistachos.",
+    price: "$4.500",
+    tag: "FAVORITA",
+    rotate: "rotate-[0.6deg]",
+  },
+  {
+    emoji: "❤️",
+    name: "COO-VELVET",
+    desc: "Red velvet, frosting, dulce de frambuesas y frambuesas congeladas.",
+    price: "$4.500",
+    tag: "ESPECIAL",
+    rotate: "-rotate-[0.5deg]",
+  },
+  {
+    emoji: "🥕",
+    name: "COO-CARROT",
+    desc: "Carrot cake, frosting, canela, naranja y zanahorias en almíbar.",
+    price: "$4.500",
+    tag: "SORPRESA",
+    rotate: "rotate-[1deg]",
+  },
+  {
+    emoji: "🍫",
+    name: "COO-CACAO",
+    desc: "Chocolate rellena de chocolate y chips de chocolate semi.",
+    price: "$4.500",
+    tag: "INTENSA",
+    rotate: "-rotate-[0.7deg]",
+  },
+  {
+    emoji: "🍋",
+    name: "COO-LEMON",
+    desc: "Vainilla, rellena de curd de limón y merengue.",
+    price: "$4.500",
+    tag: "FRESCA",
+    rotate: "rotate-[0.4deg]",
+  },
+];
+
+const testimonials = [
+  {
+    text: "La COO-CHIPS es adictiva. La pedí una vez y ahora la encargo todas las semanas.",
+    name: "Caro M.",
+    location: "Córdoba Capital",
+  },
+  {
+    text: "La COO-LEMON es otra cosa. El curd de limón con merengue es perfección.",
+    name: "Nico T.",
+    location: "Nueva Córdoba",
+  },
+  {
+    text: "Pedí una torta personalizada para un cumple y quedaron todos locos. Cero dudas.",
+    name: "Sol R.",
+    location: "Cerro de las Rosas",
+  },
+];
+
+const tickerItems = [
+  "LA COOKERIA", "//", "COOKIES POR ENCARGO", "//",
+  "HECHO A MANO", "//", "CÓRDOBA", "//",
+  "TARTAS Y TORTAS", "//", "SIN APURO", "//",
+];
 
 export default function Home() {
+  const tickerContent = [...tickerItems, ...tickerItems];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
+
+      {/* ─── NAV ─── */}
+      <nav className="fixed top-0 w-full z-50 bg-background border-b border-accent/15">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+          <span className="font-display text-base sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
+            * LA COOKERIA
+          </span>
+          <div className="hidden md:flex gap-8 text-xs tracking-wide text-muted/70 lowercase">
+            <a href="#cookies" className="hover:text-accent transition-colors">cookies</a>
+            <a href="#nosotros" className="hover:text-accent transition-colors">nosotros</a>
+            <a href="#pedidos" className="hover:text-accent transition-colors">pedidos</a>
+          </div>
+          <a
+            href="#pedidos"
+            className="text-[0.65rem] sm:text-xs text-accent border border-dashed border-accent/50 px-3 sm:px-4 py-1.5 tracking-widest uppercase hover:bg-accent hover:text-background transition-colors whitespace-nowrap"
+          >
+            → pedir
+          </a>
+        </div>
+      </nav>
+
+      {/* ─── HERO ─── */}
+      <section className="min-h-screen flex flex-col justify-end bg-background pt-14 pb-12 sm:pb-16 relative overflow-hidden">
+
+        {/* watermark */}
+        <div
+          aria-hidden
+          className="absolute inset-0 flex items-center justify-center select-none pointer-events-none"
+        >
+          <span
+            className="font-display text-[40vw] leading-none text-accent/5"
+            style={{ transform: "rotate(-12deg)" }}
+          >
+            COOKIES
+          </span>
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full relative z-10">
+          {/* label */}
+          <div className="flex items-center gap-3 mb-6 sm:mb-8">
+            <span className="w-6 sm:w-8 h-px bg-accent/40 shrink-0" />
+            <p className="text-accent/60 text-[0.6rem] sm:text-xs tracking-[0.35em] uppercase">
+              cba, argentina — est. 2026
+            </p>
+          </div>
+
+          {/* headline */}
+          <h1 className="font-display leading-none text-foreground mb-2">
+            <span className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[11rem]">LA</span>
+            <span
+              className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[11rem] text-accent"
+              style={{ transform: "translateX(3vw)" }}
+            >
+              COOKERIA
+            </span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+
+          {/* subline */}
+          <p className="font-display text-lg sm:text-[4vw] md:text-3xl text-muted tracking-widest mt-3 sm:mt-4 uppercase">
+            cookies · tartas · tortas
+          </p>
+
+          {/* body + ctas */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 sm:gap-10 mt-8 sm:mt-12">
+            <p className="text-foreground/40 text-sm leading-relaxed max-w-xs">
+              hechas a mano, con ingredientes reales.<br />
+              por encargo, sin apuro.
+            </p>
+            <div className="flex flex-row gap-4 sm:gap-6 items-center">
+              <a
+                href="#pedidos"
+                className="bg-accent text-background px-6 sm:px-8 py-3 font-display text-xl sm:text-2xl tracking-widest hover:bg-accent-dim transition-colors"
+              >
+                PEDIR
+              </a>
+              <a
+                href="#cookies"
+                className="text-foreground/50 text-xs tracking-[0.3em] uppercase hover:text-accent transition-colors"
+              >
+                ver cookies ↓
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── TICKER ─── */}
+      <div className="bg-accent py-3 overflow-hidden border-y border-accent-dim">
+        <div className="animate-ticker flex whitespace-nowrap">
+          {tickerContent.map((item, i) => (
+            <span
+              key={i}
+              className="font-display text-base sm:text-lg tracking-[0.2em] text-background mx-4 sm:mx-5 select-none"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ─── COOKIES ─── */}
+      <section id="cookies" className="py-14 sm:py-20 bg-background">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+
+          {/* header */}
+          <div className="mb-8 sm:mb-10 border-b border-dashed border-accent/20 pb-5 sm:pb-6">
+            <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-2">// las cookies</p>
+            <h2 className="font-display text-6xl sm:text-7xl md:text-9xl text-foreground leading-none">
+              EL MENÚ.
+            </h2>
+          </div>
+
+          {/* promo */}
+          <div
+            className="mb-10 sm:mb-12 border-2 border-dashed border-accent bg-accent/10 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            style={{ transform: "rotate(-0.4deg)" }}
+          >
+            <div className="flex items-start gap-3">
+              <span className="text-xl sm:text-2xl select-none mt-0.5">🍪</span>
+              <div>
+                <p className="font-display text-2xl sm:text-3xl text-accent leading-none mb-1">
+                  PROMO X4
+                </p>
+                <p className="text-foreground/60 text-xs leading-relaxed">
+                  Llevate 4 cookies y pagás{" "}
+                  <span className="text-foreground/30 line-through">$18.000</span>{" "}
+                  <span className="text-accent font-bold">$16.000</span>
+                  {" "}— ahorrás $2.000.
+                </p>
+              </div>
+            </div>
             <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="#pedidos"
+              className="text-[0.6rem] tracking-[0.3em] uppercase bg-accent text-background px-4 py-2 font-bold whitespace-nowrap hover:bg-accent-dim transition-colors shrink-0 self-start sm:self-auto"
             >
-              Learning
-            </a>{" "}
-            center.
+              ENCARGAR →
+            </a>
+          </div>
+
+          {/* grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            {products.map((p) => (
+              <div
+                key={p.name}
+                className={`border border-dashed border-accent/30 p-5 sm:p-6 bg-surface/40 hover:bg-surface transition-colors duration-200 group ${p.rotate}`}
+              >
+                <div className="flex items-start justify-between mb-4 sm:mb-5">
+                  <span className="text-3xl sm:text-4xl select-none leading-none">{p.emoji}</span>
+                  <span
+                    className="text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase bg-accent text-background px-2 py-1 font-bold"
+                    style={{ transform: "rotate(2deg)" }}
+                  >
+                    {p.tag}
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl sm:text-3xl text-foreground leading-none mb-2 sm:mb-3 tracking-wide">
+                  {p.name}
+                </h3>
+                <p className="text-muted/80 text-xs leading-relaxed">
+                  {p.desc}
+                </p>
+                <div className="flex items-center justify-between mt-5 sm:mt-6 pt-4 border-t border-dashed border-accent/15">
+                  <span className="font-display text-2xl sm:text-3xl text-accent leading-none">
+                    {p.price}
+                  </span>
+                  <span className="text-[0.6rem] text-foreground/20 tracking-[0.2em] uppercase group-hover:text-accent transition-colors">
+                    encargar →
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-accent/20 tracking-[0.4em] text-xs mt-12 sm:mt-14 select-none">
+            * * * * * * * * * * * * * * * * *
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      {/* ─── TAMBIÉN HACEMOS ─── */}
+      <div className="bg-surface-alt border-y border-dashed border-accent/20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+          <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6">// también hacemos</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            {[
+              { e: "🎂", t: "TARTAS", d: "Artesanales, por encargo." },
+              { e: "🎉", t: "TORTAS PERSONALIZADAS", d: "Para cumples, eventos y lo que se te ocurra." },
+              { e: "📦", t: "CAJAS REGALO", d: "Mix de cookies para llevar o regalar." },
+            ].map((item) => (
+              <div
+                key={item.t}
+                className="flex items-start gap-3 sm:gap-4 p-4 border border-dashed border-accent/15 hover:border-accent/40 transition-colors"
+              >
+                <span className="text-2xl sm:text-3xl select-none shrink-0">{item.e}</span>
+                <div>
+                  <p className="font-display text-lg sm:text-xl text-foreground leading-none mb-1">{item.t}</p>
+                  <p className="text-muted/70 text-xs">{item.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ─── NOSOTROS ─── */}
+      <section id="nosotros" className="py-14 sm:py-20 bg-background">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-10 sm:gap-12 items-start">
+
+            <div className="md:col-span-3">
+              <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6">// nosotros</p>
+              <h2
+                className="font-display text-5xl sm:text-6xl md:text-8xl text-foreground leading-none mb-8 sm:mb-10"
+                style={{ transform: "rotate(-0.5deg)" }}
+              >
+                NACIÓ EN<br />UNA COCINA<br />CHICA.
+              </h2>
+              <div className="space-y-4 text-foreground/50 text-sm leading-relaxed border-l-2 border-dashed border-accent/30 pl-5 sm:pl-6">
+                <p>
+                  No empezamos en ninguna escuela de gastronomía. Empezamos en
+                  casa, a las 5am, con el horno encendido y los vecinos preguntando
+                  de dónde venía ese olor.
+                </p>
+                <p>
+                  La Cookeria es pastelería sin pretensiones. Ingredientes reales,
+                  recetas que no mienten. No seguimos tendencias — hacemos lo que
+                  creemos que tiene que saber bien.
+                </p>
+              </div>
+            </div>
+
+            <div className="md:col-span-2 grid grid-cols-3 md:grid-cols-1 gap-4 sm:gap-6 md:pt-24">
+              {[
+                ["100%", "hecho a mano"],
+                ["0", "conservantes"],
+                ["∞", "amor por lo que hacemos"],
+              ].map(([num, label], i) => (
+                <div
+                  key={label}
+                  className="border border-dashed border-accent/25 p-4 sm:p-5"
+                  style={{ transform: `rotate(${i % 2 === 0 ? "-0.6" : "0.6"}deg)` }}
+                >
+                  <p className="font-display text-3xl sm:text-5xl text-accent leading-none">{num}</p>
+                  <p className="text-muted/60 text-[0.6rem] sm:text-xs tracking-widest uppercase mt-1 sm:mt-2">{label}</p>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ─── TESTIMONIOS ─── */}
+      <section className="py-12 sm:py-16 bg-surface border-y border-dashed border-accent/15">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-8 sm:mb-10">// la gente dice</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
+            {testimonials.map((t, i) => (
+              <div key={t.name} style={{ transform: `rotate(${["-0.5", "0.4", "-0.3"][i]}deg)` }}>
+                <p className="text-foreground/80 text-sm sm:text-base leading-relaxed mb-5 sm:mb-6">
+                  &ldquo;{t.text}&rdquo;
+                </p>
+                <div className="flex items-center gap-3">
+                  <span className="w-5 sm:w-6 h-px bg-accent/40 shrink-0" />
+                  <div>
+                    <p className="font-display text-base sm:text-lg text-foreground tracking-wide leading-none">
+                      {t.name}
+                    </p>
+                    <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
+                      {t.location}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA ─── */}
+      <section id="pedidos" className="py-16 sm:py-24 bg-accent relative overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+        >
+          <span
+            className="text-[50vw] leading-none opacity-5"
+            style={{ transform: "rotate(10deg)" }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
+            🍪
+          </span>
+        </div>
+
+        <div className="max-w-xl mx-auto px-4 sm:px-6 text-center relative z-10">
+          <p className="text-background/50 text-4xl sm:text-5xl mb-2 select-none">⚠</p>
+          <p className="text-background/50 text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-3 sm:mb-4">// aviso</p>
+
+          <h2 className="font-display text-[16vw] sm:text-[12vw] md:text-8xl text-background leading-none mb-5 sm:mb-6">
+            ¡ENCARGÁ<br />LAS TUYAS!
+          </h2>
+
+          <p className="text-background/60 text-sm leading-relaxed max-w-xs mx-auto mb-8 sm:mb-10">
+            Cookies, tartas y tortas personalizadas. Pedí por WhatsApp o escribinos por Instagram.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-12 sm:mb-16">
+            <a
+              href="https://wa.me/5491100000000"
+              className="bg-background text-accent px-8 sm:px-10 py-4 font-display text-xl sm:text-2xl tracking-widest hover:bg-background/90 transition-colors"
+            >
+              WHATSAPP
+            </a>
+            <a
+              href="https://instagram.com/la.cookeriacba"
+              className="border-2 border-background text-background px-8 sm:px-10 py-4 font-display text-xl sm:text-2xl tracking-widest hover:bg-background hover:text-accent transition-colors"
+            >
+              INSTAGRAM
+            </a>
+          </div>
+
+          <p className="text-background/40 text-[0.6rem] sm:text-xs tracking-[0.5em] uppercase">
+            @la.cookeriacba
+          </p>
+        </div>
+      </section>
+
+      {/* ─── FOOTER ─── */}
+      <footer className="bg-surface-alt border-t border-dashed border-accent/20 py-8 sm:py-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-center md:text-left">
+          <span className="font-display text-xl sm:text-2xl tracking-widest text-accent">
+            * LA COOKERIA
+          </span>
+          <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
+            cookies artesanales · córdoba, argentina · 2026
+          </p>
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="https://instagram.com/la.cookeriacba"
+            className="text-muted/60 text-xs tracking-widest hover:text-accent transition-colors"
           >
-            Documentation
+            @la.cookeriacba
           </a>
         </div>
-      </main>
-    </div>
+      </footer>
+
+    </main>
   );
 }
