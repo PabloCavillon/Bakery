@@ -104,13 +104,11 @@ export async function uploadProductImage(
 
   let blob
   try {
-    blob = await put(`products/${productId}.${ext}`, file, {
-      access: 'public',
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-    })
+    blob = await put(`products/${productId}.${ext}`, file, { access: 'public' })
   } catch (err) {
-    console.error('Blob upload error:', err)
-    return { ok: false, error: 'Error al subir al storage. Verificá el token de Vercel Blob.' }
+    const msg = err instanceof Error ? err.message : String(err)
+    console.error('Blob upload error:', msg)
+    return { ok: false, error: `Storage: ${msg}` }
   }
 
   await updateProductImage(productId, blob.url)
