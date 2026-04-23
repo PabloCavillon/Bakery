@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, DM_Sans } from "next/font/google";
+import { Luckiest_Guy, Nunito } from "next/font/google";
 import "./globals.css";
 
-const bebasNeue = Bebas_Neue({
-  weight: "400",
+const luckiestGuy = Luckiest_Guy({
   subsets: ["latin"],
-  variable: "--font-bebas",
+  variable: "--font-luckiest",
+  weight: "400",
 });
 
-const dmSans = DM_Sans({
+const nunito = Nunito({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-nunito",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL
@@ -94,7 +95,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${bebasNeue.variable} ${dmSans.variable} h-full`}
+      className={`${luckiestGuy.variable} ${nunito.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans antialiased">
         {children}

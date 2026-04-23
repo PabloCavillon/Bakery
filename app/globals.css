@@ -18,13 +18,13 @@
   --color-accent-dim: var(--accent-dim);
   --color-foreground: var(--fg);
   --color-muted: var(--muted);
-  --font-display: var(--font-bebas), sans-serif;
-  --font-sans: var(--font-dm-sans), Arial, sans-serif;
+  --font-display: var(--font-luckiest), cursive;
+  --font-sans: var(--font-nunito), sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 56px; /* altura del nav fijo */
+  scroll-padding-top: 64px; /* altura del nav fijo */
 }
 
 body {

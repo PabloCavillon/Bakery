@@ -71,7 +71,7 @@ export default async function Home() {
 
       {/* ─── NAV ─── */}
       <nav className="fixed top-0 w-full z-50 bg-background border-b border-accent/15">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
           <span className="font-display text-base sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
             * PAZ BAKERY
           </span>
@@ -105,9 +105,9 @@ export default async function Home() {
 
           {/* headline */}
           <h1 className="font-display leading-none text-foreground mb-2">
-            <span className="block text-[22vw] sm:text-[17vw] md:text-[11rem] lg:text-[13rem]">PAZ</span>
+            <span className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem]">PAZ</span>
             <span
-              className="block text-[22vw] sm:text-[17vw] md:text-[11rem] lg:text-[13rem] text-accent"
+              className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem] text-accent"
               style={{ transform: "translateX(3vw)" }}
             >
               BAKERY
@@ -115,7 +115,7 @@ export default async function Home() {
           </h1>
 
           {/* subline */}
-          <p className="font-display text-lg sm:text-[4vw] md:text-3xl text-muted tracking-widest mt-3 sm:mt-4 uppercase">
+          <p className="font-display text-base sm:text-[3vw] md:text-2xl text-muted tracking-widest mt-3 sm:mt-4 uppercase">
             cookies · tartas · tortas
           </p>
 
@@ -128,7 +128,7 @@ export default async function Home() {
             <div className="flex flex-row gap-4 sm:gap-6 items-center">
               <a
                 href="#pedidos"
-                className="bg-accent text-background px-6 sm:px-8 py-3 font-display text-xl sm:text-2xl tracking-widest hover:bg-accent-dim transition-colors"
+                className="bg-accent text-background px-6 sm:px-8 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-accent-dim transition-colors"
               >
                 PEDIR
               </a>
@@ -164,7 +164,7 @@ export default async function Home() {
           {/* header */}
           <div className="mb-8 sm:mb-10 border-b border-dashed border-accent/20 pb-5 sm:pb-6">
             <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-2">// las cookies</p>
-            <h2 className="font-display text-6xl sm:text-7xl md:text-9xl text-foreground leading-none">
+            <h2 className="font-display text-5xl sm:text-6xl md:text-8xl text-foreground leading-none">
               EL MENÚ.
             </h2>
           </div>
@@ -277,7 +277,7 @@ export default async function Home() {
             <div className="md:col-span-3">
               <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6">// nosotros</p>
               <h2
-                className="font-display text-5xl sm:text-6xl md:text-8xl text-foreground leading-none mb-8 sm:mb-10"
+                className="font-display text-4xl sm:text-5xl md:text-7xl text-foreground leading-none mb-8 sm:mb-10"
                 style={{ transform: "rotate(-0.5deg)" }}
               >
                 NACIÓ EN<br />UNA COCINA<br />CHICA.
@@ -362,7 +362,7 @@ export default async function Home() {
           <p className="text-background/50 text-4xl sm:text-5xl mb-2 select-none">⚠</p>
           <p className="text-background/50 text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-3 sm:mb-4">// aviso</p>
 
-          <h2 className="font-display text-[16vw] sm:text-[12vw] md:text-8xl text-background leading-none mb-5 sm:mb-6">
+          <h2 className="font-display text-[13vw] sm:text-[10vw] md:text-7xl text-background leading-none mb-5 sm:mb-6">
             ¡ENCARGÁ<br />LAS TUYAS!
           </h2>
 
@@ -373,13 +373,13 @@ export default async function Home() {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-12 sm:mb-16">
             <a
               href="https://wa.me/5492974749605?text=Hola!%20queria%20encargar%20"
-              className="bg-background text-accent px-8 sm:px-10 py-4 font-display text-xl sm:text-2xl tracking-widest hover:bg-background/90 transition-colors"
+              className="bg-background text-accent px-7 sm:px-9 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-background/90 transition-colors"
             >
               WHATSAPP
             </a>
             <a
               href="https://instagram.com/la.cookeriacba"
-              className="border-2 border-background text-background px-8 sm:px-10 py-4 font-display text-xl sm:text-2xl tracking-widest hover:bg-background hover:text-accent transition-colors"
+              className="border-2 border-background text-background px-7 sm:px-9 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-background hover:text-accent transition-colors"
             >
               INSTAGRAM
             </a>
