@@ -3,8 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import fs from 'fs/promises'
-import path from 'path'
+import { put } from '@vercel/blob'
 import { getProducts, saveProducts, getOrders, saveOrders, getExpenses, saveExpenses } from './lib/data'
 import type { Product, Order, OrderItem, Expense, ExpenseCategory } from './lib/data'
 
@@ -65,7 +64,7 @@ export async function uploadProductImage(
 ): Promise<{ ok: boolean; image?: string; error?: string }> {
   await requireAuth()
 
-  const file     = formData.get('image') as File
+  const file      = formData.get('image') as File
   const productId = formData.get('productId') as string
 
   if (!file || file.size === 0) return { ok: false, error: 'No hay imagen' }
@@ -75,23 +74,21 @@ export async function uploadProductImage(
     return { ok: false, error: 'Formato no soportado (jpg, png, webp)' }
   }
 
-  const filename = `${productId}.${ext}`
-  const dir      = path.join(process.cwd(), 'public', 'products')
-  await fs.mkdir(dir, { recursive: true })
-  await fs.writeFile(path.join(dir, filename), Buffer.from(await file.arrayBuffer()))
-
-  const imagePath = `/products/${filename}`
+  const blob = await put(`products/${productId}.${ext}`, file, {
+    access: 'public',
+    token: process.env.BLOB_READ_WRITE_TOKEN,
+  })
 
   const products = await getProducts()
   const idx = products.findIndex((p) => p.id === productId)
   if (idx !== -1) {
-    products[idx].image = imagePath
+    products[idx].image = blob.url
     await saveProducts(products)
   }
 
   revalidatePath('/')
   revalidatePath('/catalogo')
-  return { ok: true, image: imagePath }
+  return { ok: true, image: blob.url }
 }
 
 // ─── Orders ───────────────────────────────────────────────────────────────────
