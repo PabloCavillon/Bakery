@@ -73,7 +73,7 @@ export default async function Home() {
       <nav className="fixed top-0 w-full z-50 bg-background border-b border-accent/15">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
           <span className="font-display text-base sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
-            * PAZ BAKERY
+            <span className="text-rose">*</span> PAZ BAKERY
           </span>
           <div className="hidden md:flex gap-8 text-xs tracking-wide text-muted/70 lowercase">
             <a href="#cookies" className="hover:text-accent transition-colors">cookies</a>
@@ -84,7 +84,7 @@ export default async function Home() {
             href="#pedidos"
             className="text-[0.65rem] sm:text-xs text-accent border border-dashed border-accent/50 px-3 sm:px-4 py-1.5 tracking-widest uppercase hover:bg-accent hover:text-background transition-colors whitespace-nowrap"
           >
-            → pedir
+            <span className="text-rose">→</span> pedir
           </a>
         </div>
       </nav>
@@ -136,7 +136,7 @@ export default async function Home() {
                 href="#cookies"
                 className="text-foreground/50 text-xs tracking-[0.3em] uppercase hover:text-accent transition-colors"
               >
-                ver cookies ↓
+                ver cookies <span className="text-rose">↓</span>
               </a>
             </div>
           </div>
@@ -149,7 +149,7 @@ export default async function Home() {
           {tickerContent.map((item, i) => (
             <span
               key={i}
-              className="font-display text-base sm:text-lg tracking-[0.2em] text-background mx-4 sm:mx-5 select-none"
+              className={`font-display text-base sm:text-lg tracking-[0.2em] mx-4 sm:mx-5 select-none ${item === '//' ? 'text-rose' : 'text-background'}`}
             >
               {item}
             </span>
@@ -163,7 +163,7 @@ export default async function Home() {
 
           {/* header */}
           <div className="mb-8 sm:mb-10 border-b border-dashed border-accent/20 pb-5 sm:pb-6">
-            <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-2">// las cookies</p>
+            <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-2"><span className="text-rose">//</span> las cookies</p>
             <h2 className="font-display text-5xl sm:text-6xl md:text-8xl text-foreground leading-none">
               EL MENÚ.
             </h2>
@@ -199,9 +199,10 @@ export default async function Home() {
           {/* grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {products.map((p) => (
-              <div
+              <a
                 key={p.name}
-                className={`border border-dashed border-accent/30 p-5 sm:p-6 bg-surface/40 hover:bg-surface transition-colors duration-200 group ${p.rotate}`}
+                href="#pedidos"
+                className={`block border border-dashed border-accent/30 p-5 sm:p-6 bg-surface/40 hover:bg-surface transition-colors duration-200 group ${p.rotate}`}
               >
                 {/* image or emoji */}
                 <div className="relative w-full aspect-video mb-4 overflow-hidden bg-surface-alt">
@@ -230,15 +231,15 @@ export default async function Home() {
                   <span className="font-display text-2xl sm:text-3xl text-accent leading-none">
                     {p.price}
                   </span>
-                  <span className="text-[0.6rem] text-foreground/20 tracking-[0.2em] uppercase group-hover:text-accent transition-colors">
-                    encargar →
+                  <span className="text-[0.6rem] text-foreground/20 tracking-[0.2em] uppercase group-hover:text-foreground/60 transition-colors">
+                    encargar <span className="text-rose/40 group-hover:text-rose transition-colors">→</span>
                   </span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
 
-          <p className="text-center text-accent/20 tracking-[0.4em] text-xs mt-12 sm:mt-14 select-none">
+          <p className="text-center text-rose/30 tracking-[0.4em] text-xs mt-12 sm:mt-14 select-none">
             * * * * * * * * * * * * * * * * *
           </p>
         </Reveal>
@@ -247,7 +248,7 @@ export default async function Home() {
       {/* ─── TAMBIÉN HACEMOS ─── */}
       <div className="bg-surface-alt border-y border-dashed border-accent/20">
         <Reveal className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-          <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6">// también hacemos</p>
+          <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6"><span className="text-rose">//</span> también hacemos</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {[
               { e: "🎂", t: "TARTAS", d: "Artesanales, por encargo." },
@@ -275,7 +276,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-10 sm:gap-12 items-start">
 
             <div className="md:col-span-3">
-              <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6">// nosotros</p>
+              <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6"><span className="text-rose">//</span> nosotros</p>
               <h2
                 className="font-display text-4xl sm:text-5xl md:text-7xl text-foreground leading-none mb-8 sm:mb-10"
                 style={{ transform: "rotate(-0.5deg)" }}
@@ -320,7 +321,7 @@ export default async function Home() {
       {/* ─── TESTIMONIOS ─── */}
       <section className="py-12 sm:py-16 bg-surface border-y border-dashed border-accent/15">
         <Reveal className="max-w-6xl mx-auto px-4 sm:px-6">
-          <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-8 sm:mb-10">// la gente dice</p>
+          <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-8 sm:mb-10"><span className="text-rose">//</span> la gente dice</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
             {testimonials.map((t, i) => (
               <div key={t.name} style={{ transform: `rotate(${["-0.5", "0.4", "-0.3"][i]}deg)` }}>
@@ -328,7 +329,7 @@ export default async function Home() {
                   &ldquo;{t.text}&rdquo;
                 </p>
                 <div className="flex items-center gap-3">
-                  <span className="w-5 sm:w-6 h-px bg-accent/40 shrink-0" />
+                  <span className="w-5 sm:w-6 h-px bg-rose/40 shrink-0" />
                   <div>
                     <p className="font-display text-base sm:text-lg text-foreground tracking-wide leading-none">
                       {t.name}
@@ -360,7 +361,7 @@ export default async function Home() {
 
         <div className="max-w-xl mx-auto px-4 sm:px-6 text-center relative z-10">
           <p className="text-background/50 text-4xl sm:text-5xl mb-2 select-none">⚠</p>
-          <p className="text-background/50 text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-3 sm:mb-4">// aviso</p>
+          <p className="text-background/50 text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-3 sm:mb-4"><span className="text-rose/70">//</span> aviso</p>
 
           <h2 className="font-display text-[13vw] sm:text-[10vw] md:text-7xl text-background leading-none mb-5 sm:mb-6">
             ¡ENCARGÁ<br />LAS TUYAS!
@@ -395,7 +396,7 @@ export default async function Home() {
       <footer className="bg-surface-alt border-t border-dashed border-accent/20 py-8 sm:py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-center md:text-left">
           <AdminTap className="font-display text-xl sm:text-2xl tracking-widest text-accent">
-            * PAZ BAKERY
+            <span className="text-rose">*</span> PAZ BAKERY
           </AdminTap>
           <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
             cookies artesanales · córdoba, argentina · 2026

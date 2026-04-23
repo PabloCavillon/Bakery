@@ -8,6 +8,8 @@
   --accent-dim: #4c8414;
   --fg: #2a1408;
   --muted: #7a5a40;
+  --rose: #e8527a;
+  --yellow: #f5c842;
 }
 
 @theme inline {
@@ -18,6 +20,8 @@
   --color-accent-dim: var(--accent-dim);
   --color-foreground: var(--fg);
   --color-muted: var(--muted);
+  --color-rose: var(--rose);
+  --color-yellow: var(--yellow);
   --font-display: var(--font-luckiest), cursive;
   --font-sans: var(--font-nunito), sans-serif;
 }
