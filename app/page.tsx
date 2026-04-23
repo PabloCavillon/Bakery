@@ -1,6 +1,7 @@
 import { getProducts } from './lib/data'
 import ParallaxWatermark from './components/ParallaxWatermark'
 import Reveal from './components/Reveal'
+import AdminTap from './components/AdminTap'
 
 const testimonials = [
   {
@@ -393,9 +394,9 @@ export default async function Home() {
       {/* ─── FOOTER ─── */}
       <footer className="bg-surface-alt border-t border-dashed border-accent/20 py-8 sm:py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-center md:text-left">
-          <span className="font-display text-xl sm:text-2xl tracking-widest text-accent">
+          <AdminTap className="font-display text-xl sm:text-2xl tracking-widest text-accent">
             * PAZ BAKERY
-          </span>
+          </AdminTap>
           <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
             cookies artesanales · córdoba, argentina · 2026
           </p>
