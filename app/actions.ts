@@ -7,7 +7,7 @@ import { put } from '@vercel/blob'
 import { getProducts, saveProducts, updateProductImage, getOrders, saveOrders, getExpenses, saveExpenses } from './lib/data'
 import type { Product, Order, OrderItem, Expense, ExpenseCategory } from './lib/data'
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'cookeria2024'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'pazbakery2024'
 const SESSION_VALUE  = 'authenticated'
 
 async function requireAuth() {
