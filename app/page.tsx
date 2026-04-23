@@ -82,7 +82,7 @@ export default async function Home() {
           </div>
           <a
             href="#pedidos"
-            className="text-[0.65rem] sm:text-xs text-accent border border-dashed border-accent/50 px-3 sm:px-4 py-1.5 tracking-widest uppercase hover:bg-accent hover:text-background transition-colors whitespace-nowrap"
+            className="text-[0.65rem] sm:text-xs text-rose border border-dashed border-rose/50 px-3 sm:px-4 py-1.5 tracking-widest uppercase hover:bg-rose hover:text-background transition-colors whitespace-nowrap"
           >
             <span className="text-rose">→</span> pedir
           </a>
@@ -128,7 +128,7 @@ export default async function Home() {
             <div className="flex flex-row gap-4 sm:gap-6 items-center">
               <a
                 href="#pedidos"
-                className="bg-accent text-background px-6 sm:px-8 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-accent-dim transition-colors"
+                className="bg-rose text-background px-6 sm:px-8 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-rose/80 transition-colors"
               >
                 PEDIR
               </a>
@@ -190,7 +190,7 @@ export default async function Home() {
             </div>
             <a
               href="#pedidos"
-              className="text-[0.6rem] tracking-[0.3em] uppercase bg-accent text-background px-4 py-2 font-bold whitespace-nowrap hover:bg-accent-dim transition-colors shrink-0 self-start sm:self-auto"
+              className="text-[0.6rem] tracking-[0.3em] uppercase bg-rose text-background px-4 py-2 font-bold whitespace-nowrap hover:bg-rose/80 transition-colors shrink-0 self-start sm:self-auto"
             >
               ENCARGAR →
             </a>
@@ -215,7 +215,7 @@ export default async function Home() {
                     </div>
                   )}
                   <span
-                    className="absolute top-2 right-2 text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase bg-accent text-background px-2 py-1 font-bold"
+                    className="absolute top-2 right-2 text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase bg-rose text-background px-2 py-1 font-bold"
                     style={{ transform: "rotate(2deg)" }}
                   >
                     {p.tag}
