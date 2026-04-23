@@ -352,7 +352,7 @@ export default async function Home() {
               WHATSAPP
             </a>
             <a
-              href="https://instagram.com/pazbakery"
+              href="https://instagram.com/la.cookeriacba"
               className="border-2 border-background text-background px-8 sm:px-10 py-4 font-display text-xl sm:text-2xl tracking-widest hover:bg-background hover:text-accent transition-colors"
             >
               INSTAGRAM
@@ -360,7 +360,7 @@ export default async function Home() {
           </div>
 
           <p className="text-background/40 text-[0.6rem] sm:text-xs tracking-[0.5em] uppercase">
-            @pazbakery
+            @la.cookeriacba
           </p>
         </div>
       </section>
@@ -375,10 +375,10 @@ export default async function Home() {
             cookies artesanales · córdoba, argentina · 2026
           </p>
           <a
-            href="https://instagram.com/pazbakery"
+            href="https://instagram.com/la.cookeriacba"
             className="text-muted/60 text-xs tracking-widest hover:text-accent transition-colors"
           >
-            @pazbakery
+            @la.cookeriacba
           </a>
         </div>
       </footer>
