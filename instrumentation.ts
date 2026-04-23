@@ -52,6 +52,28 @@ export async function register() {
     )
   `
 
+  await sql`
+    CREATE TABLE IF NOT EXISTS settings (
+      key   TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    )
+  `
+
+  const defaultColors: Record<string, string> = {
+    color_bg:          '#fafff4',
+    color_surface:     '#f0f9e0',
+    color_surface_alt: '#e4f2cc',
+    color_accent:      '#5e9e1c',
+    color_accent_dim:  '#4c8414',
+    color_fg:          '#2a1408',
+    color_muted:       '#7a5a40',
+    color_rose:        '#e8527a',
+    color_yellow:      '#f5c842',
+  }
+  for (const [key, value] of Object.entries(defaultColors)) {
+    await sql`INSERT INTO settings (key, value) VALUES (${key}, ${value}) ON CONFLICT (key) DO NOTHING`
+  }
+
   const [{ count }] = await sql`SELECT COUNT(*)::int AS count FROM products`
 
   if (Number(count) === 0) {

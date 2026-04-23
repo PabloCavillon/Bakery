@@ -149,3 +149,62 @@ export async function saveExpenses(expenses: Expense[]): Promise<void> {
     `
   }
 }
+
+// ─── Site Colors ──────────────────────────────────────────────────────────────
+
+export type SiteColors = {
+  bg: string
+  surface: string
+  surfaceAlt: string
+  accent: string
+  fg: string
+  muted: string
+  rose: string
+}
+
+const COLOR_DEFAULTS: SiteColors = {
+  bg:         '#fafff4',
+  surface:    '#f0f9e0',
+  surfaceAlt: '#e4f2cc',
+  accent:     '#5e9e1c',
+  fg:         '#2a1408',
+  muted:      '#7a5a40',
+  rose:       '#e8527a',
+}
+
+export async function getSiteColors(): Promise<SiteColors> {
+  try {
+    const rows = await sql`SELECT key, value FROM settings WHERE key LIKE 'color_%'`
+    const m: Record<string, string> = {}
+    for (const r of rows) m[r.key] = r.value
+    return {
+      bg:         m['color_bg']          ?? COLOR_DEFAULTS.bg,
+      surface:    m['color_surface']     ?? COLOR_DEFAULTS.surface,
+      surfaceAlt: m['color_surface_alt'] ?? COLOR_DEFAULTS.surfaceAlt,
+      accent:     m['color_accent']      ?? COLOR_DEFAULTS.accent,
+      fg:         m['color_fg']          ?? COLOR_DEFAULTS.fg,
+      muted:      m['color_muted']       ?? COLOR_DEFAULTS.muted,
+      rose:       m['color_rose']        ?? COLOR_DEFAULTS.rose,
+    }
+  } catch {
+    return { ...COLOR_DEFAULTS }
+  }
+}
+
+export async function saveSiteColors(colors: SiteColors): Promise<void> {
+  const entries: Record<string, string> = {
+    color_bg:          colors.bg,
+    color_surface:     colors.surface,
+    color_surface_alt: colors.surfaceAlt,
+    color_accent:      colors.accent,
+    color_fg:          colors.fg,
+    color_muted:       colors.muted,
+    color_rose:        colors.rose,
+  }
+  for (const [key, value] of Object.entries(entries)) {
+    await sql`
+      INSERT INTO settings (key, value) VALUES (${key}, ${value})
+      ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value
+    `
+  }
+}

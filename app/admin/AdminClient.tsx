@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useTransition, useRef } from 'react'
-import { createProduct, updateProduct, uploadProductImage, addOrder, updateOrderStatus, deleteOrder, addExpense, deleteExpense, logout } from '../actions'
-import type { Product, Order, OrderItem, Expense, ExpenseCategory } from '../lib/data'
+import { useState, useEffect, useTransition, useRef } from 'react'
+import { createProduct, updateProduct, uploadProductImage, addOrder, updateOrderStatus, deleteOrder, addExpense, deleteExpense, updateSiteColors, logout } from '../actions'
+import type { Product, Order, OrderItem, Expense, ExpenseCategory, SiteColors } from '../lib/data'
 
 const EXPENSE_CATEGORIES: ExpenseCategory[] = [
   'ingredientes', 'packaging', 'servicios', 'transporte', 'equipamiento', 'marketing', 'otro',
@@ -653,10 +653,208 @@ function GastosTab({ initialExpenses, orders }: { initialExpenses: Expense[]; or
   )
 }
 
+// ─── Colors Tab ───────────────────────────────────────────────────────────────
+const COLOR_FIELDS: { key: keyof SiteColors; label: string; group: string }[] = [
+  { key: 'bg',         label: 'Fondo principal',  group: 'fondos' },
+  { key: 'surface',    label: 'Superficie',        group: 'fondos' },
+  { key: 'surfaceAlt', label: 'Superficie alt',    group: 'fondos' },
+  { key: 'fg',         label: 'Texto principal',   group: 'texto'  },
+  { key: 'muted',      label: 'Texto secundario',  group: 'texto'  },
+  { key: 'accent',     label: 'Acento principal',  group: 'acentos' },
+  { key: 'rose',       label: 'Rosa',              group: 'acentos' },
+]
+
+function ColorsTab({ initialColors }: { initialColors: SiteColors }) {
+  const [colors, setColors] = useState(initialColors)
+  const [isPending, startTransition] = useTransition()
+  const [saved, setSaved] = useState(false)
+
+  const set = (key: keyof SiteColors, value: string) =>
+    setColors((prev) => ({ ...prev, [key]: value }))
+
+  const handleSave = () => {
+    startTransition(async () => {
+      const res = await updateSiteColors(colors)
+      if (res.ok) {
+        setSaved(true)
+        setTimeout(() => setSaved(false), 2500)
+      }
+    })
+  }
+
+  const handleReset = () => setColors(initialColors)
+
+  return (
+    <div>
+      {/* Preview */}
+      <div className="border border-dashed border-accent/20 bg-surface p-4 mb-6">
+        <p className="text-muted/50 text-[0.6rem] tracking-[0.3em] uppercase mb-3">// vista previa</p>
+        <div style={{ background: colors.bg, fontFamily: 'inherit', fontSize: '12px', overflow: 'hidden' }}>
+
+          {/* Nav */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${colors.accent}20`, padding: '8px 12px', background: colors.bg }}>
+            <span style={{ color: colors.accent, fontSize: '12px', fontWeight: 'bold', letterSpacing: '0.1em' }}>
+              <span style={{ color: colors.rose }}>*</span> PAZ BAKERY
+            </span>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <span style={{ color: colors.muted, fontSize: '9px', opacity: 0.6 }}>cookies</span>
+              <span style={{ color: colors.muted, fontSize: '9px', opacity: 0.6 }}>nosotros</span>
+              <span style={{ color: colors.rose, border: `1px dashed ${colors.rose}60`, padding: '2px 7px', fontSize: '8px', letterSpacing: '0.1em' }}>
+                <span style={{ color: colors.rose }}>→</span> pedir
+              </span>
+            </div>
+          </div>
+
+          {/* Ticker */}
+          <div style={{ background: colors.accent, padding: '5px 12px', display: 'flex', gap: '12px', overflow: 'hidden' }}>
+            {['PAZ BAKERY', '//', 'COOKIES POR ENCARGO', '//', 'HECHO A MANO', '//', 'CÓRDOBA'].map((item, i) => (
+              <span key={i} style={{ color: item === '//' ? colors.rose : '#fff', fontSize: '8px', letterSpacing: '0.15em', whiteSpace: 'nowrap', opacity: item === '//' ? 1 : 0.9 }}>{item}</span>
+            ))}
+          </div>
+
+          {/* Hero */}
+          <div style={{ padding: '16px 12px', borderBottom: `1px solid ${colors.accent}15` }}>
+            <p style={{ color: `${colors.rose}`, fontSize: '8px', letterSpacing: '0.3em', marginBottom: '6px', opacity: 0.7 }}>// cba, argentina — est. 2026</p>
+            <div style={{ color: colors.fg, fontSize: '28px', fontWeight: 900, lineHeight: 1, marginBottom: '2px' }}>PAZ</div>
+            <div style={{ color: colors.accent, fontSize: '28px', fontWeight: 900, lineHeight: 1, marginLeft: '8px', marginBottom: '8px' }}>BAKERY</div>
+            <p style={{ color: colors.muted, fontSize: '9px', letterSpacing: '0.2em', marginBottom: '10px' }}>COOKIES · TARTAS · TORTAS</p>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <span style={{ background: colors.rose, color: '#fff', padding: '5px 12px', fontSize: '10px', fontWeight: 'bold', letterSpacing: '0.1em' }}>PEDIR</span>
+              <span style={{ color: `${colors.fg}50`, fontSize: '8px', letterSpacing: '0.2em' }}>ver cookies <span style={{ color: colors.rose }}>↓</span></span>
+            </div>
+          </div>
+
+          {/* Cards grid */}
+          <div style={{ padding: '12px', borderBottom: `1px solid ${colors.accent}15` }}>
+            <p style={{ color: colors.muted, fontSize: '7px', letterSpacing: '0.3em', marginBottom: '8px' }}><span style={{ color: colors.rose }}>//</span> las cookies</p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '6px' }}>
+              {[
+                { name: 'COO-CHIPS',     tag: 'CLÁSICA',  price: '$4.500' },
+                { name: 'COO-FRAMBUESA', tag: 'FAVORITA', price: '$4.500' },
+                { name: 'COO-LEMON',     tag: 'FRESCA',   price: '$4.500' },
+              ].map((card) => (
+                <div key={card.name} style={{ border: `1px dashed ${colors.accent}30`, background: `${colors.surface}80`, padding: '6px' }}>
+                  <div style={{ background: colors.surfaceAlt, height: '28px', marginBottom: '5px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '2px' }}>
+                    <span style={{ background: colors.rose, color: '#fff', fontSize: '6px', padding: '1px 4px' }}>{card.tag}</span>
+                  </div>
+                  <p style={{ color: colors.fg, fontSize: '8px', fontWeight: 'bold', marginBottom: '3px' }}>{card.name}</p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: `1px dashed ${colors.accent}20`, paddingTop: '4px' }}>
+                    <span style={{ color: colors.accent, fontSize: '9px', fontWeight: 'bold' }}>{card.price}</span>
+                    <span style={{ color: colors.rose, fontSize: '7px' }}>→</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Testimonial */}
+          <div style={{ background: colors.surface, padding: '10px 12px', borderBottom: `1px solid ${colors.accent}15` }}>
+            <p style={{ color: colors.muted, fontSize: '7px', letterSpacing: '0.3em', marginBottom: '6px' }}><span style={{ color: colors.rose }}>//</span> la gente dice</p>
+            <p style={{ color: `${colors.fg}90`, fontSize: '9px', fontStyle: 'italic', marginBottom: '5px' }}>"La COO-CHIPS es adictiva. La pedí una vez y ahora la encargo todas las semanas."</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ display: 'block', width: '16px', height: '1px', background: colors.rose, opacity: 0.5 }} />
+              <span style={{ color: colors.muted, fontSize: '8px' }}>Caro M. — Córdoba Capital</span>
+            </div>
+          </div>
+
+          {/* CTA strip */}
+          <div style={{ background: colors.accent, padding: '10px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ color: '#fff', fontSize: '14px', fontWeight: 900, letterSpacing: '0.05em' }}>¡ENCARGÁ LAS TUYAS!</span>
+            <div style={{ display: 'flex', gap: '5px' }}>
+              <span style={{ background: colors.bg, color: colors.accent, padding: '4px 8px', fontSize: '8px', fontWeight: 'bold' }}>WHATSAPP</span>
+              <span style={{ border: `1px solid ${colors.bg}`, color: '#fff', padding: '4px 8px', fontSize: '8px' }}>INSTAGRAM</span>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div style={{ background: colors.surfaceAlt, padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: `1px dashed ${colors.accent}20` }}>
+            <span style={{ color: colors.accent, fontSize: '10px', fontWeight: 'bold' }}><span style={{ color: colors.rose }}>*</span> PAZ BAKERY</span>
+            <span style={{ color: colors.muted, fontSize: '7px', opacity: 0.5, letterSpacing: '0.15em' }}>cookies artesanales · córdoba · 2026</span>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Color groups */}
+      {(['fondos', 'texto', 'acentos'] as const).map((group) => (
+        <div key={group} className="mb-5">
+          <p className="text-muted text-[0.6rem] tracking-[0.3em] uppercase mb-3">// {group}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {COLOR_FIELDS.filter((f) => f.group === group).map(({ key, label }) => (
+              <div key={key} className="border border-dashed border-accent/15 bg-surface p-3 flex items-center gap-3">
+                <div className="relative shrink-0">
+                  <div
+                    className="w-9 h-9 border border-accent/20 cursor-pointer"
+                    style={{ background: colors[key] }}
+                    onClick={() => (document.getElementById(`cp-${key}`) as HTMLInputElement)?.click()}
+                  />
+                  <input
+                    id={`cp-${key}`}
+                    type="color"
+                    value={colors[key]}
+                    onChange={(e) => set(key, e.target.value)}
+                    className="absolute inset-0 opacity-0 cursor-pointer w-9 h-9"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-foreground/60 text-[0.6rem] tracking-widest uppercase mb-1">{label}</p>
+                  <input
+                    type="text"
+                    value={colors[key]}
+                    maxLength={7}
+                    onChange={(e) => {
+                      const v = e.target.value
+                      if (/^#[0-9a-fA-F]{0,6}$/.test(v)) set(key, v)
+                    }}
+                    className="w-full bg-surface-alt border border-dashed border-accent/15 text-muted text-xs px-2 py-1 focus:outline-none focus:border-accent/40 font-mono tracking-widest"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {/* Actions */}
+      <div className="flex items-center justify-between pt-2 mt-2 border-t border-dashed border-accent/15">
+        <button
+          type="button"
+          onClick={handleReset}
+          className="text-muted/40 text-xs tracking-widest hover:text-muted transition-colors border border-dashed border-transparent hover:border-accent/20 px-3 py-2"
+        >
+          restaurar
+        </button>
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={isPending}
+          className="bg-accent text-background font-display text-base tracking-widest px-8 py-2 hover:bg-accent-dim transition-colors disabled:opacity-50"
+        >
+          {isPending ? 'GUARDANDO...' : saved ? '✓ APLICADO' : 'APLICAR'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
-export default function AdminClient({ initialProducts, initialOrders, initialExpenses }: { initialProducts: Product[]; initialOrders: Order[]; initialExpenses: Expense[] }) {
-  const [tab, setTab] = useState<'pedidos' | 'productos' | 'gastos'>('pedidos')
+type AdminTab = 'pedidos' | 'productos' | 'gastos' | 'colores'
+const TABS: AdminTab[] = ['pedidos', 'productos', 'gastos', 'colores']
+const STORAGE_KEY = 'admin_tab'
+
+export default function AdminClient({ initialProducts, initialOrders, initialExpenses, initialColors }: { initialProducts: Product[]; initialOrders: Order[]; initialExpenses: Expense[]; initialColors: SiteColors }) {
+  const [tab, setTab] = useState<AdminTab>('pedidos')
   const [, startTransition] = useTransition()
+
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved && TABS.includes(saved as AdminTab)) setTab(saved as AdminTab)
+  }, [])
+
+  const handleTab = (t: AdminTab) => {
+    setTab(t)
+    localStorage.setItem(STORAGE_KEY, t)
+  }
 
   const pendingCount = initialOrders.filter(
     (o) => o.status === 'pendiente' || o.status === 'en proceso'
@@ -669,17 +867,32 @@ export default function AdminClient({ initialProducts, initialOrders, initialExp
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* topbar */}
-      <nav className="bg-surface-alt border-b border-dashed border-accent/20 px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-10 gap-3">
-        <a href="/" className="font-display text-base sm:text-xl text-accent tracking-widest whitespace-nowrap shrink-0 hover:opacity-70 transition-opacity">
-          * PAZ BAKERY
-        </a>
+      <nav className="bg-surface-alt border-b border-dashed border-accent/20 sticky top-0 z-10">
+        {/* fila superior: logo + acciones */}
+        <div className="px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+          <a href="/" className="font-display text-base sm:text-xl text-accent tracking-widest whitespace-nowrap shrink-0 hover:opacity-70 transition-opacity">
+            * PAZ BAKERY
+          </a>
+          <div className="flex items-center gap-2 shrink-0">
+            <a href="/" className="text-muted/40 text-xs hover:text-accent transition-colors">
+              ← sitio
+            </a>
+            <button
+              onClick={handleLogout}
+              className="text-muted/40 text-xs hover:text-red-400 transition-colors border border-dashed border-transparent hover:border-red-400/30 px-2 py-1"
+            >
+              salir
+            </button>
+          </div>
+        </div>
 
-        <div className="flex gap-1 overflow-x-auto">
-          {(['pedidos', 'productos', 'gastos'] as const).map((t) => (
+        {/* fila inferior: tabs */}
+        <div className="flex border-t border-dashed border-accent/10 overflow-x-auto">
+          {TABS.map((t) => (
             <button
               key={t}
-              onClick={() => setTab(t)}
-              className={`text-[0.6rem] sm:text-xs tracking-widest uppercase px-3 sm:px-4 py-2 border border-dashed transition-colors whitespace-nowrap ${tab === t ? 'border-accent text-accent bg-accent/10' : 'border-transparent text-muted hover:text-accent'}`}
+              onClick={() => handleTab(t)}
+              className={`flex-1 min-w-0 text-[0.6rem] sm:text-xs tracking-widest uppercase px-3 py-2.5 border-b-2 transition-colors whitespace-nowrap ${tab === t ? 'border-accent text-accent bg-accent/5' : 'border-transparent text-muted hover:text-accent'}`}
             >
               {t}
               {t === 'pedidos' && pendingCount > 0 && (
@@ -689,18 +902,6 @@ export default function AdminClient({ initialProducts, initialOrders, initialExp
               )}
             </button>
           ))}
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          <a href="/" className="text-muted/40 text-xs hover:text-accent transition-colors hidden sm:block">
-            ← sitio
-          </a>
-          <button
-            onClick={handleLogout}
-            className="text-muted/40 text-xs hover:text-red-400 transition-colors border border-dashed border-transparent hover:border-red-400/30 px-2 py-1"
-          >
-            salir
-          </button>
         </div>
       </nav>
 
@@ -727,6 +928,14 @@ export default function AdminClient({ initialProducts, initialOrders, initialExp
               // gastos · registrá costos y controlá ganancias del mes
             </p>
             <GastosTab initialExpenses={initialExpenses} orders={initialOrders} />
+          </>
+        )}
+        {tab === 'colores' && (
+          <>
+            <p className="text-muted text-[0.6rem] tracking-[0.4em] uppercase mb-5">
+              // colores · personalizá la paleta del sitio
+            </p>
+            <ColorsTab initialColors={initialColors} />
           </>
         )}
       </div>

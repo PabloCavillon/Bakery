@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Luckiest_Guy, Nunito } from "next/font/google";
 import "./globals.css";
+import { getSiteColors } from "./lib/data";
 
 const luckiestGuy = Luckiest_Guy({
   subsets: ["latin"],
@@ -87,17 +88,21 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const c = await getSiteColors()
+  const colorVars = `:root{--bg:${c.bg};--surface:${c.surface};--surface-alt:${c.surfaceAlt};--accent:${c.accent};--fg:${c.fg};--muted:${c.muted};--rose:${c.rose}}`
+
   return (
     <html
       lang="es"
       className={`${luckiestGuy.variable} ${nunito.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans antialiased">
+        <style dangerouslySetInnerHTML={{ __html: colorVars }} />
         {children}
       </body>
     </html>

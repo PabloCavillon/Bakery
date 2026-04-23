@@ -71,26 +71,39 @@ export default async function Home() {
 
       {/* ─── NAV ─── */}
       <nav className="fixed top-0 w-full z-50 bg-background border-b border-accent/15">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-          <span className="font-display text-base sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
+        {/* fila superior: logo + botón */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16">
+          <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
             <span className="text-rose">*</span> PAZ BAKERY
           </span>
-          <div className="hidden md:flex gap-8 text-xs tracking-wide text-muted/70 lowercase">
+          <div className="hidden md:flex gap-8 text-sm tracking-wide text-muted/70 lowercase">
             <a href="#cookies" className="hover:text-accent transition-colors">cookies</a>
             <a href="#nosotros" className="hover:text-accent transition-colors">nosotros</a>
             <a href="#pedidos" className="hover:text-accent transition-colors">pedidos</a>
           </div>
           <a
             href="#pedidos"
-            className="text-[0.65rem] sm:text-xs text-rose border border-dashed border-rose/50 px-3 sm:px-4 py-1.5 tracking-widest uppercase hover:bg-rose hover:text-background transition-colors whitespace-nowrap"
+            className="text-xs text-rose border border-dashed border-rose/50 px-3 sm:px-4 py-1.5 tracking-widest uppercase hover:bg-rose hover:text-background transition-colors whitespace-nowrap"
           >
             <span className="text-rose">→</span> pedir
           </a>
         </div>
+        {/* fila inferior: links — solo mobile */}
+        <div className="md:hidden flex border-t border-dashed border-accent/10">
+          {[['#cookies', 'cookies'], ['#nosotros', 'nosotros'], ['#pedidos', 'pedidos']].map(([href, label]) => (
+            <a
+              key={href}
+              href={href}
+              className="flex-1 text-center text-xs tracking-[0.2em] uppercase text-muted/60 py-2.5 hover:text-accent hover:bg-accent/5 transition-colors border-b-2 border-transparent"
+            >
+              {label}
+            </a>
+          ))}
+        </div>
       </nav>
 
       {/* ─── HERO ─── */}
-      <section className="min-h-screen flex flex-col justify-end bg-background pt-14 pb-12 sm:pb-16 relative overflow-hidden">
+      <section className="min-h-screen flex flex-col justify-end bg-background pt-24 sm:pt-16 pb-12 sm:pb-16 relative overflow-hidden">
 
         <ParallaxWatermark />
 

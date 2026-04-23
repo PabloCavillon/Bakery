@@ -4,8 +4,8 @@ import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { put } from '@vercel/blob'
-import { getProducts, saveProducts, updateProductImage, getOrders, saveOrders, getExpenses, saveExpenses } from './lib/data'
-import type { Product, Order, OrderItem, Expense, ExpenseCategory } from './lib/data'
+import { getProducts, saveProducts, updateProductImage, getOrders, saveOrders, getExpenses, saveExpenses, saveSiteColors } from './lib/data'
+import type { Product, Order, OrderItem, Expense, ExpenseCategory, SiteColors } from './lib/data'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'pazbakery2024'
 const SESSION_VALUE  = 'authenticated'
@@ -192,5 +192,17 @@ export async function deleteExpense(
   const expenses = await getExpenses()
   await saveExpenses(expenses.filter((e) => e.id !== id))
   revalidatePath('/admin')
+  return { ok: true }
+}
+
+// ─── Colors ───────────────────────────────────────────────────────────────────
+
+export async function updateSiteColors(
+  colors: SiteColors
+): Promise<{ ok: boolean; error?: string }> {
+  await requireAuth()
+  await saveSiteColors(colors)
+  revalidatePath('/', 'layout')
+  revalidatePath('/catalogo', 'layout')
   return { ok: true }
 }

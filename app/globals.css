@@ -28,7 +28,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 64px; /* altura del nav fijo */
+  scroll-padding-top: 86px; /* altura del nav fijo (mobile: 56px + 36px segunda fila) */
 }
 
 body {
