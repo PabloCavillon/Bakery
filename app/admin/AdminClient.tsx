@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect, useTransition, useRef } from 'react'
-import { createProduct, updateProduct, uploadProductImage, addOrder, updateOrderStatus, deleteOrder, addExpense, deleteExpense, updateSiteColors, logout } from '../actions'
-import type { Product, Order, OrderItem, Expense, ExpenseCategory, SiteColors } from '../lib/data'
+import { createProduct, updateProduct, uploadProductImage, addOrder, updateOrderStatus, deleteOrder, addExpense, deleteExpense, updateSiteColors, updateSiteFonts, logout } from '../actions'
+import type { Product, Order, OrderItem, Expense, ExpenseCategory, SiteColors, SiteFonts } from '../lib/data'
 
 const EXPENSE_CATEGORIES: ExpenseCategory[] = [
   'ingredientes', 'packaging', 'servicios', 'transporte', 'equipamiento', 'marketing', 'otro',
@@ -653,7 +653,22 @@ function GastosTab({ initialExpenses, orders }: { initialExpenses: Expense[]; or
   )
 }
 
-// ─── Colors Tab ───────────────────────────────────────────────────────────────
+// ─── Appearance Tab ───────────────────────────────────────────────────────────
+const DISPLAY_FONTS = [
+  { id: 'luckiest-guy', label: 'Luckiest Guy', var: '--font-luckiest' },
+  { id: 'bebas-neue',   label: 'Bebas Neue',   var: '--font-bebas'    },
+  { id: 'righteous',    label: 'Righteous',    var: '--font-righteous' },
+  { id: 'paytone-one',  label: 'Paytone One',  var: '--font-paytone'  },
+  { id: 'fredoka',      label: 'Fredoka',      var: '--font-fredoka'  },
+]
+
+const BODY_FONTS = [
+  { id: 'nunito',  label: 'Nunito',  var: '--font-nunito'  },
+  { id: 'inter',   label: 'Inter',   var: '--font-inter'   },
+  { id: 'dm-sans', label: 'DM Sans', var: '--font-dm-sans' },
+  { id: 'outfit',  label: 'Outfit',  var: '--font-outfit'  },
+]
+
 const COLOR_FIELDS: { key: keyof SiteColors; label: string; group: string }[] = [
   { key: 'bg',         label: 'Fondo principal',  group: 'fondos' },
   { key: 'surface',    label: 'Superficie',        group: 'fondos' },
@@ -664,28 +679,84 @@ const COLOR_FIELDS: { key: keyof SiteColors; label: string; group: string }[] = 
   { key: 'rose',       label: 'Rosa',              group: 'acentos' },
 ]
 
-function ColorsTab({ initialColors }: { initialColors: SiteColors }) {
+function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors; initialFonts: SiteFonts }) {
   const [colors, setColors] = useState(initialColors)
-  const [isPending, startTransition] = useTransition()
-  const [saved, setSaved] = useState(false)
+  const [fonts, setFonts] = useState(initialFonts)
+  const [isPendingColors, startColors] = useTransition()
+  const [isPendingFonts, startFonts] = useTransition()
+  const [savedColors, setSavedColors] = useState(false)
+  const [savedFonts, setSavedFonts] = useState(false)
 
   const set = (key: keyof SiteColors, value: string) =>
     setColors((prev) => ({ ...prev, [key]: value }))
 
-  const handleSave = () => {
-    startTransition(async () => {
+  const handleSaveColors = () => {
+    startColors(async () => {
       const res = await updateSiteColors(colors)
-      if (res.ok) {
-        setSaved(true)
-        setTimeout(() => setSaved(false), 2500)
-      }
+      if (res.ok) { setSavedColors(true); setTimeout(() => setSavedColors(false), 2500) }
     })
   }
 
-  const handleReset = () => setColors(initialColors)
+  const handleSaveFonts = () => {
+    startFonts(async () => {
+      const res = await updateSiteFonts(fonts)
+      if (res.ok) { setSavedFonts(true); setTimeout(() => setSavedFonts(false), 2500) }
+    })
+  }
+
+  const handleReset = () => { setColors(initialColors); setFonts(initialFonts) }
 
   return (
     <div>
+      {/* ── Fuentes ── */}
+      <div className="mb-8">
+        <p className="text-muted text-[0.6rem] tracking-[0.3em] uppercase mb-3">// fuente de títulos</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-5">
+          {DISPLAY_FONTS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setFonts((prev) => ({ ...prev, display: f.id }))}
+              className={`border border-dashed p-3 text-left transition-colors ${fonts.display === f.id ? 'border-accent bg-accent/10' : 'border-accent/15 bg-surface hover:border-accent/40'}`}
+            >
+              <p style={{ fontFamily: `var(${f.var})` }} className="text-foreground text-xl leading-none mb-2 truncate">
+                PAZ BAKERY
+              </p>
+              <p className="text-muted/50 text-[0.55rem] tracking-widest uppercase">{f.label}</p>
+            </button>
+          ))}
+        </div>
+
+        <p className="text-muted text-[0.6rem] tracking-[0.3em] uppercase mb-3">// fuente de texto</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
+          {BODY_FONTS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setFonts((prev) => ({ ...prev, sans: f.id }))}
+              className={`border border-dashed p-3 text-left transition-colors ${fonts.sans === f.id ? 'border-accent bg-accent/10' : 'border-accent/15 bg-surface hover:border-accent/40'}`}
+            >
+              <p style={{ fontFamily: `var(${f.var})` }} className="text-foreground text-sm leading-snug mb-2">
+                Cookies artesanales por encargo.
+              </p>
+              <p className="text-muted/50 text-[0.55rem] tracking-widest uppercase">{f.label}</p>
+            </button>
+          ))}
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={handleSaveFonts}
+            disabled={isPendingFonts}
+            className="bg-accent text-background font-display text-base tracking-widest px-8 py-2 hover:bg-accent-dim transition-colors disabled:opacity-50"
+          >
+            {isPendingFonts ? 'GUARDANDO...' : savedFonts ? '✓ APLICADO' : 'APLICAR FUENTES'}
+          </button>
+        </div>
+      </div>
+
+      <div className="border-t border-dashed border-accent/15 mb-8" />
       {/* Preview */}
       <div className="border border-dashed border-accent/20 bg-surface p-4 mb-6">
         <p className="text-muted/50 text-[0.6rem] tracking-[0.3em] uppercase mb-3">// vista previa</p>
@@ -826,11 +897,11 @@ function ColorsTab({ initialColors }: { initialColors: SiteColors }) {
         </button>
         <button
           type="button"
-          onClick={handleSave}
-          disabled={isPending}
+          onClick={handleSaveColors}
+          disabled={isPendingColors}
           className="bg-accent text-background font-display text-base tracking-widest px-8 py-2 hover:bg-accent-dim transition-colors disabled:opacity-50"
         >
-          {isPending ? 'GUARDANDO...' : saved ? '✓ APLICADO' : 'APLICAR'}
+          {isPendingColors ? 'GUARDANDO...' : savedColors ? '✓ APLICADO' : 'APLICAR COLORES'}
         </button>
       </div>
     </div>
@@ -842,7 +913,7 @@ type AdminTab = 'pedidos' | 'productos' | 'gastos' | 'colores'
 const TABS: AdminTab[] = ['pedidos', 'productos', 'gastos', 'colores']
 const STORAGE_KEY = 'admin_tab'
 
-export default function AdminClient({ initialProducts, initialOrders, initialExpenses, initialColors }: { initialProducts: Product[]; initialOrders: Order[]; initialExpenses: Expense[]; initialColors: SiteColors }) {
+export default function AdminClient({ initialProducts, initialOrders, initialExpenses, initialColors, initialFonts }: { initialProducts: Product[]; initialOrders: Order[]; initialExpenses: Expense[]; initialColors: SiteColors; initialFonts: SiteFonts }) {
   const [tab, setTab] = useState<AdminTab>('pedidos')
   const [, startTransition] = useTransition()
 
@@ -935,7 +1006,7 @@ export default function AdminClient({ initialProducts, initialOrders, initialExp
             <p className="text-muted text-[0.6rem] tracking-[0.4em] uppercase mb-5">
               // colores · personalizá la paleta del sitio
             </p>
-            <ColorsTab initialColors={initialColors} />
+            <ColorsTab initialColors={initialColors} initialFonts={initialFonts} />
           </>
         )}
       </div>

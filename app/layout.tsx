@@ -1,19 +1,34 @@
 import type { Metadata } from "next";
-import { Luckiest_Guy, Nunito } from "next/font/google";
+import {
+  Luckiest_Guy, Bebas_Neue, Righteous, Paytone_One, Fredoka,
+  Nunito, Inter, DM_Sans, Outfit,
+} from "next/font/google";
 import "./globals.css";
-import { getSiteColors } from "./lib/data";
+import { getSiteColors, getSiteFonts } from "./lib/data";
 
-const luckiestGuy = Luckiest_Guy({
-  subsets: ["latin"],
-  variable: "--font-luckiest",
-  weight: "400",
-});
+const luckiestGuy = Luckiest_Guy({ subsets: ["latin"], variable: "--font-luckiest", weight: "400" });
+const bebasNeue   = Bebas_Neue({   subsets: ["latin"], variable: "--font-bebas",    weight: "400" });
+const righteous   = Righteous({    subsets: ["latin"], variable: "--font-righteous", weight: "400" });
+const paytoneOne  = Paytone_One({  subsets: ["latin"], variable: "--font-paytone",  weight: "400" });
+const fredoka     = Fredoka({      subsets: ["latin"], variable: "--font-fredoka",  weight: ["400", "500", "600", "700"] });
+const nunito      = Nunito({       subsets: ["latin"], variable: "--font-nunito",   weight: ["300", "400", "500", "600", "700", "800", "900"] });
+const inter       = Inter({        subsets: ["latin"], variable: "--font-inter",    weight: ["300", "400", "500", "600", "700"] });
+const dmSans      = DM_Sans({      subsets: ["latin"], variable: "--font-dm-sans",  weight: ["300", "400", "500", "600", "700"] });
+const outfit      = Outfit({       subsets: ["latin"], variable: "--font-outfit",   weight: ["300", "400", "500", "600", "700"] });
 
-const nunito = Nunito({
-  subsets: ["latin"],
-  variable: "--font-nunito",
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-});
+const DISPLAY_VAR: Record<string, string> = {
+  'luckiest-guy': '--font-luckiest',
+  'bebas-neue':   '--font-bebas',
+  'righteous':    '--font-righteous',
+  'paytone-one':  '--font-paytone',
+  'fredoka':      '--font-fredoka',
+}
+const BODY_VAR: Record<string, string> = {
+  'nunito':   '--font-nunito',
+  'inter':    '--font-inter',
+  'dm-sans':  '--font-dm-sans',
+  'outfit':   '--font-outfit',
+}
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL
   ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
@@ -93,16 +108,21 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const c = await getSiteColors()
-  const colorVars = `:root{--bg:${c.bg};--surface:${c.surface};--surface-alt:${c.surfaceAlt};--accent:${c.accent};--fg:${c.fg};--muted:${c.muted};--rose:${c.rose}}`
+  const [c, f] = await Promise.all([getSiteColors(), getSiteFonts()])
+  const displayVar = DISPLAY_VAR[f.display] ?? '--font-luckiest'
+  const sansVar    = BODY_VAR[f.sans]       ?? '--font-nunito'
+  const cssVars = `:root{--bg:${c.bg};--surface:${c.surface};--surface-alt:${c.surfaceAlt};--accent:${c.accent};--fg:${c.fg};--muted:${c.muted};--rose:${c.rose};--font-display:var(${displayVar}),cursive;--font-sans:var(${sansVar}),sans-serif;}`
+
+  const fontClasses = [
+    luckiestGuy.variable, bebasNeue.variable, righteous.variable,
+    paytoneOne.variable, fredoka.variable, nunito.variable,
+    inter.variable, dmSans.variable, outfit.variable,
+  ].join(' ')
 
   return (
-    <html
-      lang="es"
-      className={`${luckiestGuy.variable} ${nunito.variable} h-full`}
-    >
+    <html lang="es" className={`${fontClasses} h-full`}>
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans antialiased">
-        <style dangerouslySetInnerHTML={{ __html: colorVars }} />
+        <style dangerouslySetInnerHTML={{ __html: cssVars }} />
         {children}
       </body>
     </html>

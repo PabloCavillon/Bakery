@@ -191,6 +191,35 @@ export async function getSiteColors(): Promise<SiteColors> {
   }
 }
 
+// ─── Site Fonts ───────────────────────────────────────────────────────────────
+
+export type SiteFonts = {
+  display: string
+  sans: string
+}
+
+const FONT_DEFAULTS: SiteFonts = { display: 'luckiest-guy', sans: 'nunito' }
+
+export async function getSiteFonts(): Promise<SiteFonts> {
+  try {
+    const rows = await sql`SELECT key, value FROM settings WHERE key IN ('font_display', 'font_sans')`
+    const m: Record<string, string> = {}
+    for (const r of rows) m[r.key] = r.value
+    return {
+      display: m['font_display'] ?? FONT_DEFAULTS.display,
+      sans:    m['font_sans']    ?? FONT_DEFAULTS.sans,
+    }
+  } catch {
+    return { ...FONT_DEFAULTS }
+  }
+}
+
+export async function saveSiteFonts(fonts: SiteFonts): Promise<void> {
+  for (const [key, value] of Object.entries({ font_display: fonts.display, font_sans: fonts.sans })) {
+    await sql`INSERT INTO settings (key, value) VALUES (${key}, ${value}) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`
+  }
+}
+
 export async function saveSiteColors(colors: SiteColors): Promise<void> {
   const entries: Record<string, string> = {
     color_bg:          colors.bg,
