@@ -120,7 +120,7 @@ export default async function RootLayout({
   ].join(' ')
 
   return (
-    <html lang="es" className={`${fontClasses} h-full`}>
+    <html lang="es" className={`${fontClasses} h-full`} data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans antialiased">
         <style dangerouslySetInnerHTML={{ __html: cssVars }} />
         {children}
