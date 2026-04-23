@@ -1,4 +1,6 @@
 import { getProducts } from './lib/data'
+import ParallaxWatermark from './components/ParallaxWatermark'
+import Reveal from './components/Reveal'
 
 const testimonials = [
   {
@@ -89,18 +91,7 @@ export default async function Home() {
       {/* ─── HERO ─── */}
       <section className="min-h-screen flex flex-col justify-end bg-background pt-14 pb-12 sm:pb-16 relative overflow-hidden">
 
-        {/* watermark */}
-        <div
-          aria-hidden
-          className="absolute inset-0 flex items-center justify-center select-none pointer-events-none"
-        >
-          <span
-            className="font-display text-[40vw] leading-none text-accent/5"
-            style={{ transform: "rotate(-12deg)" }}
-          >
-            COOKIES
-          </span>
-        </div>
+        <ParallaxWatermark />
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full relative z-10">
           {/* label */}
@@ -167,7 +158,7 @@ export default async function Home() {
 
       {/* ─── COOKIES ─── */}
       <section id="cookies" className="py-14 sm:py-20 bg-background">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <Reveal className="max-w-6xl mx-auto px-4 sm:px-6">
 
           {/* header */}
           <div className="mb-8 sm:mb-10 border-b border-dashed border-accent/20 pb-5 sm:pb-6">
@@ -249,12 +240,12 @@ export default async function Home() {
           <p className="text-center text-accent/20 tracking-[0.4em] text-xs mt-12 sm:mt-14 select-none">
             * * * * * * * * * * * * * * * * *
           </p>
-        </div>
+        </Reveal>
       </section>
 
       {/* ─── TAMBIÉN HACEMOS ─── */}
       <div className="bg-surface-alt border-y border-dashed border-accent/20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        <Reveal className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
           <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6">// también hacemos</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {[
@@ -274,12 +265,12 @@ export default async function Home() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
 
       {/* ─── NOSOTROS ─── */}
       <section id="nosotros" className="py-14 sm:py-20 bg-background">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <Reveal className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-10 sm:gap-12 items-start">
 
             <div className="md:col-span-3">
@@ -322,12 +313,12 @@ export default async function Home() {
             </div>
 
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ─── TESTIMONIOS ─── */}
       <section className="py-12 sm:py-16 bg-surface border-y border-dashed border-accent/15">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <Reveal className="max-w-6xl mx-auto px-4 sm:px-6">
           <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-8 sm:mb-10">// la gente dice</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
             {testimonials.map((t, i) => (
@@ -349,7 +340,7 @@ export default async function Home() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ─── CTA ─── */}
