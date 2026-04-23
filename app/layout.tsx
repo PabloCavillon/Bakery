@@ -14,7 +14,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "LA COOKERIA — Pastelería Urbana",
+  title: "PAZ BAKERY — Pastelería Urbana",
   description: "Cookies artesanales por encargo. Tartas y tortas personalizadas. Córdoba, Argentina.",
 };
 

@@ -44,6 +44,34 @@ export async function logout(): Promise<void> {
 
 // ─── Products ─────────────────────────────────────────────────────────────────
 
+export async function createProduct(data: {
+  emoji: string
+  name: string
+  desc: string
+  tag: string
+  priceValue: number
+}): Promise<{ ok: boolean; error?: string; product?: Product }> {
+  await requireAuth()
+  const products = await getProducts()
+  const rotates = ['-rotate-1', 'rotate-1', '-rotate-2', 'rotate-2', 'rotate-0']
+  const newProduct: Product = {
+    id: `coo-${Date.now()}`,
+    emoji: data.emoji || '🍪',
+    name: data.name,
+    desc: data.desc,
+    tag: data.tag,
+    price: `$${data.priceValue.toLocaleString('es-AR')}`,
+    priceValue: data.priceValue,
+    rotate: rotates[products.length % rotates.length],
+    active: true,
+  }
+  products.push(newProduct)
+  await saveProducts(products)
+  revalidatePath('/')
+  revalidatePath('/catalogo')
+  return { ok: true, product: newProduct }
+}
+
 export async function updateProduct(
   id: string,
   data: Partial<Pick<Product, 'name' | 'desc' | 'price' | 'priceValue' | 'tag' | 'emoji' | 'active'>>

@@ -19,7 +19,7 @@ const testimonials = [
 ];
 
 const tickerItems = [
-  "LA COOKERIA", "//", "COOKIES POR ENCARGO", "//",
+  "PAZ BAKERY", "//", "COOKIES POR ENCARGO", "//",
   "HECHO A MANO", "//", "CÓRDOBA", "//",
   "TARTAS Y TORTAS", "//", "SIN APURO", "//",
 ];
@@ -36,7 +36,7 @@ export default async function Home() {
       <nav className="fixed top-0 w-full z-50 bg-background border-b border-accent/15">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
           <span className="font-display text-base sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
-            * LA COOKERIA
+            * PAZ BAKERY
           </span>
           <div className="hidden md:flex gap-8 text-xs tracking-wide text-muted/70 lowercase">
             <a href="#cookies" className="hover:text-accent transition-colors">cookies</a>
@@ -79,12 +79,12 @@ export default async function Home() {
 
           {/* headline */}
           <h1 className="font-display leading-none text-foreground mb-2">
-            <span className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[11rem]">LA</span>
+            <span className="block text-[22vw] sm:text-[17vw] md:text-[11rem] lg:text-[13rem]">PAZ</span>
             <span
-              className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[11rem] text-accent"
+              className="block text-[22vw] sm:text-[17vw] md:text-[11rem] lg:text-[13rem] text-accent"
               style={{ transform: "translateX(3vw)" }}
             >
-              COOKERIA
+              BAKERY
             </span>
           </h1>
 
@@ -263,7 +263,7 @@ export default async function Home() {
                   de dónde venía ese olor.
                 </p>
                 <p>
-                  La Cookeria es pastelería sin pretensiones. Ingredientes reales,
+                  PAZ BAKERY es pastelería sin pretensiones. Ingredientes reales,
                   recetas que no mienten. No seguimos tendencias — hacemos lo que
                   creemos que tiene que saber bien.
                 </p>
@@ -369,7 +369,7 @@ export default async function Home() {
       <footer className="bg-surface-alt border-t border-dashed border-accent/20 py-8 sm:py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-center md:text-left">
           <span className="font-display text-xl sm:text-2xl tracking-widest text-accent">
-            * LA COOKERIA
+            * PAZ BAKERY
           </span>
           <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
             cookies artesanales · córdoba, argentina · 2026

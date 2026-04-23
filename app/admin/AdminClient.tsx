@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition, useRef } from 'react'
-import { updateProduct, uploadProductImage, addOrder, updateOrderStatus, deleteOrder, addExpense, deleteExpense, logout } from '../actions'
+import { createProduct, updateProduct, uploadProductImage, addOrder, updateOrderStatus, deleteOrder, addExpense, deleteExpense, logout } from '../actions'
 import type { Product, Order, OrderItem, Expense, ExpenseCategory } from '../lib/data'
 
 const EXPENSE_CATEGORIES: ExpenseCategory[] = [
@@ -100,9 +100,106 @@ function ImageUpload({ product, onUploaded }: { product: Product; onUploaded: (p
   )
 }
 
+// ─── New Product Form ────────────────────────────────────────────────────────
+function NewProductForm({ onCreated }: { onCreated: (p: Product) => void }) {
+  const [open, setOpen] = useState(false)
+  const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState('')
+  const [form, setForm] = useState({ emoji: '🍪', name: '', desc: '', tag: '', priceValue: '' })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const price = Number(form.priceValue)
+    if (!form.name || !price || price <= 0) {
+      setError('Nombre y precio son obligatorios')
+      return
+    }
+    setError('')
+    startTransition(async () => {
+      const res = await createProduct({ ...form, priceValue: price })
+      if (!res.ok || !res.product) { setError(res.error ?? 'Error'); return }
+      onCreated(res.product)
+      setForm({ emoji: '🍪', name: '', desc: '', tag: '', priceValue: '' })
+      setOpen(false)
+    })
+  }
+
+  return (
+    <div className="mb-6">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full border border-dashed border-accent/40 text-accent font-display text-base tracking-widest px-4 py-3 hover:bg-accent/10 transition-colors flex items-center justify-center gap-2"
+      >
+        {open ? '✕ CANCELAR' : '+ NUEVO PRODUCTO'}
+      </button>
+
+      {open && (
+        <form onSubmit={handleSubmit} className="border border-dashed border-accent/20 border-t-0 bg-surface p-4 sm:p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+            <div className="flex gap-2">
+              <input
+                className="w-12 bg-surface-alt border border-dashed border-accent/20 text-2xl text-center focus:outline-none focus:border-accent/50 py-2"
+                value={form.emoji}
+                onChange={(e) => setForm((f) => ({ ...f, emoji: e.target.value }))}
+                title="Emoji"
+              />
+              <input
+                className="flex-1 bg-surface-alt border border-dashed border-accent/20 text-foreground font-display text-lg tracking-wide px-3 py-2 focus:outline-none focus:border-accent/50 placeholder:text-muted/40"
+                placeholder="Nombre del producto"
+                value={form.name}
+                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+              />
+            </div>
+            <input
+              className="bg-surface-alt border border-dashed border-accent/20 text-accent text-xs tracking-widest uppercase px-3 py-2 focus:outline-none focus:border-accent/50 placeholder:text-muted/40"
+              placeholder="Tag (ej: NUEVO, CLÁSICO)"
+              value={form.tag}
+              onChange={(e) => setForm((f) => ({ ...f, tag: e.target.value }))}
+            />
+          </div>
+
+          <textarea
+            rows={2}
+            className="w-full bg-surface-alt border border-dashed border-accent/20 text-muted/80 text-sm px-3 py-2 focus:outline-none focus:border-accent/50 resize-none mb-3 placeholder:text-muted/40"
+            placeholder="Descripción del producto"
+            value={form.desc}
+            onChange={(e) => setForm((f) => ({ ...f, desc: e.target.value }))}
+          />
+
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <label className="text-muted text-xs shrink-0">Precio $</label>
+              <input
+                type="number"
+                min={1}
+                className="w-32 bg-surface-alt border border-dashed border-accent/20 text-accent font-display text-lg px-3 py-1.5 focus:outline-none focus:border-accent/50 placeholder:text-muted/40"
+                placeholder="0"
+                value={form.priceValue}
+                onChange={(e) => setForm((f) => ({ ...f, priceValue: e.target.value }))}
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              {error && <p className="text-red-400 text-xs">{error}</p>}
+              <button
+                type="submit"
+                disabled={isPending}
+                className="bg-accent text-background font-display text-base tracking-widest px-6 py-2 hover:bg-accent-dim transition-colors disabled:opacity-50 whitespace-nowrap"
+              >
+                {isPending ? 'CREANDO...' : 'CREAR'}
+              </button>
+            </div>
+          </div>
+        </form>
+      )}
+    </div>
+  )
+}
+
 // ─── Products Tab ────────────────────────────────────────────────────────────
 function ProductsTab({ products }: { products: Product[] }) {
   const [items, setItems] = useState(products)
+
   const [saving, setSaving] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<Record<string, string>>({})
   const [, startTransition] = useTransition()
@@ -128,6 +225,7 @@ function ProductsTab({ products }: { products: Product[] }) {
 
   return (
     <div className="flex flex-col gap-4">
+      <NewProductForm onCreated={(p) => setItems((prev) => [...prev, p])} />
       {items.map((p) => (
         <div
           key={p.id}
@@ -570,7 +668,7 @@ export default function AdminClient({ initialProducts, initialOrders, initialExp
       {/* topbar */}
       <nav className="bg-surface-alt border-b border-dashed border-accent/20 px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-10 gap-3">
         <span className="font-display text-base sm:text-xl text-accent tracking-widest whitespace-nowrap shrink-0">
-          * LA COOKERIA
+          * PAZ BAKERY
         </span>
 
         <div className="flex gap-1 overflow-x-auto">

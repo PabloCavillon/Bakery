@@ -1,7 +1,7 @@
 import { getProducts } from '../lib/data'
 
 export const metadata = {
-  title: 'Menú — LA COOKERIA',
+  title: 'Menú — PAZ BAKERY',
   description: 'Cookies artesanales por encargo. Córdoba, Argentina.',
 }
 
@@ -26,8 +26,8 @@ export default async function CatalogoPage() {
           <p className="text-accent/60 text-[0.6rem] tracking-[0.5em] uppercase mb-2">
             // est. 2024 · córdoba, argentina
           </p>
-          <h1 className="font-display text-[14vw] sm:text-7xl md:text-8xl text-accent leading-none">
-            LA COOKERIA
+          <h1 className="font-display text-[20vw] sm:text-8xl md:text-9xl text-accent leading-none">
+            PAZ BAKERY
           </h1>
           <p className="font-display text-[4vw] sm:text-2xl text-muted tracking-[0.3em] uppercase mt-1">
             cookies por encargo
