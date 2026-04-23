@@ -1,8 +1,16 @@
 import { getProducts } from '../lib/data'
 
 export const metadata = {
-  title: 'Menú — PAZ BAKERY',
-  description: 'Cookies artesanales por encargo. Córdoba, Argentina.',
+  title: 'Menú de Cookies',
+  description: 'Catálogo de cookies artesanales de PAZ BAKERY. COO-CHIPS, COO-FRAMBUESA, COO-VELVET, COO-CARROT, COO-CACAO y COO-LEMON. Pedí por WhatsApp en Córdoba, Argentina.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app'}/catalogo`,
+  },
+  openGraph: {
+    title: 'Menú de Cookies — PAZ BAKERY',
+    description: 'Cookies artesanales por encargo en Córdoba. 6 sabores únicos hechos a mano.',
+    type: 'website',
+  },
 }
 
 export default async function CatalogoPage() {

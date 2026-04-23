@@ -24,6 +24,36 @@ const tickerItems = [
   "TARTAS Y TORTAS", "//", "SIN APURO", "//",
 ];
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Bakery',
+  name: 'PAZ BAKERY',
+  description: 'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas hechas a mano con ingredientes reales.',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app',
+  telephone: '+5492974749605',
+  priceRange: '$$',
+  servesCuisine: ['Cookies', 'Tartas', 'Tortas', 'Repostería artesanal'],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Córdoba',
+    addressRegion: 'Córdoba',
+    addressCountry: 'AR',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: -31.4135,
+    longitude: -64.1811,
+  },
+  sameAs: ['https://www.instagram.com/la.cookeriacba/'],
+  hasMenu: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app'}/catalogo`,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+5492974749605',
+    contactType: 'customer service',
+    availableLanguage: 'Spanish',
+  },
+}
+
 export default async function Home() {
   const allProducts = await getProducts()
   const products = allProducts.filter((p) => p.active)
@@ -31,6 +61,10 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* ─── NAV ─── */}
       <nav className="fixed top-0 w-full z-50 bg-background border-b border-accent/15">
