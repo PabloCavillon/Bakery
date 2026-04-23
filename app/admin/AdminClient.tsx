@@ -670,9 +670,9 @@ export default function AdminClient({ initialProducts, initialOrders, initialExp
     <div className="min-h-screen bg-background text-foreground">
       {/* topbar */}
       <nav className="bg-surface-alt border-b border-dashed border-accent/20 px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-10 gap-3">
-        <span className="font-display text-base sm:text-xl text-accent tracking-widest whitespace-nowrap shrink-0">
+        <a href="/" className="font-display text-base sm:text-xl text-accent tracking-widest whitespace-nowrap shrink-0 hover:opacity-70 transition-opacity">
           * PAZ BAKERY
-        </span>
+        </a>
 
         <div className="flex gap-1 overflow-x-auto">
           {(['pedidos', 'productos', 'gastos'] as const).map((t) => (
