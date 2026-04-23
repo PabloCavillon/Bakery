@@ -1,53 +1,4 @@
-const products = [
-  {
-    emoji: "🍪",
-    name: "COO-CHIPS",
-    desc: "Vainilla, manteca noisette, chips de chocolate negro y con leche.",
-    price: "$4.500",
-    tag: "CLÁSICA",
-    rotate: "-rotate-[0.8deg]",
-  },
-  {
-    emoji: "🍓",
-    name: "COO-FRAMBUESA",
-    desc: "Pistacho, dulce de frambuesas, frosting y más pistachos.",
-    price: "$4.500",
-    tag: "FAVORITA",
-    rotate: "rotate-[0.6deg]",
-  },
-  {
-    emoji: "❤️",
-    name: "COO-VELVET",
-    desc: "Red velvet, frosting, dulce de frambuesas y frambuesas congeladas.",
-    price: "$4.500",
-    tag: "ESPECIAL",
-    rotate: "-rotate-[0.5deg]",
-  },
-  {
-    emoji: "🥕",
-    name: "COO-CARROT",
-    desc: "Carrot cake, frosting, canela, naranja y zanahorias en almíbar.",
-    price: "$4.500",
-    tag: "SORPRESA",
-    rotate: "rotate-[1deg]",
-  },
-  {
-    emoji: "🍫",
-    name: "COO-CACAO",
-    desc: "Chocolate rellena de chocolate y chips de chocolate semi.",
-    price: "$4.500",
-    tag: "INTENSA",
-    rotate: "-rotate-[0.7deg]",
-  },
-  {
-    emoji: "🍋",
-    name: "COO-LEMON",
-    desc: "Vainilla, rellena de curd de limón y merengue.",
-    price: "$4.500",
-    tag: "FRESCA",
-    rotate: "rotate-[0.4deg]",
-  },
-];
+import { getProducts } from './lib/data'
 
 const testimonials = [
   {
@@ -73,7 +24,9 @@ const tickerItems = [
   "TARTAS Y TORTAS", "//", "SIN APURO", "//",
 ];
 
-export default function Home() {
+export default async function Home() {
+  const allProducts = await getProducts()
+  const products = allProducts.filter((p) => p.active)
   const tickerContent = [...tickerItems, ...tickerItems];
 
   return (
@@ -224,10 +177,18 @@ export default function Home() {
                 key={p.name}
                 className={`border border-dashed border-accent/30 p-5 sm:p-6 bg-surface/40 hover:bg-surface transition-colors duration-200 group ${p.rotate}`}
               >
-                <div className="flex items-start justify-between mb-4 sm:mb-5">
-                  <span className="text-3xl sm:text-4xl select-none leading-none">{p.emoji}</span>
+                {/* image or emoji */}
+                <div className="relative w-full aspect-video mb-4 overflow-hidden bg-surface-alt">
+                  {p.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="text-5xl sm:text-6xl select-none">{p.emoji}</span>
+                    </div>
+                  )}
                   <span
-                    className="text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase bg-accent text-background px-2 py-1 font-bold"
+                    className="absolute top-2 right-2 text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase bg-accent text-background px-2 py-1 font-bold"
                     style={{ transform: "rotate(2deg)" }}
                   >
                     {p.tag}
