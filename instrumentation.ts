@@ -56,17 +56,17 @@ export async function register() {
 
   if (Number(count) === 0) {
     const seed = [
-      { id: 'coo-chips',     emoji: '🍪', name: 'COO-CHIPS',     desc: 'Vainilla, manteca noisette, chips de chocolate negro y con leche.',   price: '$4.500', priceValue: 4500, tag: 'CLÁSICA',  rotate: '-rotate-[0.8deg]', image: '/products/coo-chips.jpeg'     },
-      { id: 'coo-frambuesa', emoji: '🍓', name: 'COO-FRAMBUESA', desc: 'Pistacho, dulce de frambuesas, frosting y más pistachos.',              price: '$4.500', priceValue: 4500, tag: 'FAVORITA', rotate: 'rotate-[0.6deg]',  image: '/products/coo-frambuesa.jpeg' },
-      { id: 'coo-velvet',    emoji: '❤️', name: 'COO-VELVET',    desc: 'Red velvet, frosting, dulce de frambuesas y frambuesas congeladas.',   price: '$4.500', priceValue: 4500, tag: 'ESPECIAL', rotate: '-rotate-[0.5deg]', image: '/products/coo-velvet.jpeg'    },
-      { id: 'coo-carrot',    emoji: '🥕', name: 'COO-CARROT',    desc: 'Carrot cake, frosting, canela, naranja y zanahorias en almíbar.',      price: '$4.500', priceValue: 4500, tag: 'SORPRESA', rotate: 'rotate-[1deg]',    image: '/products/coo-carrot.jpeg'    },
-      { id: 'coo-cacao',     emoji: '🍫', name: 'COO-CACAO',     desc: 'Chocolate rellena de chocolate y chips de chocolate semi.',            price: '$4.500', priceValue: 4500, tag: 'INTENSA',  rotate: '-rotate-[0.7deg]', image: '/products/coo-cacao.jpeg'     },
-      { id: 'coo-lemon',     emoji: '🍋', name: 'COO-LEMON',     desc: 'Vainilla, rellena de curd de limón y merengue.',                      price: '$4.500', priceValue: 4500, tag: 'FRESCA',   rotate: 'rotate-[0.4deg]',  image: '/products/coo-lemon.jpeg'     },
+      { id: 'coo-chips',     emoji: '🍪', name: 'COO-CHIPS',     desc: 'Vainilla, manteca noisette, chips de chocolate negro y con leche.',   price: '$4.500', priceValue: 4500, tag: 'CLÁSICA',  rotate: '-rotate-[0.8deg]' },
+      { id: 'coo-frambuesa', emoji: '🍓', name: 'COO-FRAMBUESA', desc: 'Pistacho, dulce de frambuesas, frosting y más pistachos.',              price: '$4.500', priceValue: 4500, tag: 'FAVORITA', rotate: 'rotate-[0.6deg]'  },
+      { id: 'coo-velvet',    emoji: '❤️', name: 'COO-VELVET',    desc: 'Red velvet, frosting, dulce de frambuesas y frambuesas congeladas.',   price: '$4.500', priceValue: 4500, tag: 'ESPECIAL', rotate: '-rotate-[0.5deg]' },
+      { id: 'coo-carrot',    emoji: '🥕', name: 'COO-CARROT',    desc: 'Carrot cake, frosting, canela, naranja y zanahorias en almíbar.',      price: '$4.500', priceValue: 4500, tag: 'SORPRESA', rotate: 'rotate-[1deg]'    },
+      { id: 'coo-cacao',     emoji: '🍫', name: 'COO-CACAO',     desc: 'Chocolate rellena de chocolate y chips de chocolate semi.',            price: '$4.500', priceValue: 4500, tag: 'INTENSA',  rotate: '-rotate-[0.7deg]' },
+      { id: 'coo-lemon',     emoji: '🍋', name: 'COO-LEMON',     desc: 'Vainilla, rellena de curd de limón y merengue.',                      price: '$4.500', priceValue: 4500, tag: 'FRESCA',   rotate: 'rotate-[0.4deg]'  },
     ]
     for (const p of seed) {
       await sql`
-        INSERT INTO products (id, emoji, name, description, price, price_value, tag, rotate, active, image)
-        VALUES (${p.id}, ${p.emoji}, ${p.name}, ${p.desc}, ${p.price}, ${p.priceValue}, ${p.tag}, ${p.rotate}, true, ${p.image})
+        INSERT INTO products (id, emoji, name, description, price, price_value, tag, rotate, active)
+        VALUES (${p.id}, ${p.emoji}, ${p.name}, ${p.desc}, ${p.price}, ${p.priceValue}, ${p.tag}, ${p.rotate}, true)
       `
     }
   }

@@ -135,6 +135,10 @@ export async function getExpenses(): Promise<Expense[]> {
   }))
 }
 
+export async function updateProductImage(id: string, imageUrl: string): Promise<void> {
+  await sql`UPDATE products SET image = ${imageUrl} WHERE id = ${id}`
+}
+
 export async function saveExpenses(expenses: Expense[]): Promise<void> {
   await sql`DELETE FROM expenses`
 

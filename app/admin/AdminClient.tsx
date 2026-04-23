@@ -29,25 +29,28 @@ function ImageUpload({ product, onUploaded }: { product: Product; onUploaded: (p
     if (!file) return
     setError('')
     setUploading(true)
-    // local preview while uploading
     const localUrl = URL.createObjectURL(file)
     setPreview(localUrl)
 
-    const fd = new FormData()
-    fd.append('image', file)
-    fd.append('productId', product.id)
-    const res = await uploadProductImage(fd)
-
-    setUploading(false)
-    if (res.ok && res.image) {
-      setPreview(res.image)
-      onUploaded(res.image)
-    } else {
+    try {
+      const fd = new FormData()
+      fd.append('image', file)
+      fd.append('productId', product.id)
+      const res = await uploadProductImage(fd)
+      if (res.ok && res.image) {
+        setPreview(res.image)
+        onUploaded(res.image)
+      } else {
+        setPreview(product.image ?? '')
+        setError(res.error ?? 'Error al subir')
+      }
+    } catch {
       setPreview(product.image ?? '')
-      setError(res.error ?? 'Error al subir')
+      setError('Error al subir la imagen')
+    } finally {
+      setUploading(false)
+      e.target.value = ''
     }
-    // reset input so same file can be re-selected
-    e.target.value = ''
   }
 
   return (

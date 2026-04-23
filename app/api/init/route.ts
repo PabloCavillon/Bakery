@@ -67,8 +67,8 @@ export async function GET() {
   if (Number(count) === 0) {
     for (const p of SEED_PRODUCTS) {
       await sql`
-        INSERT INTO products (id, emoji, name, description, price, price_value, tag, rotate, active, image)
-        VALUES (${p.id}, ${p.emoji}, ${p.name}, ${p.desc}, ${p.price}, ${p.priceValue}, ${p.tag}, ${p.rotate}, true, ${p.image})
+        INSERT INTO products (id, emoji, name, description, price, price_value, tag, rotate, active)
+        VALUES (${p.id}, ${p.emoji}, ${p.name}, ${p.desc}, ${p.price}, ${p.priceValue}, ${p.tag}, ${p.rotate}, true)
       `
     }
   }

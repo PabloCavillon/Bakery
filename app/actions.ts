@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { put } from '@vercel/blob'
-import { getProducts, saveProducts, getOrders, saveOrders, getExpenses, saveExpenses } from './lib/data'
+import { getProducts, saveProducts, updateProductImage, getOrders, saveOrders, getExpenses, saveExpenses } from './lib/data'
 import type { Product, Order, OrderItem, Expense, ExpenseCategory } from './lib/data'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'cookeria2024'
@@ -102,17 +102,18 @@ export async function uploadProductImage(
     return { ok: false, error: 'Formato no soportado (jpg, png, webp)' }
   }
 
-  const blob = await put(`products/${productId}.${ext}`, file, {
-    access: 'public',
-    token: process.env.BLOB_READ_WRITE_TOKEN,
-  })
-
-  const products = await getProducts()
-  const idx = products.findIndex((p) => p.id === productId)
-  if (idx !== -1) {
-    products[idx].image = blob.url
-    await saveProducts(products)
+  let blob
+  try {
+    blob = await put(`products/${productId}.${ext}`, file, {
+      access: 'public',
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    })
+  } catch (err) {
+    console.error('Blob upload error:', err)
+    return { ok: false, error: 'Error al subir al storage. Verificá el token de Vercel Blob.' }
   }
+
+  await updateProductImage(productId, blob.url)
 
   revalidatePath('/')
   revalidatePath('/catalogo')
