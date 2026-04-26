@@ -76,9 +76,9 @@ export default async function Home() {
           <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
             <span className="text-rose">*</span> Hermanas Baking
           </span>
-          <div className="hidden md:flex gap-8 text-sm tracking-wide text-muted/70 lowercase">
+          <div className="hidden md:flex gap-8 text-sm tracking-wide text-muted/70">
             <a href="#cookies" className="hover:text-accent transition-colors">Cookies</a>
-            <a href="#nosotros" className="hover:text-accent transition-colors">Nosotros</a>
+            <a href="#nosotras" className="hover:text-accent transition-colors">Nosotras</a>
             <a href="#pedidos" className="hover:text-accent transition-colors">Pedidos</a>
           </div>
           <a
@@ -90,7 +90,7 @@ export default async function Home() {
         </div>
         {/* fila inferior: links — solo mobile */}
         <div className="md:hidden flex border-t border-dashed border-accent/10">
-          {[['#cookies', 'cookies'], ['#nosotros', 'nosotros'], ['#pedidos', 'pedidos']].map(([href, label]) => (
+          {[['#cookies', 'cookies'], ['#nosotras', 'nosotras'], ['#pedidos', 'pedidos']].map(([href, label]) => (
             <a
               key={href}
               href={href}
@@ -283,24 +283,23 @@ export default async function Home() {
         </Reveal>
       </div>
 
-      {/* ─── NOSOTROS ─── */}
-      <section id="nosotros" className="py-14 sm:py-20 bg-background">
+      {/* ─── NOSOTRAS ─── */}
+      <section id="nosotras" className="py-14 sm:py-20 bg-background">
         <Reveal className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-10 sm:gap-12 items-start">
 
             <div className="md:col-span-3">
-              <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6"><span className="text-rose">//</span> nosotros</p>
+              <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-5 sm:mb-6"><span className="text-rose">//</span> nosotras</p>
               <h2
                 className="font-display text-4xl sm:text-5xl md:text-7xl text-foreground leading-none mb-8 sm:mb-10"
                 style={{ transform: "rotate(-0.5deg)" }}
               >
-                NACIÓ EN<br />UNA COCINA<br />CHICA.
+                  NOSOTRAS.
               </h2>
               <div className="space-y-4 text-foreground/50 text-sm leading-relaxed border-l-2 border-dashed border-accent/30 pl-5 sm:pl-6">
                 <p>
-                  No empezamos en ninguna escuela de gastronomía. Empezamos en
-                  casa, a las 5am, con el horno encendido y los vecinos preguntando
-                  de dónde venía ese olor.
+                  Somos dos hermanas horneando cosas ricas desde casa. Este emprendimiento nace de nuestro
+                  gusto por la pastelería y con el objetivo de poder viajar al exterior.
                 </p>
                 <p>
                   Hermanas Baking es pastelería sin pretensiones. Ingredientes reales,
