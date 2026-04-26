@@ -50,6 +50,7 @@ export async function createProduct(data: {
   desc: string
   tag: string
   priceValue: number
+  category?: string
 }): Promise<{ ok: boolean; error?: string; product?: Product }> {
   await requireAuth()
   const products = await getProducts()
@@ -64,6 +65,7 @@ export async function createProduct(data: {
     priceValue: data.priceValue,
     rotate: rotates[products.length % rotates.length],
     active: true,
+    category: data.category ?? '',
   }
   products.push(newProduct)
   await saveProducts(products)
@@ -74,7 +76,7 @@ export async function createProduct(data: {
 
 export async function updateProduct(
   id: string,
-  data: Partial<Pick<Product, 'name' | 'desc' | 'price' | 'priceValue' | 'tag' | 'emoji' | 'active'>>
+  data: Partial<Pick<Product, 'name' | 'desc' | 'price' | 'priceValue' | 'tag' | 'emoji' | 'active' | 'imagePosition' | 'category'>>
 ): Promise<{ ok: boolean; error?: string }> {
   await requireAuth()
   const products = await getProducts()

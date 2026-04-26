@@ -17,8 +17,76 @@ const STATUS_COLORS: Record<Order['status'], string> = {
 }
 const STATUS_OPTIONS: Order['status'][] = ['pendiente', 'en proceso', 'listo', 'entregado', 'cancelado']
 
+// ─── Focal Point Picker ───────────────────────────────────────────────────────
+function FocalPointPicker({ src, position, onChange }: { src: string; position: string; onChange: (p: string) => void }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [dragging, setDragging] = useState(false)
+
+  const getPct = (e: React.PointerEvent) => {
+    const rect = ref.current!.getBoundingClientRect()
+    const x = Math.max(0, Math.min(100, Math.round(((e.clientX - rect.left) / rect.width) * 100)))
+    const y = Math.max(0, Math.min(100, Math.round(((e.clientY - rect.top) / rect.height) * 100)))
+    return `${x}% ${y}%`
+  }
+
+  const parts = position.split(' ')
+  const cx = parseFloat(parts[0]) || 50
+  const cy = parseFloat(parts[1]) || 50
+
+  return (
+    <div className="mt-2">
+      <p className="text-muted/50 text-[0.55rem] tracking-widest uppercase mb-1.5">
+        encuadre — arrastrá para ajustar
+      </p>
+      <div
+        ref={ref}
+        className="relative w-full aspect-video overflow-hidden cursor-crosshair select-none border border-dashed border-accent/30"
+        onPointerDown={(e) => {
+          setDragging(true)
+          e.currentTarget.setPointerCapture(e.pointerId)
+          onChange(getPct(e))
+        }}
+        onPointerMove={(e) => { if (dragging) onChange(getPct(e)) }}
+        onPointerUp={() => setDragging(false)}
+        onPointerCancel={() => setDragging(false)}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt=""
+          className="w-full h-full object-cover pointer-events-none"
+          style={{ objectPosition: position }}
+          draggable={false}
+        />
+        {/* subtle rule-of-thirds grid */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.12) 1px, transparent 1px)',
+            backgroundSize: '33.333% 33.333%',
+          }}
+        />
+        {/* focal point crosshair */}
+        <div
+          className="absolute pointer-events-none"
+          style={{ left: `${cx}%`, top: `${cy}%`, transform: 'translate(-50%, -50%)' }}
+        >
+          <div className="w-5 h-5 rounded-full border-2 border-white shadow-md bg-black/25" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Image Upload ────────────────────────────────────────────────────────────
-function ImageUpload({ product, onUploaded }: { product: Product; onUploaded: (path: string) => void }) {
+function ImageUpload({
+  product, onUploaded, imagePosition, onPositionChange,
+}: {
+  product: Product
+  onUploaded: (path: string) => void
+  imagePosition?: string
+  onPositionChange: (pos: string) => void
+}) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [preview, setPreview] = useState<string>(product.image ?? '')
   const [uploading, setUploading] = useState(false)
@@ -53,11 +121,13 @@ function ImageUpload({ product, onUploaded }: { product: Product; onUploaded: (p
     }
   }
 
+  const pos = imagePosition ?? 'center center'
+
   return (
     <div className="mt-3">
       <p className="text-muted/60 text-[0.6rem] tracking-widest uppercase mb-1.5">Imagen del producto</p>
       <div
-        className="relative border-2 border-dashed border-accent/25 overflow-hidden cursor-pointer hover:border-accent/60 transition-colors group"
+        className="relative aspect-video border-2 border-dashed border-accent/25 overflow-hidden cursor-pointer hover:border-accent/60 transition-colors group"
         onClick={() => inputRef.current?.click()}
         role="button"
         tabIndex={0}
@@ -68,10 +138,11 @@ function ImageUpload({ product, onUploaded }: { product: Product; onUploaded: (p
           <img
             src={preview}
             alt={product.name}
-            className="w-full h-28 sm:h-32 object-cover"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: pos }}
           />
         ) : (
-          <div className="h-28 sm:h-32 flex flex-col items-center justify-center gap-1 bg-surface-alt">
+          <div className="w-full h-full flex flex-col items-center justify-center gap-1 bg-surface-alt">
             <span className="text-3xl select-none opacity-40">{product.emoji}</span>
             <span className="text-muted/40 text-[0.6rem] tracking-widest">TAP PARA SUBIR</span>
           </div>
@@ -99,6 +170,15 @@ function ImageUpload({ product, onUploaded }: { product: Product; onUploaded: (p
         className="hidden"
         onChange={handleChange}
       />
+
+      {/* Focal point picker — only when there's an image */}
+      {preview && (
+        <FocalPointPicker
+          src={preview}
+          position={pos}
+          onChange={onPositionChange}
+        />
+      )}
     </div>
   )
 }
@@ -108,7 +188,7 @@ function NewProductForm({ onCreated }: { onCreated: (p: Product) => void }) {
   const [open, setOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState('')
-  const [form, setForm] = useState({ emoji: '🍪', name: '', desc: '', tag: '', priceValue: '' })
+  const [form, setForm] = useState({ emoji: '🍪', name: '', desc: '', tag: '', priceValue: '', category: '' })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -122,7 +202,7 @@ function NewProductForm({ onCreated }: { onCreated: (p: Product) => void }) {
       const res = await createProduct({ ...form, priceValue: price })
       if (!res.ok || !res.product) { setError(res.error ?? 'Error'); return }
       onCreated(res.product)
-      setForm({ emoji: '🍪', name: '', desc: '', tag: '', priceValue: '' })
+      setForm({ emoji: '🍪', name: '', desc: '', tag: '', priceValue: '', category: '' })
       setOpen(false)
     })
   }
@@ -161,6 +241,13 @@ function NewProductForm({ onCreated }: { onCreated: (p: Product) => void }) {
               onChange={(e) => setForm((f) => ({ ...f, tag: e.target.value }))}
             />
           </div>
+
+          <input
+            className="w-full bg-surface-alt border border-dashed border-accent/20 text-muted text-xs tracking-wide px-3 py-2 focus:outline-none focus:border-accent/50 placeholder:text-muted/40 mb-3"
+            placeholder="Categoría (ej: Cookies, Tartas, Tortas)"
+            value={form.category}
+            onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+          />
 
           <textarea
             rows={2}
@@ -219,6 +306,7 @@ function ProductsTab({ products }: { products: Product[] }) {
       const res = await updateProduct(id, {
         name: product.name, desc: product.desc, price: product.price,
         priceValue: product.priceValue, tag: product.tag, emoji: product.emoji, active: product.active,
+        imagePosition: product.imagePosition, category: product.category,
       })
       setFeedback((f) => ({ ...f, [id]: res.ok ? '✓ Guardado' : (res.error ?? 'Error') }))
       setSaving(null)
@@ -269,6 +357,13 @@ function ProductsTab({ products }: { products: Product[] }) {
           </div>
 
           {/* row 2: desc */}
+          <input
+            className="w-full bg-surface-alt border border-dashed border-accent/20 text-muted text-xs tracking-wide px-3 py-2 focus:outline-none focus:border-accent/50 placeholder:text-muted/40 mb-3"
+            placeholder="Categoría (ej: Cookies, Tartas, Tortas)"
+            value={p.category ?? ''}
+            onChange={(e) => handleChange(p.id, 'category', e.target.value)}
+          />
+
           <textarea
             rows={2}
             className="w-full bg-surface-alt border border-dashed border-accent/20 text-muted/80 text-sm px-3 py-2 focus:outline-none focus:border-accent/50 resize-none mb-3"
@@ -281,6 +376,8 @@ function ProductsTab({ products }: { products: Product[] }) {
           <ImageUpload
             product={p}
             onUploaded={(img) => handleChange(p.id, 'image', img)}
+            imagePosition={p.imagePosition}
+            onPositionChange={(pos) => handleChange(p.id, 'imagePosition', pos)}
           />
 
           {/* row 4: price + save */}

@@ -44,6 +44,20 @@ export default async function Home() {
   const products = allProducts.filter((p) => p.active)
   const tickerContent = [...tickerItems, ...tickerItems];
 
+  // Group by category, preserving insertion order; uncategorized goes last
+  const groupOrder: string[] = []
+  const grouped: Record<string, typeof products> = {}
+  for (const p of products) {
+    const key = (p.category ?? '').trim()
+    if (!grouped[key]) { grouped[key] = []; groupOrder.push(key) }
+    grouped[key].push(p)
+  }
+  const hasNamed = groupOrder.some(k => k !== '')
+  if (hasNamed && grouped[''] !== undefined) {
+    const i = groupOrder.indexOf('')
+    if (i !== -1) { groupOrder.splice(i, 1); groupOrder.push('') }
+  }
+
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <script
@@ -110,7 +124,7 @@ export default async function Home() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 sm:gap-10 mt-8 sm:mt-12">
             <p className="text-foreground/40 text-sm leading-relaxed max-w-xs">
               Pastelería artesanal, con ingredientes reales.<br />
-              Hecho por encargo.
+              Pedidos personalizados.
             </p>
             <div className="flex flex-row gap-4 sm:gap-6 items-center">
               <a
@@ -183,48 +197,70 @@ export default async function Home() {
             </a>
           </div>
 
-          {/* grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {products.map((p) => (
-              <a
-                key={p.name}
-                href="#pedidos"
-                className={`block border border-dashed border-accent/30 p-5 sm:p-6 bg-surface/40 hover:bg-surface transition-colors duration-200 group ${p.rotate}`}
-              >
-                {/* image or emoji */}
-                <div className="relative w-full aspect-video mb-4 overflow-hidden bg-surface-alt">
-                  {p.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-5xl sm:text-6xl select-none">{p.emoji}</span>
-                    </div>
-                  )}
-                  <span
-                    className="absolute top-2 right-2 text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase bg-rose text-background px-2 py-1 font-bold"
-                    style={{ transform: "rotate(2deg)" }}
+          {/* grid — grouped by category */}
+          {groupOrder.map((cat) => (
+            <div key={cat || '__none__'} className={hasNamed ? 'mb-12 last:mb-0' : ''}>
+              {/* category header */}
+              {cat && (
+                <div className="flex items-center gap-4 mb-6 sm:mb-8">
+                  <span className="text-rose text-xs">//</span>
+                  <h3 className="font-display text-3xl sm:text-4xl text-foreground leading-none tracking-wide uppercase">
+                    {cat}
+                  </h3>
+                  <div className="flex-1 border-t border-dashed border-accent/20" />
+                </div>
+              )}
+              {!cat && hasNamed && (
+                <div className="flex items-center gap-4 mb-6 sm:mb-8">
+                  <div className="flex-1 border-t border-dashed border-accent/10" />
+                  <span className="font-display text-lg text-muted/40 leading-none tracking-widest uppercase">otros</span>
+                  <div className="flex-1 border-t border-dashed border-accent/10" />
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                {grouped[cat].map((p) => (
+                  <a
+                    key={p.name}
+                    href="#pedidos"
+                    className={`block border border-dashed border-accent/30 p-5 sm:p-6 hover:border-accent/70 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group ${p.rotate}`}
                   >
-                    {p.tag}
-                  </span>
-                </div>
-                <h3 className="font-display text-2xl sm:text-3xl text-foreground leading-none mb-2 sm:mb-3 tracking-wide">
-                  {p.name}
-                </h3>
-                <p className="text-muted/80 text-xs leading-relaxed">
-                  {p.desc}
-                </p>
-                <div className="flex items-center justify-between mt-5 sm:mt-6 pt-4 border-t border-dashed border-accent/15">
-                  <span className="font-display text-2xl sm:text-3xl text-accent leading-none">
-                    {p.price}
-                  </span>
-                  <span className="text-[0.6rem] text-foreground/20 tracking-[0.2em] uppercase group-hover:text-foreground/60 transition-colors">
-                    encargar <span className="text-rose/40 group-hover:text-rose transition-colors">→</span>
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
+                    {/* image or emoji */}
+                    <div className="relative w-full aspect-video mb-4 overflow-hidden bg-surface-alt">
+                      {p.image ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={p.image} alt={p.name} className="w-full h-full object-cover" style={{ objectPosition: p.imagePosition ?? 'center center' }} />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="text-5xl sm:text-6xl select-none">{p.emoji}</span>
+                        </div>
+                      )}
+                      <span
+                        className="absolute top-2 right-2 text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase bg-rose text-background px-2 py-1 font-bold"
+                        style={{ transform: "rotate(2deg)" }}
+                      >
+                        {p.tag}
+                      </span>
+                    </div>
+                    <h3 className="font-display text-2xl sm:text-3xl text-foreground leading-none mb-2 sm:mb-3 tracking-wide">
+                      {p.name}
+                    </h3>
+                    <p className="text-muted/80 text-xs leading-relaxed">
+                      {p.desc}
+                    </p>
+                    <div className="flex items-center justify-between mt-5 sm:mt-6 pt-4 border-t border-dashed border-accent/15">
+                      <span className="font-display text-2xl sm:text-3xl text-accent leading-none">
+                        {p.price}
+                      </span>
+                      <span className="text-[0.6rem] text-foreground/20 tracking-[0.2em] uppercase group-hover:text-foreground/60 transition-colors">
+                        encargar <span className="text-rose/40 group-hover:text-rose transition-colors">→</span>
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
 
           <p className="text-center text-rose/30 tracking-[0.4em] text-xs mt-12 sm:mt-14 select-none">
             * * * * * * * * * * * * * * * * *

@@ -11,6 +11,8 @@ export type Product = {
   rotate: string
   active: boolean
   image?: string
+  imagePosition?: string
+  category?: string
 }
 
 export type OrderItem = {
@@ -49,6 +51,8 @@ export type Expense = {
 }
 
 export async function getProducts(): Promise<Product[]> {
+  await sql`ALTER TABLE products ADD COLUMN IF NOT EXISTS image_position text DEFAULT 'center center'`
+  await sql`ALTER TABLE products ADD COLUMN IF NOT EXISTS category text DEFAULT ''`
   const rows = await sql`SELECT * FROM products ORDER BY created_at ASC`
   return rows.map((r) => ({
     id: r.id,
@@ -61,24 +65,28 @@ export async function getProducts(): Promise<Product[]> {
     rotate: r.rotate,
     active: r.active,
     image: r.image ?? undefined,
+    imagePosition: r.image_position ?? 'center center',
+    category: r.category ?? '',
   }))
 }
 
 export async function saveProducts(products: Product[]): Promise<void> {
   for (const p of products) {
     await sql`
-      INSERT INTO products (id, emoji, name, description, price, price_value, tag, rotate, active, image)
-      VALUES (${p.id}, ${p.emoji}, ${p.name}, ${p.desc}, ${p.price}, ${p.priceValue}, ${p.tag}, ${p.rotate}, ${p.active}, ${p.image ?? null})
+      INSERT INTO products (id, emoji, name, description, price, price_value, tag, rotate, active, image, image_position, category)
+      VALUES (${p.id}, ${p.emoji}, ${p.name}, ${p.desc}, ${p.price}, ${p.priceValue}, ${p.tag}, ${p.rotate}, ${p.active}, ${p.image ?? null}, ${p.imagePosition ?? 'center center'}, ${p.category ?? ''})
       ON CONFLICT (id) DO UPDATE SET
-        emoji        = EXCLUDED.emoji,
-        name         = EXCLUDED.name,
-        description  = EXCLUDED.description,
-        price        = EXCLUDED.price,
-        price_value  = EXCLUDED.price_value,
-        tag          = EXCLUDED.tag,
-        rotate       = EXCLUDED.rotate,
-        active       = EXCLUDED.active,
-        image        = EXCLUDED.image
+        emoji          = EXCLUDED.emoji,
+        name           = EXCLUDED.name,
+        description    = EXCLUDED.description,
+        price          = EXCLUDED.price,
+        price_value    = EXCLUDED.price_value,
+        tag            = EXCLUDED.tag,
+        rotate         = EXCLUDED.rotate,
+        active         = EXCLUDED.active,
+        image          = EXCLUDED.image,
+        image_position = EXCLUDED.image_position,
+        category       = EXCLUDED.category
     `
   }
 }
