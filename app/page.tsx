@@ -47,7 +47,7 @@ const jsonLd = {
     latitude: -31.4135,
     longitude: -64.1811,
   },
-  sameAs: ['https://www.instagram.com/la.cookeriacba/'],
+  sameAs: ['https://www.instagram.com/pazz.cavillon/'],
   hasMenu: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app'}/catalogo`,
   contactPoint: {
     '@type': 'ContactPoint',
@@ -357,7 +357,7 @@ export default async function Home() {
               WHATSAPP
             </a>
             <a
-              href="https://instagram.com/la.cookeriacba"
+              href="https://instagram.com/pazz.cavillon"
               className="border-2 border-background text-background px-7 sm:px-9 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-background hover:text-accent transition-colors"
             >
               INSTAGRAM
@@ -365,7 +365,7 @@ export default async function Home() {
           </div>
 
           <p className="text-background/40 text-[0.6rem] sm:text-xs tracking-[0.5em] uppercase">
-            @la.cookeriacba
+            @pazz.cavillon
           </p>
         </div>
       </section>
@@ -380,10 +380,10 @@ export default async function Home() {
             cookies artesanales · córdoba, argentina · 2026
           </p>
           <a
-            href="https://instagram.com/la.cookeriacba"
+            href="https://instagram.com/pazz.cavillon"
             className="text-muted/60 text-xs tracking-widest hover:text-accent transition-colors"
           >
-            @la.cookeriacba
+            @pazz.cavillon
           </a>
         </div>
       </footer>

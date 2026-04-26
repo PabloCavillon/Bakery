@@ -129,10 +129,10 @@ export default async function CatalogoPage() {
             WHATSAPP
           </a>
           <a
-            href="https://instagram.com/la.cookeriacba"
+            href="https://instagram.com/pazz.cavillon"
             className="border-2 border-background text-background px-8 py-3 font-display text-xl tracking-widest hover:bg-background hover:text-accent transition-colors"
           >
-            @la.cookeriacba
+            @pazz.cavillon
           </a>
         </div>
       </footer>
