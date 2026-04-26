@@ -325,33 +325,6 @@ export default async function Home() {
         </Reveal>
       </section>
 
-      {/* ─── TESTIMONIOS ─── */}
-      <section className="py-12 sm:py-16 bg-surface border-y border-dashed border-accent/15">
-        <Reveal className="max-w-6xl mx-auto px-4 sm:px-6">
-          <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-8 sm:mb-10"><span className="text-rose">//</span> la gente dice</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
-            {testimonials.map((t, i) => (
-              <div key={t.name} style={{ transform: `rotate(${["-0.5", "0.4", "-0.3"][i]}deg)` }}>
-                <p className="text-foreground/80 text-sm sm:text-base leading-relaxed mb-5 sm:mb-6">
-                  &ldquo;{t.text}&rdquo;
-                </p>
-                <div className="flex items-center gap-3">
-                  <span className="w-5 sm:w-6 h-px bg-rose/40 shrink-0" />
-                  <div>
-                    <p className="font-display text-base sm:text-lg text-foreground tracking-wide leading-none">
-                      {t.name}
-                    </p>
-                    <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
-                      {t.location}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
       {/* ─── CTA ─── */}
       <section id="pedidos" className="py-16 sm:py-24 bg-accent relative overflow-hidden">
         <div
