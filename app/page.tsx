@@ -118,12 +118,12 @@ export default async function Home() {
 
           {/* headline */}
           <h1 className="font-display leading-none text-foreground mb-2">
-            <span className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem]">PAZ</span>
+            <span className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem]">HERMANAS</span>
             <span
               className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem] text-accent"
               style={{ transform: "translateX(3vw)" }}
             >
-              BAKERY
+              BAKING
             </span>
           </h1>
 

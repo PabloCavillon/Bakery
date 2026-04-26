@@ -786,7 +786,7 @@ function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors;
           {/* Hero */}
           <div style={{ padding: '16px 12px', borderBottom: `1px solid ${colors.accent}15` }}>
             <p style={{ color: `${colors.rose}`, fontSize: '8px', letterSpacing: '0.3em', marginBottom: '6px', opacity: 0.7 }}>// cba, argentina — est. 2026</p>
-            <div style={{ color: colors.fg, fontSize: '28px', fontWeight: 900, lineHeight: 1, marginBottom: '2px' }}>PAZ</div>
+            <div style={{ color: colors.fg, fontSize: '28px', fontWeight: 900, lineHeight: 1, marginBottom: '2px' }}>Hermanas</div>
             <div style={{ color: colors.accent, fontSize: '28px', fontWeight: 900, lineHeight: 1, marginLeft: '8px', marginBottom: '8px' }}>BAKERY</div>
             <p style={{ color: colors.muted, fontSize: '9px', letterSpacing: '0.2em', marginBottom: '10px' }}>COOKIES · TARTAS · TORTAS</p>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
