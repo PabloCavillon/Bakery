@@ -37,8 +37,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: 'LAS TROLAS BAKERY',
-    template: '%s | LAS TROLAS BAKERY',
+    default: 'Hermanas Baking',
+    template: '%s | Hermanas Baking',
   },
 
   description:
@@ -53,20 +53,20 @@ export const metadata: Metadata = {
     'tartas artesanales córdoba',
     'cookies córdoba argentina',
     'pastelería urbana córdoba',
-    'LAS TROLAS BAKERY',
+    'Hermanas Baking',
     'cookies a domicilio córdoba',
   ],
 
-  authors: [{ name: 'LAS TROLAS BAKERY', url: BASE_URL }],
-  creator: 'LAS TROLAS BAKERY',
-  publisher: 'LAS TROLAS BAKERY',
+  authors: [{ name: 'Hermanas Baking', url: BASE_URL }],
+  creator: 'Hermanas Baking',
+  publisher: 'Hermanas Baking',
 
   openGraph: {
     type: 'website',
     locale: 'es_AR',
     url: BASE_URL,
-    siteName: 'LAS TROLAS BAKERY',
-    title: 'LAS TROLAS BAKERY — Cookies artesanales por encargo · Córdoba',
+    siteName: 'Hermanas Baking',
+    title: 'Hermanas Baking — Cookies artesanales por encargo · Córdoba',
     description:
       'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas hechas a mano.',
     images: [
@@ -74,14 +74,14 @@ export const metadata: Metadata = {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'LAS TROLAS BAKERY — Cookies artesanales por encargo en Córdoba',
+        alt: 'Hermanas Baking — Cookies artesanales por encargo en Córdoba',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'LAS TROLAS BAKERY — Cookies artesanales por encargo · Córdoba',
+    title: 'Hermanas Baking — Cookies artesanales por encargo · Córdoba',
     description:
       'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas.',
     images: ['/opengraph-image'],

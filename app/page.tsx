@@ -30,7 +30,7 @@ const tickerItems = [
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Bakery',
-  name: 'LAS TROLAS BAKERY',
+  name: 'Hermanas Baking',
   description: 'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas hechas a mano con ingredientes reales.',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app',
   telephone: '+5492974749605',
@@ -74,7 +74,7 @@ export default async function Home() {
         {/* fila superior: logo + botón */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16">
           <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
-            <span className="text-rose">*</span> LAS TROLAS BAKERY
+            <span className="text-rose">*</span> Hermanas Baking
           </span>
           <div className="hidden md:flex gap-8 text-sm tracking-wide text-muted/70 lowercase">
             <a href="#cookies" className="hover:text-accent transition-colors">Cookies</a>
@@ -303,7 +303,7 @@ export default async function Home() {
                   de dónde venía ese olor.
                 </p>
                 <p>
-                  LAS TROLAS BAKERY es pastelería sin pretensiones. Ingredientes reales,
+                  Hermanas Baking es pastelería sin pretensiones. Ingredientes reales,
                   recetas que no mienten. No seguimos tendencias — hacemos lo que
                   creemos que tiene que saber bien.
                 </p>
@@ -409,7 +409,7 @@ export default async function Home() {
       <footer className="bg-surface-alt border-t border-dashed border-accent/20 py-8 sm:py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-center md:text-left">
           <AdminTap className="font-display text-xl sm:text-2xl tracking-widest text-accent">
-            <span className="text-rose">*</span> LAS TROLAS BAKERY
+            <span className="text-rose">*</span> Hermanas Baking
           </AdminTap>
           <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
             cookies artesanales · córdoba, argentina · 2026
