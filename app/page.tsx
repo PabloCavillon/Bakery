@@ -301,11 +301,6 @@ export default async function Home() {
                   Somos dos hermanas horneando cosas ricas desde casa. Este emprendimiento nace de nuestro
                   gusto por la pastelería y con el objetivo de poder viajar al exterior.
                 </p>
-                <p>
-                  Hermanas Baking es pastelería sin pretensiones. Ingredientes reales,
-                  recetas que no mienten. No seguimos tendencias — hacemos lo que
-                  creemos que tiene que saber bien.
-                </p>
               </div>
             </div>
 
