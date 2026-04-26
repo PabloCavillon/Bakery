@@ -812,15 +812,6 @@ const BODY_FONTS = [
   { id: 'outfit',  label: 'Outfit',  var: '--font-outfit'  },
 ]
 
-const COLOR_FIELDS: { key: keyof SiteColors; label: string; group: string }[] = [
-  { key: 'bg',         label: 'Fondo principal',  group: 'fondos' },
-  { key: 'surface',    label: 'Superficie',        group: 'fondos' },
-  { key: 'surfaceAlt', label: 'Superficie alt',    group: 'fondos' },
-  { key: 'fg',         label: 'Texto principal',   group: 'texto'  },
-  { key: 'muted',      label: 'Texto secundario',  group: 'texto'  },
-  { key: 'accent',     label: 'Acento principal',  group: 'acentos' },
-  { key: 'rose',       label: 'Rosa',              group: 'acentos' },
-]
 
 function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors; initialFonts: SiteFonts }) {
   const [colors, setColors] = useState(initialColors)
@@ -849,40 +840,81 @@ function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors;
 
   const handleReset = () => { setColors(initialColors); setFonts(initialFonts) }
 
+  const pv = {
+    '--bg':           colors.bg,
+    '--surface':      colors.surface,
+    '--surface-alt':  colors.surfaceAlt,
+    '--accent':       colors.accent,
+    '--fg':           colors.fg,
+    '--muted':        colors.muted,
+    '--rose':         colors.rose,
+    '--nav-bg':       colors.navBg,
+    '--nav-text':     colors.navText,
+    '--card-bg':      colors.cardBg,
+    '--card-border':  colors.cardBorder,
+    '--card-title':   colors.cardTitle,
+    '--card-desc':    colors.cardDesc,
+    '--card-price':   colors.cardPrice,
+    '--card-tag-bg':  colors.cardTagBg,
+    '--btn-bg':       colors.btnBg,
+    '--btn-text':     colors.btnText,
+    '--font-display': `var(${DISPLAY_FONTS.find(f => f.id === fonts.display)?.var ?? '--font-luckiest'}), cursive`,
+    '--font-sans':    `var(${BODY_FONTS.find(f => f.id === fonts.sans)?.var ?? '--font-nunito'}), sans-serif`,
+  } as React.CSSProperties
+
+  const picker = (sid: string, k: keyof SiteColors, label: string, note?: string) => (
+    <div className="border border-dashed border-zinc-700 bg-zinc-900 p-3 flex items-center gap-3">
+      <div className="relative shrink-0">
+        <div className="w-9 h-9 border border-zinc-600 cursor-pointer" style={{ background: colors[k] }}
+          onClick={() => (document.getElementById(`cp-${sid}-${k}`) as HTMLInputElement)?.click()} />
+        <input id={`cp-${sid}-${k}`} type="color" value={colors[k]}
+          onChange={(e) => set(k, e.target.value)}
+          className="absolute inset-0 opacity-0 cursor-pointer w-9 h-9" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-zinc-400 text-[0.6rem] tracking-widest uppercase mb-0.5">{label}</p>
+        {note && <p className="text-zinc-600 text-[0.5rem] tracking-wide mb-1">{note}</p>}
+        <input type="text" value={colors[k]} maxLength={7}
+          onChange={(e) => { const v = e.target.value; if (/^#[0-9a-fA-F]{0,6}$/.test(v)) set(k, v) }}
+          className="w-full bg-zinc-800 border border-dashed border-zinc-700 text-zinc-300 text-xs px-2 py-1 focus:outline-none focus:border-zinc-500 font-mono tracking-widest" />
+      </div>
+    </div>
+  )
+
   return (
     <div>
       {/* ── Fuentes ── */}
       <div className="mb-8">
-        <p className="text-muted text-[0.6rem] tracking-[0.3em] uppercase mb-3">// fuente de títulos</p>
+        <p className="text-zinc-500 text-[0.6rem] tracking-[0.3em] uppercase mb-3">// fuente de títulos</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-5">
           {DISPLAY_FONTS.map((f) => (
             <button
               key={f.id}
               type="button"
               onClick={() => setFonts((prev) => ({ ...prev, display: f.id }))}
-              className={`border border-dashed p-3 text-left transition-colors ${fonts.display === f.id ? 'border-accent bg-accent/10' : 'border-accent/15 bg-surface hover:border-accent/40'}`}
+              className={`border border-dashed p-3 text-left transition-colors ${fonts.display === f.id ? 'border-zinc-400 bg-zinc-700' : 'border-zinc-700 bg-zinc-800 hover:border-zinc-500'}`}
             >
-              <p style={{ fontFamily: `var(${f.var})` }} className="text-foreground text-xl leading-none mb-2 truncate">
+              <p style={{ fontFamily: `var(${f.var})` }} className="text-zinc-200 text-xl leading-none mb-2 truncate">
                 Hermanas Baking
               </p>
-              <p className="text-muted/50 text-[0.55rem] tracking-widest uppercase">{f.label}</p>
+              <p className="text-zinc-500 text-[0.55rem] tracking-widest uppercase">{f.label}</p>
             </button>
           ))}
         </div>
 
-        <p className="text-muted text-[0.6rem] tracking-[0.3em] uppercase mb-3">// fuente de texto</p>
+        <p className="text-zinc-500 text-[0.6rem] tracking-[0.3em] uppercase mb-3">// fuente de texto</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
           {BODY_FONTS.map((f) => (
             <button
               key={f.id}
               type="button"
               onClick={() => setFonts((prev) => ({ ...prev, sans: f.id }))}
-              className={`border border-dashed p-3 text-left transition-colors ${fonts.sans === f.id ? 'border-accent bg-accent/10' : 'border-accent/15 bg-surface hover:border-accent/40'}`}
+              className={`border border-dashed p-3 text-left transition-colors ${fonts.sans === f.id ? 'border-zinc-400 bg-zinc-700' : 'border-zinc-700 bg-zinc-800 hover:border-zinc-500'}`}
             >
-              <p style={{ fontFamily: `var(${f.var})` }} className="text-foreground text-sm leading-snug mb-2">
+              <p style={{ fontFamily: `var(${f.var})` }} className="text-zinc-200 text-sm leading-snug mb-2">
                 Cookies artesanales por encargo.
               </p>
-              <p className="text-muted/50 text-[0.55rem] tracking-widest uppercase">{f.label}</p>
+              <p className="text-zinc-500 text-[0.55rem] tracking-widest uppercase">{f.label}</p>
             </button>
           ))}
         </div>
@@ -892,152 +924,282 @@ function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors;
             type="button"
             onClick={handleSaveFonts}
             disabled={isPendingFonts}
-            className="bg-accent text-background font-display text-base tracking-widest px-8 py-2 hover:bg-accent-dim transition-colors disabled:opacity-50"
+            className="bg-[#5e9e1c] text-white font-display text-base tracking-widest px-8 py-2 hover:opacity-85 transition-opacity disabled:opacity-50"
           >
             {isPendingFonts ? 'GUARDANDO...' : savedFonts ? '✓ APLICADO' : 'APLICAR FUENTES'}
           </button>
         </div>
       </div>
 
-      <div className="border-t border-dashed border-accent/15 mb-8" />
-      {/* Preview — usa variables CSS reales para coincidir 1:1 con el sitio */}
-      <div className="border border-dashed border-accent/20 bg-surface p-4 mb-6">
-        <p className="text-muted/50 text-[0.6rem] tracking-[0.3em] uppercase mb-3">// vista previa</p>
-        <div
-          className="overflow-hidden font-sans"
-          style={{
-            '--bg':          colors.bg,
-            '--surface':     colors.surface,
-            '--surface-alt': colors.surfaceAlt,
-            '--accent':      colors.accent,
-            '--fg':          colors.fg,
-            '--muted':       colors.muted,
-            '--rose':        colors.rose,
-            '--font-display': `var(${DISPLAY_FONTS.find(f => f.id === fonts.display)?.var ?? '--font-luckiest'}), cursive`,
-            '--font-sans':    `var(${BODY_FONTS.find(f => f.id === fonts.sans)?.var ?? '--font-nunito'}), sans-serif`,
-          } as React.CSSProperties}
-        >
-          {/* Nav */}
-          <div className="flex items-center justify-between bg-background border-b border-accent/20 px-3 py-2">
-            <span className="font-display text-[11px] tracking-widest text-accent">
-              <span className="text-rose">*</span> Hermanas Baking
+      <div className="border-t border-dashed border-zinc-700 mb-6" />
+
+      {/* ── Navegación ── */}
+      <div className="mb-5 border border-dashed border-zinc-600 overflow-hidden">
+        <div className="bg-zinc-800 px-4 py-2 border-b border-dashed border-zinc-600">
+          <p className="text-zinc-300 text-[0.55rem] tracking-[0.3em] uppercase">// navegación</p>
+        </div>
+        <div style={pv} className="font-sans border-b border-dashed border-zinc-800">
+          <div className="flex items-center justify-between px-5 py-3" style={{ backgroundColor: 'var(--nav-bg)' }}>
+            <span className="font-display text-base tracking-widest" style={{ color: 'var(--nav-text)' }}>
+              <span style={{ color: 'var(--rose)' }}>*</span> Hermanas Baking
             </span>
-            <div className="flex items-center gap-3">
-              <span className="text-[8px] tracking-widest text-muted/60">cookies</span>
-              <span className="text-[8px] tracking-widest text-muted/60">pedidos</span>
-              <span className="text-rose text-[7px] border border-dashed border-rose/50 px-2 py-0.5">→ pedir</span>
+            <div className="flex items-center gap-4">
+              <span className="text-sm tracking-wide" style={{ color: 'var(--muted)', opacity: 0.7 }}>Cookies</span>
+              <span className="text-sm tracking-wide" style={{ color: 'var(--muted)', opacity: 0.7 }}>Pedidos</span>
+              <span className="text-xs tracking-widest uppercase border border-dashed px-3 py-1.5"
+                style={{ color: 'var(--btn-bg)', borderColor: 'color-mix(in srgb, var(--btn-bg) 50%, transparent)' }}>
+                → pedir
+              </span>
             </div>
           </div>
+        </div>
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {picker('nav', 'navBg', 'Fondo del nav')}
+          {picker('nav', 'navText', 'Color del logo')}
+        </div>
+      </div>
 
-          {/* Ticker */}
-          <div className="bg-accent px-3 py-1.5 flex gap-3 overflow-hidden">
-            {['ARTESANAL', '//', 'COOKIES', '//', 'CÓRDOBA', '//'].map((t, i) => (
-              <span key={i} className={`font-display text-[7px] tracking-widest whitespace-nowrap ${t === '//' ? 'text-rose' : 'text-background/90'}`}>{t}</span>
-            ))}
-          </div>
-
-          {/* Hero */}
-          <div className="bg-background px-3 py-4 border-b border-accent/15">
-            <p className="text-rose/70 text-[6px] tracking-[0.3em] uppercase mb-2">// cba, argentina — est. 2026</p>
-            <p className="font-display text-[26px] text-foreground leading-none">HERMANAS</p>
-            <p className="font-display text-[26px] text-accent leading-none ml-2 mb-2">BAKING</p>
-            <p className="text-muted text-[7px] tracking-[0.2em] mb-3">COOKIES · TARTAS · TORTAS</p>
-            <div className="flex gap-2 items-center">
-              <span className="bg-rose text-background font-display text-[9px] tracking-widest px-3 py-1">PEDIR</span>
-              <span className="text-foreground/40 text-[7px] tracking-[0.2em]">ver cookies <span className="text-rose">↓</span></span>
-            </div>
-          </div>
-
-          {/* Cards */}
-          <div className="bg-background px-3 py-3 border-b border-accent/15">
-            <p className="text-muted/60 text-[6px] tracking-[0.3em] uppercase mb-2">
-              <span className="text-rose">//</span> las cookies
-            </p>
-            <div className="grid grid-cols-3 gap-1.5">
+      {/* ── Cards de productos ── */}
+      <div className="mb-5 border border-dashed border-zinc-600 overflow-hidden">
+        <div className="bg-zinc-800 px-4 py-2 border-b border-dashed border-zinc-600">
+          <p className="text-zinc-300 text-[0.55rem] tracking-[0.3em] uppercase">// cards de productos</p>
+        </div>
+        <div style={pv} className="font-sans border-b border-dashed border-zinc-800">
+          <div className="p-5" style={{ backgroundColor: 'var(--bg)' }}>
+            <div className="grid grid-cols-2 gap-4 max-w-sm">
               {[
-                { name: 'COO-CHIPS',     tag: 'CLÁSICA',  price: '$4.500' },
-                { name: 'COO-FRAMBUESA', tag: 'FAVORITA', price: '$4.500' },
-                { name: 'COO-LEMON',     tag: 'FRESCA',   price: '$4.500' },
+                { name: 'COO-CHIPS',     tag: 'CLÁSICA',  emoji: '🍪', price: '$4.500', desc: 'Chocolate belga, manteca real.' },
+                { name: 'COO-FRAMBUESA', tag: 'FAVORITA', emoji: '🍓', price: '$4.500', desc: 'Frambuesa y crema de vainilla.' },
               ].map((card) => (
-                <div key={card.name} className="border border-dashed border-accent/30 p-1.5">
-                  <div className="bg-surface-alt h-5 mb-1 flex items-end justify-end p-0.5">
-                    <span className="bg-rose text-background text-[5px] px-0.5 leading-tight">{card.tag}</span>
+                <div key={card.name} className="border border-dashed p-4"
+                  style={{ borderColor: 'color-mix(in srgb, var(--card-border) 30%, transparent)', backgroundColor: 'var(--card-bg)' }}>
+                  <div className="aspect-video mb-3 flex items-center justify-center relative overflow-hidden"
+                    style={{ backgroundColor: 'var(--surface-alt)' }}>
+                    <span className="text-4xl select-none">{card.emoji}</span>
+                    <span className="absolute top-2 right-2 text-[0.5rem] tracking-widest uppercase px-2 py-0.5"
+                      style={{ backgroundColor: 'var(--card-tag-bg)', color: 'var(--bg)' }}>
+                      {card.tag}
+                    </span>
                   </div>
-                  <p className="font-display text-[7px] text-foreground leading-none mb-0.5">{card.name}</p>
-                  <div className="flex items-center justify-between border-t border-dashed border-accent/20 pt-0.5 mt-0.5">
-                    <span className="font-display text-[8px] text-accent">{card.price}</span>
-                    <span className="text-rose text-[7px]">→</span>
+                  <h3 className="font-display text-xl leading-none mb-1" style={{ color: 'var(--card-title)' }}>{card.name}</h3>
+                  <p className="text-xs leading-relaxed mb-3" style={{ color: 'var(--card-desc)' }}>{card.desc}</p>
+                  <div className="flex items-center justify-between border-t border-dashed pt-3"
+                    style={{ borderColor: 'color-mix(in srgb, var(--card-price) 15%, transparent)' }}>
+                    <span className="font-display text-xl" style={{ color: 'var(--card-price)' }}>{card.price}</span>
+                    <span className="text-[0.6rem] tracking-widest" style={{ color: 'var(--fg)', opacity: 0.25 }}>encargar →</span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          {picker('cards', 'cardBg',     'Fondo de la card')}
+          {picker('cards', 'cardBorder', 'Borde')}
+          {picker('cards', 'cardTitle',  'Título del producto')}
+          {picker('cards', 'cardDesc',   'Descripción')}
+          {picker('cards', 'cardPrice',  'Precio')}
+          {picker('cards', 'cardTagBg',  'Tag / etiqueta')}
+        </div>
+      </div>
 
-          {/* CTA */}
-          <div className="bg-accent px-3 py-3 flex items-center justify-between">
-            <span className="font-display text-[13px] text-background leading-none">¡ENCARGÁ LAS TUYAS!</span>
-            <div className="flex gap-1.5">
-              <span className="bg-background text-accent font-display text-[6px] tracking-widest px-2 py-1">WHATSAPP</span>
-              <span className="border border-background text-background text-[6px] px-2 py-1">INSTAGRAM</span>
+      {/* ── Botones ── */}
+      <div className="mb-5 border border-dashed border-zinc-600 overflow-hidden">
+        <div className="bg-zinc-800 px-4 py-2 border-b border-dashed border-zinc-600">
+          <p className="text-zinc-300 text-[0.55rem] tracking-[0.3em] uppercase">// botones</p>
+        </div>
+        <div style={pv} className="font-sans border-b border-dashed border-zinc-800">
+          <div className="p-6 flex flex-wrap items-end gap-6" style={{ backgroundColor: 'var(--bg)' }}>
+            <div className="text-center">
+              <div className="font-display text-xl tracking-widest px-8 py-3"
+                style={{ backgroundColor: 'var(--btn-bg)', color: 'var(--btn-text)' }}>
+                PEDIR
+              </div>
+              <p className="text-muted/40 text-[0.5rem] tracking-widest mt-1.5">relleno</p>
+            </div>
+            <div className="text-center">
+              <div className="font-display text-xl tracking-widest px-8 py-3 border-2"
+                style={{ borderColor: 'var(--btn-bg)', color: 'var(--btn-bg)' }}>
+                INSTAGRAM
+              </div>
+              <p className="text-muted/40 text-[0.5rem] tracking-widest mt-1.5">outline</p>
+            </div>
+            <div className="text-center">
+              <div className="text-xs tracking-widest uppercase border border-dashed px-4 py-2"
+                style={{ color: 'var(--btn-bg)', borderColor: 'color-mix(in srgb, var(--btn-bg) 50%, transparent)' }}>
+                → pedir
+              </div>
+              <p className="text-muted/40 text-[0.5rem] tracking-widest mt-1.5">nav</p>
             </div>
           </div>
+        </div>
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {picker('botones', 'btnBg', 'Fondo del botón')}
+          {picker('botones', 'btnText', 'Texto del botón')}
+        </div>
+      </div>
 
-          {/* Footer */}
-          <div className="bg-surface-alt px-3 py-2 flex items-center justify-between border-t border-dashed border-accent/20">
-            <span className="font-display text-[9px] text-accent">
-              <span className="text-rose">*</span> Hermanas Baking
+      {/* ── Fondos ── */}
+      <div className="mb-5 border border-dashed border-zinc-600 overflow-hidden">
+        <div className="bg-zinc-800 px-4 py-2 border-b border-dashed border-zinc-600">
+          <p className="text-zinc-300 text-[0.55rem] tracking-[0.3em] uppercase">// fondos y superficies</p>
+        </div>
+        <div style={pv} className="font-sans border-b border-dashed border-zinc-800">
+          <div className="p-4" style={{ backgroundColor: 'var(--bg)' }}>
+            <p className="text-[0.5rem] tracking-widest uppercase mb-3" style={{ color: 'var(--muted)', opacity: 0.4 }}>fondo del sitio</p>
+            <div className="p-4" style={{ backgroundColor: 'var(--surface)' }}>
+              <p className="text-[0.5rem] tracking-widest uppercase mb-3" style={{ color: 'var(--muted)', opacity: 0.4 }}>paneles / formularios</p>
+              <div className="h-10 flex items-center justify-center" style={{ backgroundColor: 'var(--surface-alt)' }}>
+                <span className="text-[0.5rem] tracking-widest uppercase" style={{ color: 'var(--muted)', opacity: 0.4 }}>superficie alternativa</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          {picker('fondo', 'bg', 'Fondo del sitio')}
+          {picker('fondo', 'surface', 'Paneles y formularios')}
+          {picker('fondo', 'surfaceAlt', 'Superficie alternativa')}
+        </div>
+      </div>
+
+      {/* ── Texto ── */}
+      <div className="mb-5 border border-dashed border-zinc-600 overflow-hidden">
+        <div className="bg-zinc-800 px-4 py-2 border-b border-dashed border-zinc-600">
+          <p className="text-zinc-300 text-[0.55rem] tracking-[0.3em] uppercase">// texto</p>
+        </div>
+        <div style={pv} className="font-sans border-b border-dashed border-zinc-800">
+          <div className="p-5" style={{ backgroundColor: 'var(--bg)' }}>
+            <p className="font-display text-4xl leading-none mb-3" style={{ color: 'var(--fg)' }}>HERMANAS BAKING</p>
+            <p className="text-base leading-relaxed mb-2" style={{ color: 'var(--fg)' }}>
+              Texto principal — cookies artesanales por encargo en Córdoba.
+            </p>
+            <p className="text-sm leading-relaxed mb-2" style={{ color: 'var(--muted)' }}>
+              Texto secundario — ingredientes reales, hecho a mano.
+            </p>
+            <p className="text-xs tracking-widest uppercase" style={{ color: 'var(--muted)', opacity: 0.5 }}>
+              texto terciario — categorías y etiquetas
+            </p>
+          </div>
+        </div>
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {picker('texto', 'fg', 'Texto principal')}
+          {picker('texto', 'muted', 'Texto secundario')}
+        </div>
+      </div>
+
+      {/* ── Acentos de marca ── */}
+      <div className="mb-5 border border-dashed border-zinc-600 overflow-hidden">
+        <div className="bg-zinc-800 px-4 py-2 border-b border-dashed border-zinc-600">
+          <p className="text-zinc-300 text-[0.55rem] tracking-[0.3em] uppercase">// acentos de marca</p>
+        </div>
+        <div style={pv} className="font-sans border-b border-dashed border-zinc-800">
+          <div className="flex items-stretch">
+            <div className="flex-1 py-4 px-5 flex items-center justify-center" style={{ backgroundColor: 'var(--accent)' }}>
+              <div className="text-center">
+                <span className="font-display text-base tracking-widest block" style={{ color: 'var(--bg)' }}>ARTESANAL // COOKIES // CÓRDOBA</span>
+                <span className="text-[0.5rem] tracking-widest block mt-1" style={{ color: 'var(--bg)', opacity: 0.6 }}>ticker · sección CTA</span>
+              </div>
+            </div>
+            <div className="w-px" style={{ backgroundColor: 'color-mix(in srgb, var(--muted) 20%, transparent)' }} />
+            <div className="flex-1 py-4 px-5 flex items-center justify-center" style={{ backgroundColor: 'var(--bg)' }}>
+              <div className="text-center">
+                <span className="font-display text-2xl" style={{ color: 'var(--rose)' }}>* // →</span>
+                <span className="text-[0.5rem] tracking-widest block mt-1" style={{ color: 'var(--muted)', opacity: 0.5 }}>rosa decorativo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {picker('marca', 'accent', 'Acento', 'ticker + sección CTA')}
+          {picker('marca', 'rose', 'Rosa', 'flechas, asteriscos, detalles')}
+        </div>
+      </div>
+
+      {/* ── Vista completa ── */}
+      <div className="mb-6 border border-dashed border-zinc-600 overflow-hidden">
+        <div className="bg-zinc-800 px-4 py-2 border-b border-dashed border-zinc-600">
+          <p className="text-zinc-300 text-[0.55rem] tracking-[0.3em] uppercase">// vista completa</p>
+        </div>
+        <div style={pv} className="font-sans overflow-hidden">
+          {/* Nav */}
+          <div className="flex items-center justify-between border-b border-accent/20 px-3 py-2" style={{ backgroundColor: 'var(--nav-bg)' }}>
+            <span className="font-display text-[11px] tracking-widest" style={{ color: 'var(--nav-text)' }}>
+              <span style={{ color: 'var(--rose)' }}>*</span> Hermanas Baking
             </span>
-            <span className="text-muted/50 text-[6px] tracking-[0.15em] uppercase">cookies · córdoba · 2026</span>
+            <div className="flex items-center gap-3">
+              <span className="text-[8px] tracking-widest" style={{ color: 'var(--muted)', opacity: 0.6 }}>cookies</span>
+              <span className="text-[8px] tracking-widest" style={{ color: 'var(--muted)', opacity: 0.6 }}>pedidos</span>
+              <span className="text-[7px] border border-dashed px-2 py-0.5"
+                style={{ color: 'var(--btn-bg)', borderColor: 'color-mix(in srgb, var(--btn-bg) 50%, transparent)' }}>→ pedir</span>
+            </div>
+          </div>
+          {/* Ticker */}
+          <div className="px-3 py-1.5 flex gap-3 overflow-hidden" style={{ backgroundColor: 'var(--accent)' }}>
+            {['ARTESANAL', '//', 'COOKIES', '//', 'CÓRDOBA', '//'].map((t, i) => (
+              <span key={i} className="font-display text-[7px] tracking-widest whitespace-nowrap"
+                style={{ color: t === '//' ? 'var(--rose)' : 'var(--bg)', opacity: t === '//' ? 1 : 0.9 }}>{t}</span>
+            ))}
+          </div>
+          {/* Hero */}
+          <div className="px-3 py-4 border-b border-dashed border-accent/15" style={{ backgroundColor: 'var(--bg)' }}>
+            <p className="font-display text-[26px] leading-none" style={{ color: 'var(--fg)' }}>HERMANAS</p>
+            <p className="font-display text-[26px] leading-none ml-2 mb-2" style={{ color: 'var(--accent)' }}>BAKING</p>
+            <p className="text-[7px] tracking-[0.2em] mb-3" style={{ color: 'var(--muted)' }}>COOKIES · TARTAS · TORTAS</p>
+            <div className="flex gap-2 items-center">
+              <span className="font-display text-[9px] tracking-widest px-3 py-1"
+                style={{ backgroundColor: 'var(--btn-bg)', color: 'var(--btn-text)' }}>PEDIR</span>
+            </div>
+          </div>
+          {/* Cards */}
+          <div className="px-3 py-3 border-b border-dashed border-accent/15" style={{ backgroundColor: 'var(--bg)' }}>
+            <div className="grid grid-cols-3 gap-1.5">
+              {[
+                { name: 'COO-CHIPS', tag: 'CLÁSICA', price: '$4.500' },
+                { name: 'COO-FRAMBUESA', tag: 'FAVORITA', price: '$4.500' },
+                { name: 'COO-LEMON', tag: 'FRESCA', price: '$4.500' },
+              ].map((card) => (
+                <div key={card.name} className="border border-dashed p-1.5"
+                  style={{ borderColor: 'color-mix(in srgb, var(--card-border) 30%, transparent)', backgroundColor: 'var(--card-bg)' }}>
+                  <div className="h-5 mb-1 flex items-end justify-end p-0.5" style={{ backgroundColor: 'var(--surface-alt)' }}>
+                    <span className="text-[5px] px-0.5 leading-tight"
+                      style={{ backgroundColor: 'var(--card-tag-bg)', color: 'var(--bg)' }}>{card.tag}</span>
+                  </div>
+                  <p className="font-display text-[7px] leading-none mb-0.5" style={{ color: 'var(--card-title)' }}>{card.name}</p>
+                  <div className="flex items-center justify-between border-t border-dashed pt-0.5 mt-0.5"
+                    style={{ borderColor: 'color-mix(in srgb, var(--card-price) 20%, transparent)' }}>
+                    <span className="font-display text-[8px]" style={{ color: 'var(--card-price)' }}>{card.price}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* CTA */}
+          <div className="px-3 py-3 flex items-center justify-between" style={{ backgroundColor: 'var(--accent)' }}>
+            <span className="font-display text-[13px] leading-none" style={{ color: 'var(--bg)' }}>¡ENCARGÁ LAS TUYAS!</span>
+            <div className="flex gap-1.5">
+              <span className="font-display text-[6px] tracking-widest px-2 py-1"
+                style={{ backgroundColor: 'var(--btn-bg)', color: 'var(--btn-text)' }}>WHATSAPP</span>
+              <span className="text-[6px] px-2 py-1"
+                style={{ border: '1px solid var(--btn-bg)', color: 'var(--btn-bg)' }}>INSTAGRAM</span>
+            </div>
+          </div>
+          {/* Footer */}
+          <div className="px-3 py-2 flex items-center justify-between border-t border-dashed border-accent/20"
+            style={{ backgroundColor: 'var(--surface-alt)' }}>
+            <span className="font-display text-[9px]" style={{ color: 'var(--accent)' }}>
+              <span style={{ color: 'var(--rose)' }}>*</span> Hermanas Baking
+            </span>
+            <span className="text-[6px] tracking-[0.15em] uppercase" style={{ color: 'var(--muted)', opacity: 0.5 }}>cookies · córdoba · 2026</span>
           </div>
         </div>
       </div>
 
-      {/* Color groups */}
-      {(['fondos', 'texto', 'acentos'] as const).map((group) => (
-        <div key={group} className="mb-5">
-          <p className="text-muted text-[0.6rem] tracking-[0.3em] uppercase mb-3">// {group}</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-            {COLOR_FIELDS.filter((f) => f.group === group).map(({ key, label }) => (
-              <div key={key} className="border border-dashed border-accent/15 bg-surface p-3 flex items-center gap-3">
-                <div className="relative shrink-0">
-                  <div
-                    className="w-9 h-9 border border-accent/20 cursor-pointer"
-                    style={{ background: colors[key] }}
-                    onClick={() => (document.getElementById(`cp-${key}`) as HTMLInputElement)?.click()}
-                  />
-                  <input
-                    id={`cp-${key}`}
-                    type="color"
-                    value={colors[key]}
-                    onChange={(e) => set(key, e.target.value)}
-                    className="absolute inset-0 opacity-0 cursor-pointer w-9 h-9"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-foreground/60 text-[0.6rem] tracking-widest uppercase mb-1">{label}</p>
-                  <input
-                    type="text"
-                    value={colors[key]}
-                    maxLength={7}
-                    onChange={(e) => {
-                      const v = e.target.value
-                      if (/^#[0-9a-fA-F]{0,6}$/.test(v)) set(key, v)
-                    }}
-                    className="w-full bg-surface-alt border border-dashed border-accent/15 text-muted text-xs px-2 py-1 focus:outline-none focus:border-accent/40 font-mono tracking-widest"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-
       {/* Actions */}
-      <div className="flex items-center justify-between pt-2 mt-2 border-t border-dashed border-accent/15">
+      <div className="flex items-center justify-between pt-2 mt-2 border-t border-dashed border-zinc-700">
         <button
           type="button"
           onClick={handleReset}
-          className="text-muted/40 text-xs tracking-widest hover:text-muted transition-colors border border-dashed border-transparent hover:border-accent/20 px-3 py-2"
+          className="text-zinc-600 text-xs tracking-widest hover:text-zinc-400 transition-colors border border-dashed border-transparent hover:border-zinc-600 px-3 py-2"
         >
           restaurar
         </button>
@@ -1045,7 +1207,7 @@ function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors;
           type="button"
           onClick={handleSaveColors}
           disabled={isPendingColors}
-          className="bg-accent text-background font-display text-base tracking-widest px-8 py-2 hover:bg-accent-dim transition-colors disabled:opacity-50"
+          className="bg-[#5e9e1c] text-white font-display text-base tracking-widest px-8 py-2 hover:opacity-85 transition-opacity disabled:opacity-50"
         >
           {isPendingColors ? 'GUARDANDO...' : savedColors ? '✓ APLICADO' : 'APLICAR COLORES'}
         </button>

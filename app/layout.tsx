@@ -111,7 +111,7 @@ export default async function RootLayout({
   const [c, f] = await Promise.all([getSiteColors(), getSiteFonts()])
   const displayVar = DISPLAY_VAR[f.display] ?? '--font-luckiest'
   const sansVar    = BODY_VAR[f.sans]       ?? '--font-nunito'
-  const cssVars = `:root{--bg:${c.bg};--surface:${c.surface};--surface-alt:${c.surfaceAlt};--accent:${c.accent};--fg:${c.fg};--muted:${c.muted};--rose:${c.rose};--font-display:var(${displayVar}),cursive;--font-sans:var(${sansVar}),sans-serif;}`
+  const cssVars = `:root{--bg:${c.bg};--surface:${c.surface};--surface-alt:${c.surfaceAlt};--accent:${c.accent};--fg:${c.fg};--muted:${c.muted};--rose:${c.rose};--nav-bg:${c.navBg};--nav-text:${c.navText};--card-bg:${c.cardBg};--card-border:${c.cardBorder};--card-title:${c.cardTitle};--card-desc:${c.cardDesc};--card-border-30:color-mix(in srgb,${c.cardBorder} 30%,transparent);--card-border-70:color-mix(in srgb,${c.cardBorder} 70%,transparent);--card-price:${c.cardPrice};--card-tag-bg:${c.cardTagBg};--btn-bg:${c.btnBg};--btn-text:${c.btnText};--font-display:var(${displayVar}),cursive;--font-sans:var(${sansVar}),sans-serif;}.product-card{border-color:var(--card-border-30)}.product-card:hover{border-color:var(--card-border-70)}`
 
   const fontClasses = [
     luckiestGuy.variable, bebasNeue.variable, righteous.variable,

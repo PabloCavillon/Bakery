@@ -172,6 +172,16 @@ export type SiteColors = {
   fg: string
   muted: string
   rose: string
+  navBg: string
+  navText: string
+  cardBg: string
+  cardBorder: string
+  cardTitle: string
+  cardDesc: string
+  cardPrice: string
+  cardTagBg: string
+  btnBg: string
+  btnText: string
 }
 
 const COLOR_DEFAULTS: SiteColors = {
@@ -182,6 +192,16 @@ const COLOR_DEFAULTS: SiteColors = {
   fg:         '#2a1408',
   muted:      '#7a5a40',
   rose:       '#e8527a',
+  navBg:      '#fafff4',
+  navText:    '#5e9e1c',
+  cardBg:     '#fafff4',
+  cardBorder: '#5e9e1c',
+  cardTitle:  '#2a1408',
+  cardDesc:   '#7a5a40',
+  cardPrice:  '#5e9e1c',
+  cardTagBg:  '#e8527a',
+  btnBg:      '#e8527a',
+  btnText:    '#ffffff',
 }
 
 export async function getSiteColors(): Promise<SiteColors> {
@@ -190,13 +210,23 @@ export async function getSiteColors(): Promise<SiteColors> {
     const m: Record<string, string> = {}
     for (const r of rows) m[r.key] = r.value
     return {
-      bg:         m['color_bg']          ?? COLOR_DEFAULTS.bg,
-      surface:    m['color_surface']     ?? COLOR_DEFAULTS.surface,
-      surfaceAlt: m['color_surface_alt'] ?? COLOR_DEFAULTS.surfaceAlt,
-      accent:     m['color_accent']      ?? COLOR_DEFAULTS.accent,
-      fg:         m['color_fg']          ?? COLOR_DEFAULTS.fg,
-      muted:      m['color_muted']       ?? COLOR_DEFAULTS.muted,
-      rose:       m['color_rose']        ?? COLOR_DEFAULTS.rose,
+      bg:         m['color_bg']           ?? COLOR_DEFAULTS.bg,
+      surface:    m['color_surface']      ?? COLOR_DEFAULTS.surface,
+      surfaceAlt: m['color_surface_alt']  ?? COLOR_DEFAULTS.surfaceAlt,
+      accent:     m['color_accent']       ?? COLOR_DEFAULTS.accent,
+      fg:         m['color_fg']           ?? COLOR_DEFAULTS.fg,
+      muted:      m['color_muted']        ?? COLOR_DEFAULTS.muted,
+      rose:       m['color_rose']         ?? COLOR_DEFAULTS.rose,
+      navBg:      m['color_nav_bg']       ?? COLOR_DEFAULTS.navBg,
+      navText:    m['color_nav_text']     ?? COLOR_DEFAULTS.navText,
+      cardBg:     m['color_card_bg']      ?? COLOR_DEFAULTS.cardBg,
+      cardBorder: m['color_card_border']  ?? COLOR_DEFAULTS.cardBorder,
+      cardTitle:  m['color_card_title']   ?? COLOR_DEFAULTS.cardTitle,
+      cardDesc:   m['color_card_desc']    ?? COLOR_DEFAULTS.cardDesc,
+      cardPrice:  m['color_card_price']   ?? COLOR_DEFAULTS.cardPrice,
+      cardTagBg:  m['color_card_tag_bg']  ?? COLOR_DEFAULTS.cardTagBg,
+      btnBg:      m['color_btn_bg']       ?? COLOR_DEFAULTS.btnBg,
+      btnText:    m['color_btn_text']     ?? COLOR_DEFAULTS.btnText,
     }
   } catch {
     return { ...COLOR_DEFAULTS }
@@ -234,13 +264,23 @@ export async function saveSiteFonts(fonts: SiteFonts): Promise<void> {
 
 export async function saveSiteColors(colors: SiteColors): Promise<void> {
   const entries: Record<string, string> = {
-    color_bg:          colors.bg,
-    color_surface:     colors.surface,
-    color_surface_alt: colors.surfaceAlt,
-    color_accent:      colors.accent,
-    color_fg:          colors.fg,
-    color_muted:       colors.muted,
-    color_rose:        colors.rose,
+    color_bg:           colors.bg,
+    color_surface:      colors.surface,
+    color_surface_alt:  colors.surfaceAlt,
+    color_accent:       colors.accent,
+    color_fg:           colors.fg,
+    color_muted:        colors.muted,
+    color_rose:         colors.rose,
+    color_nav_bg:       colors.navBg,
+    color_nav_text:     colors.navText,
+    color_card_bg:      colors.cardBg,
+    color_card_border:  colors.cardBorder,
+    color_card_title:   colors.cardTitle,
+    color_card_desc:    colors.cardDesc,
+    color_card_price:   colors.cardPrice,
+    color_card_tag_bg:  colors.cardTagBg,
+    color_btn_bg:       colors.btnBg,
+    color_btn_text:     colors.btnText,
   }
   for (const [key, value] of Object.entries(entries)) {
     await sql`

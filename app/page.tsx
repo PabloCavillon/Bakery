@@ -66,10 +66,10 @@ export default async function Home() {
       />
 
       {/* ─── NAV ─── */}
-      <nav className="fixed top-0 w-full z-50 bg-background border-b border-accent/15">
+      <nav className="fixed top-0 w-full z-50 bg-(--nav-bg) border-b border-accent/15">
         {/* fila superior: logo + botón */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16">
-          <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
+          <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-(--nav-text) whitespace-nowrap">
             Hermanas Baking
           </span>
           <div className="hidden md:flex gap-8 text-sm tracking-wide text-muted/70">
@@ -79,7 +79,7 @@ export default async function Home() {
           </div>
           <a
             href="#pedidos"
-            className="text-xs text-rose border border-dashed border-rose/50 px-3 sm:px-4 py-1.5 tracking-widest uppercase hover:bg-rose hover:text-background transition-colors whitespace-nowrap"
+            className="text-xs text-(--btn-bg) border border-dashed border-(--btn-bg)/50 px-3 sm:px-4 py-1.5 tracking-widest uppercase hover:bg-(--btn-bg) hover:text-(--btn-text) transition-colors whitespace-nowrap"
           >
             <span className="text-rose">→</span> pedir
           </a>
@@ -129,7 +129,7 @@ export default async function Home() {
             <div className="flex flex-row gap-4 sm:gap-6 items-center">
               <a
                 href="#pedidos"
-                className="bg-rose text-background px-6 sm:px-8 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-rose/80 transition-colors"
+                className="bg-(--btn-bg) text-(--btn-text) px-6 sm:px-8 py-3 font-display text-lg sm:text-xl tracking-widest opacity-100 hover:opacity-85 transition-opacity"
               >
                 PEDIR
               </a>
@@ -223,7 +223,8 @@ export default async function Home() {
                   <a
                     key={p.name}
                     href="#pedidos"
-                    className={`block border border-dashed border-accent/30 p-5 sm:p-6 hover:border-accent/70 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group ${p.rotate}`}
+                    className={`product-card block border border-dashed p-5 sm:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group ${p.rotate}`}
+                    style={{ backgroundColor: 'var(--card-bg)' }}
                   >
                     {/* image or emoji */}
                     <div className="relative w-full aspect-video mb-4 overflow-hidden bg-surface-alt">
@@ -236,20 +237,20 @@ export default async function Home() {
                         </div>
                       )}
                       <span
-                        className="absolute top-2 right-2 text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase bg-rose text-background px-2 py-1 font-bold"
-                        style={{ transform: "rotate(2deg)" }}
+                        className="absolute top-2 right-2 text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase px-2 py-1 font-bold"
+                        style={{ transform: "rotate(2deg)", backgroundColor: 'var(--card-tag-bg)', color: 'var(--bg)' }}
                       >
                         {p.tag}
                       </span>
                     </div>
-                    <h3 className="font-display text-2xl sm:text-3xl text-foreground leading-none mb-2 sm:mb-3 tracking-wide">
+                    <h3 className="font-display text-2xl sm:text-3xl leading-none mb-2 sm:mb-3 tracking-wide" style={{ color: 'var(--card-title)' }}>
                       {p.name}
                     </h3>
-                    <p className="text-muted/80 text-xs leading-relaxed">
+                    <p className="text-xs leading-relaxed" style={{ color: 'var(--card-desc)' }}>
                       {p.desc}
                     </p>
                     <div className="flex items-center justify-between mt-5 sm:mt-6 pt-4 border-t border-dashed border-accent/15">
-                      <span className="font-display text-2xl sm:text-3xl text-accent leading-none">
+                      <span className="font-display text-2xl sm:text-3xl text-(--card-price) leading-none">
                         {p.price}
                       </span>
                       <span className="text-[0.6rem] text-foreground/20 tracking-[0.2em] uppercase group-hover:text-foreground/60 transition-colors">
@@ -362,13 +363,13 @@ export default async function Home() {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-12 sm:mb-16">
             <a
               href="https://wa.me/5492974749605?text=Hola!%20queria%20encargar%20"
-              className="bg-background text-accent px-7 sm:px-9 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-background/90 transition-colors"
+              className="bg-(--btn-bg) text-(--btn-text) px-7 sm:px-9 py-3 font-display text-lg sm:text-xl tracking-widest opacity-100 hover:opacity-85 transition-opacity"
             >
               WHATSAPP
             </a>
             <a
               href="https://instagram.com/pazz.cavillon"
-              className="border-2 border-background text-background px-7 sm:px-9 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-background hover:text-accent transition-colors"
+              className="border-2 border-(--btn-bg) text-(--btn-bg) px-7 sm:px-9 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-(--btn-bg) hover:text-(--btn-text) transition-colors"
             >
               INSTAGRAM
             </a>
