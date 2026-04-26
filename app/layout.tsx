@@ -37,8 +37,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: 'PAZ BAKERY',
-    template: '%s | PAZ BAKERY',
+    default: 'LAS TROLAS BAKERY',
+    template: '%s | LAS TROLAS BAKERY',
   },
 
   description:
@@ -53,20 +53,20 @@ export const metadata: Metadata = {
     'tartas artesanales córdoba',
     'cookies córdoba argentina',
     'pastelería urbana córdoba',
-    'paz bakery',
+    'LAS TROLAS BAKERY',
     'cookies a domicilio córdoba',
   ],
 
-  authors: [{ name: 'PAZ BAKERY', url: BASE_URL }],
-  creator: 'PAZ BAKERY',
-  publisher: 'PAZ BAKERY',
+  authors: [{ name: 'LAS TROLAS BAKERY', url: BASE_URL }],
+  creator: 'LAS TROLAS BAKERY',
+  publisher: 'LAS TROLAS BAKERY',
 
   openGraph: {
     type: 'website',
     locale: 'es_AR',
     url: BASE_URL,
-    siteName: 'PAZ BAKERY',
-    title: 'PAZ BAKERY — Cookies artesanales por encargo · Córdoba',
+    siteName: 'LAS TROLAS BAKERY',
+    title: 'LAS TROLAS BAKERY — Cookies artesanales por encargo · Córdoba',
     description:
       'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas hechas a mano.',
     images: [
@@ -74,14 +74,14 @@ export const metadata: Metadata = {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'PAZ BAKERY — Cookies artesanales por encargo en Córdoba',
+        alt: 'LAS TROLAS BAKERY — Cookies artesanales por encargo en Córdoba',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'PAZ BAKERY — Cookies artesanales por encargo · Córdoba',
+    title: 'LAS TROLAS BAKERY — Cookies artesanales por encargo · Córdoba',
     description:
       'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas.',
     images: ['/opengraph-image'],

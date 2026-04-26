@@ -2,12 +2,12 @@ import { getProducts } from '../lib/data'
 
 export const metadata = {
   title: 'Menú de Cookies',
-  description: 'Catálogo de cookies artesanales de PAZ BAKERY. COO-CHIPS, COO-FRAMBUESA, COO-VELVET, COO-CARROT, COO-CACAO y COO-LEMON. Pedí por WhatsApp en Córdoba, Argentina.',
+  description: 'Catálogo de cookies artesanales de LAS TROLAS BAKERY. COO-CHIPS, COO-FRAMBUESA, COO-VELVET, COO-CARROT, COO-CACAO y COO-LEMON. Pedí por WhatsApp en Córdoba, Argentina.',
   alternates: {
     canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app'}/catalogo`,
   },
   openGraph: {
-    title: 'Menú de Cookies — PAZ BAKERY',
+    title: 'Menú de Cookies — LAS TROLAS BAKERY',
     description: 'Cookies artesanales por encargo en Córdoba. 6 sabores únicos hechos a mano.',
     type: 'website',
   },
@@ -35,7 +35,7 @@ export default async function CatalogoPage() {
             // est. 2024 · córdoba, argentina
           </p>
           <h1 className="font-display text-[20vw] sm:text-8xl md:text-9xl text-accent leading-none">
-            PAZ BAKERY
+            LAS TROLAS BAKERY
           </h1>
           <p className="font-display text-[4vw] sm:text-2xl text-muted tracking-[0.3em] uppercase mt-1">
             cookies por encargo

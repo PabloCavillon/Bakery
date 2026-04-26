@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'PAZ BAKERY — Cookies artesanales por encargo · Córdoba'
+export const alt = 'LAS TROLAS BAKERY — Cookies artesanales por encargo · Córdoba'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -32,7 +32,7 @@ export default function Image() {
             textTransform: 'uppercase',
           }}
         >
-          CBA, ARGENTINA · EST. 2024
+          CORDOBA · ARGENTINA
         </div>
 
         {/* cookie watermark */}

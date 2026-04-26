@@ -22,15 +22,15 @@ const testimonials = [
 ];
 
 const tickerItems = [
-  "PAZ BAKERY", "//", "COOKIES POR ENCARGO", "//",
+  "ARTESANAL", "//", "COOKIES", "//", "TORTAS", "//", "TARTAS", "//",
   "HECHO A MANO", "//", "CÓRDOBA", "//",
-  "TARTAS Y TORTAS", "//", "SIN APURO", "//",
+  "TARTAS Y TORTAS", "//", "PEDIDOS PERSONALIZADOS", "//"
 ];
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Bakery',
-  name: 'PAZ BAKERY',
+  name: 'LAS TROLAS BAKERY',
   description: 'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas hechas a mano con ingredientes reales.',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app',
   telephone: '+5492974749605',
@@ -74,12 +74,12 @@ export default async function Home() {
         {/* fila superior: logo + botón */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16">
           <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
-            <span className="text-rose">*</span> PAZ BAKERY
+            <span className="text-rose">*</span> LAS TROLAS BAKERY
           </span>
           <div className="hidden md:flex gap-8 text-sm tracking-wide text-muted/70 lowercase">
-            <a href="#cookies" className="hover:text-accent transition-colors">cookies</a>
-            <a href="#nosotros" className="hover:text-accent transition-colors">nosotros</a>
-            <a href="#pedidos" className="hover:text-accent transition-colors">pedidos</a>
+            <a href="#cookies" className="hover:text-accent transition-colors">Cookies</a>
+            <a href="#nosotros" className="hover:text-accent transition-colors">Nosotros</a>
+            <a href="#pedidos" className="hover:text-accent transition-colors">Pedidos</a>
           </div>
           <a
             href="#pedidos"
@@ -135,8 +135,8 @@ export default async function Home() {
           {/* body + ctas */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 sm:gap-10 mt-8 sm:mt-12">
             <p className="text-foreground/40 text-sm leading-relaxed max-w-xs">
-              hechas a mano, con ingredientes reales.<br />
-              por encargo, sin apuro.
+              Pastelería artesanal, con ingredientes reales.<br />
+              Hecho por encargo.
             </p>
             <div className="flex flex-row gap-4 sm:gap-6 items-center">
               <a
@@ -303,7 +303,7 @@ export default async function Home() {
                   de dónde venía ese olor.
                 </p>
                 <p>
-                  PAZ BAKERY es pastelería sin pretensiones. Ingredientes reales,
+                  LAS TROLAS BAKERY es pastelería sin pretensiones. Ingredientes reales,
                   recetas que no mienten. No seguimos tendencias — hacemos lo que
                   creemos que tiene que saber bien.
                 </p>
@@ -409,7 +409,7 @@ export default async function Home() {
       <footer className="bg-surface-alt border-t border-dashed border-accent/20 py-8 sm:py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-center md:text-left">
           <AdminTap className="font-display text-xl sm:text-2xl tracking-widest text-accent">
-            <span className="text-rose">*</span> PAZ BAKERY
+            <span className="text-rose">*</span> LAS TROLAS BAKERY
           </AdminTap>
           <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
             cookies artesanales · córdoba, argentina · 2026

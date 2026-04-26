@@ -720,7 +720,7 @@ function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors;
               className={`border border-dashed p-3 text-left transition-colors ${fonts.display === f.id ? 'border-accent bg-accent/10' : 'border-accent/15 bg-surface hover:border-accent/40'}`}
             >
               <p style={{ fontFamily: `var(${f.var})` }} className="text-foreground text-xl leading-none mb-2 truncate">
-                PAZ BAKERY
+                LAS TROLAS BAKERY
               </p>
               <p className="text-muted/50 text-[0.55rem] tracking-widest uppercase">{f.label}</p>
             </button>
@@ -765,7 +765,7 @@ function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors;
           {/* Nav */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${colors.accent}20`, padding: '8px 12px', background: colors.bg }}>
             <span style={{ color: colors.accent, fontSize: '12px', fontWeight: 'bold', letterSpacing: '0.1em' }}>
-              <span style={{ color: colors.rose }}>*</span> PAZ BAKERY
+              <span style={{ color: colors.rose }}>*</span> LAS TROLAS BAKERY
             </span>
             <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
               <span style={{ color: colors.muted, fontSize: '9px', opacity: 0.6 }}>cookies</span>
@@ -778,7 +778,7 @@ function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors;
 
           {/* Ticker */}
           <div style={{ background: colors.accent, padding: '5px 12px', display: 'flex', gap: '12px', overflow: 'hidden' }}>
-            {['PAZ BAKERY', '//', 'COOKIES POR ENCARGO', '//', 'HECHO A MANO', '//', 'CÓRDOBA'].map((item, i) => (
+            {['LAS TROLAS BAKERY', '//', 'COOKIES POR ENCARGO', '//', 'HECHO A MANO', '//', 'CÓRDOBA'].map((item, i) => (
               <span key={i} style={{ color: item === '//' ? colors.rose : '#fff', fontSize: '8px', letterSpacing: '0.15em', whiteSpace: 'nowrap', opacity: item === '//' ? 1 : 0.9 }}>{item}</span>
             ))}
           </div>
@@ -839,7 +839,7 @@ function ColorsTab({ initialColors, initialFonts }: { initialColors: SiteColors;
 
           {/* Footer */}
           <div style={{ background: colors.surfaceAlt, padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: `1px dashed ${colors.accent}20` }}>
-            <span style={{ color: colors.accent, fontSize: '10px', fontWeight: 'bold' }}><span style={{ color: colors.rose }}>*</span> PAZ BAKERY</span>
+            <span style={{ color: colors.accent, fontSize: '10px', fontWeight: 'bold' }}><span style={{ color: colors.rose }}>*</span> LAS TROLAS BAKERY</span>
             <span style={{ color: colors.muted, fontSize: '7px', opacity: 0.5, letterSpacing: '0.15em' }}>cookies artesanales · córdoba · 2026</span>
           </div>
 
@@ -942,7 +942,7 @@ export default function AdminClient({ initialProducts, initialOrders, initialExp
         {/* fila superior: logo + acciones */}
         <div className="px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
           <a href="/" className="font-display text-base sm:text-xl text-accent tracking-widest whitespace-nowrap shrink-0 hover:opacity-70 transition-opacity">
-            * PAZ BAKERY
+            * LAS TROLAS BAKERY
           </a>
           <div className="flex items-center gap-2 shrink-0">
             <a href="/" className="text-muted/40 text-xs hover:text-accent transition-colors">
