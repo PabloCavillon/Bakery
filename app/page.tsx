@@ -306,9 +306,7 @@ export default async function Home() {
 
             <div className="md:col-span-2 grid grid-cols-3 md:grid-cols-1 gap-4 sm:gap-6 md:pt-24">
               {[
-                ["100%", "hecho a mano"],
-                ["0", "conservantes"],
-                ["∞", "amor por lo que hacemos"],
+                ["100%", "hecho a mano"]
               ].map(([num, label], i) => (
                 <div
                   key={label}
