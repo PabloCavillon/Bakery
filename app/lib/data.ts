@@ -12,6 +12,7 @@ export type Product = {
   active: boolean
   image?: string
   imagePosition?: string
+  imageZoom?: number
   category?: string
 }
 
@@ -52,6 +53,7 @@ export type Expense = {
 
 export async function getProducts(): Promise<Product[]> {
   await sql`ALTER TABLE products ADD COLUMN IF NOT EXISTS image_position text DEFAULT 'center center'`
+  await sql`ALTER TABLE products ADD COLUMN IF NOT EXISTS image_zoom real DEFAULT 1`
   await sql`ALTER TABLE products ADD COLUMN IF NOT EXISTS category text DEFAULT ''`
   const rows = await sql`SELECT * FROM products ORDER BY created_at ASC`
   return rows.map((r) => ({
@@ -66,6 +68,7 @@ export async function getProducts(): Promise<Product[]> {
     active: r.active,
     image: r.image ?? undefined,
     imagePosition: r.image_position ?? 'center center',
+    imageZoom: r.image_zoom != null ? Number(r.image_zoom) : 1,
     category: r.category ?? '',
   }))
 }
@@ -73,8 +76,8 @@ export async function getProducts(): Promise<Product[]> {
 export async function saveProducts(products: Product[]): Promise<void> {
   for (const p of products) {
     await sql`
-      INSERT INTO products (id, emoji, name, description, price, price_value, tag, rotate, active, image, image_position, category)
-      VALUES (${p.id}, ${p.emoji}, ${p.name}, ${p.desc}, ${p.price}, ${p.priceValue}, ${p.tag}, ${p.rotate}, ${p.active}, ${p.image ?? null}, ${p.imagePosition ?? 'center center'}, ${p.category ?? ''})
+      INSERT INTO products (id, emoji, name, description, price, price_value, tag, rotate, active, image, image_position, image_zoom, category)
+      VALUES (${p.id}, ${p.emoji}, ${p.name}, ${p.desc}, ${p.price}, ${p.priceValue}, ${p.tag}, ${p.rotate}, ${p.active}, ${p.image ?? null}, ${p.imagePosition ?? 'center center'}, ${p.imageZoom ?? 1}, ${p.category ?? ''})
       ON CONFLICT (id) DO UPDATE SET
         emoji          = EXCLUDED.emoji,
         name           = EXCLUDED.name,
@@ -86,6 +89,7 @@ export async function saveProducts(products: Product[]): Promise<void> {
         active         = EXCLUDED.active,
         image          = EXCLUDED.image,
         image_position = EXCLUDED.image_position,
+        image_zoom     = EXCLUDED.image_zoom,
         category       = EXCLUDED.category
     `
   }
@@ -136,7 +140,7 @@ export async function getExpenses(): Promise<Expense[]> {
   const rows = await sql`SELECT * FROM expenses ORDER BY date DESC`
   return rows.map((r) => ({
     id:       r.id,
-    date:     String(r.date).slice(0, 10),
+    date:     new Date(r.date).toISOString().slice(0, 10),
     desc:     r.description,
     category: r.category as ExpenseCategory,
     amount:   Number(r.amount),

@@ -76,7 +76,7 @@ export async function createProduct(data: {
 
 export async function updateProduct(
   id: string,
-  data: Partial<Pick<Product, 'name' | 'desc' | 'price' | 'priceValue' | 'tag' | 'emoji' | 'active' | 'imagePosition' | 'category'>>
+  data: Partial<Pick<Product, 'name' | 'desc' | 'price' | 'priceValue' | 'tag' | 'emoji' | 'active' | 'imagePosition' | 'imageZoom' | 'category'>>
 ): Promise<{ ok: boolean; error?: string }> {
   await requireAuth()
   const products = await getProducts()

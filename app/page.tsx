@@ -229,7 +229,7 @@ export default async function Home() {
                     <div className="relative w-full aspect-video mb-4 overflow-hidden bg-surface-alt">
                       {p.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover" style={{ objectPosition: p.imagePosition ?? 'center center' }} />
+                        <img src={p.image} alt={p.name} className="w-full h-full object-cover" style={{ objectPosition: p.imagePosition ?? 'center center', transform: (p.imageZoom ?? 1) !== 1 ? `scale(${p.imageZoom})` : undefined, transformOrigin: p.imagePosition ?? 'center center' }} />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <span className="text-5xl sm:text-6xl select-none">{p.emoji}</span>
