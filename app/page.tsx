@@ -3,24 +3,6 @@ import ParallaxWatermark from './components/ParallaxWatermark'
 import Reveal from './components/Reveal'
 import AdminTap from './components/AdminTap'
 
-const testimonials = [
-  {
-    text: "La COO-CHIPS es adictiva. La pedí una vez y ahora la encargo todas las semanas.",
-    name: "Caro M.",
-    location: "Córdoba Capital",
-  },
-  {
-    text: "La COO-LEMON es otra cosa. El curd de limón con merengue es perfección.",
-    name: "Nico T.",
-    location: "Nueva Córdoba",
-  },
-  {
-    text: "Pedí una torta personalizada para un cumple y quedaron todos locos. Cero dudas.",
-    name: "Sol R.",
-    location: "Cerro de las Rosas",
-  },
-];
-
 const tickerItems = [
   "ARTESANAL", "//", "COOKIES", "//", "TORTAS", "//", "TARTAS", "//",
   "HECHO A MANO", "//", "CÓRDOBA", "//",
@@ -74,7 +56,7 @@ export default async function Home() {
         {/* fila superior: logo + botón */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16">
           <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-accent whitespace-nowrap">
-            <span className="text-rose">*</span> Hermanas Baking
+            BOLUA' Baking
           </span>
           <div className="hidden md:flex gap-8 text-sm tracking-wide text-muted/70">
             <a href="#cookies" className="hover:text-accent transition-colors">Cookies</a>
@@ -178,7 +160,7 @@ export default async function Home() {
           <div className="mb-8 sm:mb-10 border-b border-dashed border-accent/20 pb-5 sm:pb-6">
             <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-2"><span className="text-rose">//</span> las cookies</p>
             <h2 className="font-display text-5xl sm:text-6xl md:text-8xl text-foreground leading-none">
-              EL MENÚ.
+              EL CATALOGO
             </h2>
           </div>
 
