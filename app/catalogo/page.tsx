@@ -32,7 +32,7 @@ export default async function CatalogoPage() {
         </div>
         <div className="relative z-10">
           <p className="text-accent/60 text-[0.6rem] tracking-[0.5em] uppercase mb-2">
-            // est. 2024 · córdoba, argentina
+            // córdoba · argentina
           </p>
           <h1 className="font-display text-[20vw] sm:text-8xl md:text-9xl text-accent leading-none">
             Hermanas Baking

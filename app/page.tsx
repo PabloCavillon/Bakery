@@ -152,7 +152,7 @@ export default async function Home() {
           <div className="mb-8 sm:mb-10 border-b border-dashed border-accent/20 pb-5 sm:pb-6">
             <p className="text-muted text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-2"><span className="text-rose">//</span> las cookies</p>
             <h2 className="font-display text-5xl sm:text-6xl md:text-8xl text-foreground leading-none">
-              CATALOGO
+              CATÁLOGO
             </h2>
           </div>
 
