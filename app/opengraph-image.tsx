@@ -52,7 +52,7 @@ export default function Image() {
         {/* headline */}
         <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
           <span style={{ color: '#fafaf0', fontSize: 180, fontWeight: 900, letterSpacing: '-0.01em' }}>
-            PAZ
+            LAS TROLAS
           </span>
           <span style={{ color: '#e8c030', fontSize: 180, fontWeight: 900, letterSpacing: '-0.01em', marginTop: -20 }}>
             BAKERY
