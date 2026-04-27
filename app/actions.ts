@@ -70,7 +70,6 @@ export async function createProduct(data: {
   products.push(newProduct)
   await saveProducts(products)
   revalidatePath('/')
-  revalidatePath('/catalogo')
   return { ok: true, product: newProduct }
 }
 
@@ -85,7 +84,6 @@ export async function updateProduct(
   products[idx] = { ...products[idx], ...data }
   await saveProducts(products)
   revalidatePath('/')
-  revalidatePath('/catalogo')
   return { ok: true }
 }
 
@@ -116,7 +114,6 @@ export async function uploadProductImage(
   await updateProductImage(productId, blob.url)
 
   revalidatePath('/')
-  revalidatePath('/catalogo')
   return { ok: true, image: blob.url }
 }
 
@@ -255,7 +252,6 @@ export async function updateSiteColors(
   await requireAuth()
   await saveSiteColors(colors)
   revalidatePath('/', 'layout')
-  revalidatePath('/catalogo', 'layout')
   return { ok: true }
 }
 
@@ -265,7 +261,6 @@ export async function updateSiteFonts(
   await requireAuth()
   await saveSiteFonts(fonts)
   revalidatePath('/', 'layout')
-  revalidatePath('/catalogo', 'layout')
   return { ok: true }
 }
 
@@ -277,6 +272,5 @@ export async function updatePromos(
   await requireAuth()
   await savePromos(promos)
   revalidatePath('/')
-  revalidatePath('/catalogo')
   return { ok: true }
 }

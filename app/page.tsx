@@ -34,7 +34,7 @@ const jsonLd = {
     longitude: -64.1811,
   },
   sameAs: ['https://www.instagram.com/pazz.cavillon/'],
-  hasMenu: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app'}/catalogo`,
+  hasMenu: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app'}/#catalogo`,
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: '+5492974749605',
