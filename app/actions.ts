@@ -4,8 +4,8 @@ import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { put } from '@vercel/blob'
-import { getProducts, saveProducts, updateProductImage, getOrders, saveOrders, getExpenses, saveExpenses, saveSiteColors, saveSiteFonts } from './lib/data'
-import type { Product, Order, OrderItem, Expense, ExpenseCategory, SiteColors, SiteFonts } from './lib/data'
+import { getProducts, saveProducts, updateProductImage, getOrders, saveOrders, getExpenses, saveExpenses, saveSiteColors, saveSiteFonts, savePromos } from './lib/data'
+import type { Product, Order, OrderItem, Expense, ExpenseCategory, SiteColors, SiteFonts, Promo } from './lib/data'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'pazbakery2024'
 const SESSION_VALUE  = 'authenticated'
@@ -122,6 +122,28 @@ export async function uploadProductImage(
 
 // ─── Orders ───────────────────────────────────────────────────────────────────
 
+// ─── Public Order (no auth — customer-facing) ─────────────────────────────────
+
+export async function addPublicOrder(order: {
+  customerName: string
+  phone: string
+  items: OrderItem[]
+  notes: string
+  total: number
+}): Promise<{ ok: boolean; error?: string; id?: string }> {
+  const orders = await getOrders()
+  const newOrder: Order = {
+    id: `ord-${Date.now()}`,
+    createdAt: new Date().toISOString(),
+    status: 'por confirmar',
+    ...order,
+  }
+  orders.unshift(newOrder)
+  await saveOrders(orders)
+  revalidatePath('/admin')
+  return { ok: true, id: newOrder.id }
+}
+
 export async function addOrder(order: {
   customerName: string
   phone: string
@@ -167,6 +189,20 @@ export async function deleteOrder(
   return { ok: true }
 }
 
+export async function updateOrder(
+  id: string,
+  data: { customerName: string; phone: string; notes: string; items: OrderItem[]; total: number }
+): Promise<{ ok: boolean; error?: string }> {
+  await requireAuth()
+  const orders = await getOrders()
+  const idx = orders.findIndex((o) => o.id === id)
+  if (idx === -1) return { ok: false, error: 'Pedido no encontrado' }
+  orders[idx] = { ...orders[idx], ...data }
+  await saveOrders(orders)
+  revalidatePath('/admin')
+  return { ok: true }
+}
+
 // ─── Expenses ─────────────────────────────────────────────────────────────────
 
 export async function addExpense(expense: {
@@ -197,6 +233,20 @@ export async function deleteExpense(
   return { ok: true }
 }
 
+export async function updateExpense(
+  id: string,
+  data: { date: string; desc: string; category: ExpenseCategory; amount: number }
+): Promise<{ ok: boolean; error?: string }> {
+  await requireAuth()
+  const expenses = await getExpenses()
+  const idx = expenses.findIndex((e) => e.id === id)
+  if (idx === -1) return { ok: false, error: 'Gasto no encontrado' }
+  expenses[idx] = { ...expenses[idx], ...data }
+  await saveExpenses(expenses)
+  revalidatePath('/admin')
+  return { ok: true }
+}
+
 // ─── Colors ───────────────────────────────────────────────────────────────────
 
 export async function updateSiteColors(
@@ -216,5 +266,17 @@ export async function updateSiteFonts(
   await saveSiteFonts(fonts)
   revalidatePath('/', 'layout')
   revalidatePath('/catalogo', 'layout')
+  return { ok: true }
+}
+
+// ─── Promos ───────────────────────────────────────────────────────────────────
+
+export async function updatePromos(
+  promos: Promo[]
+): Promise<{ ok: boolean; error?: string }> {
+  await requireAuth()
+  await savePromos(promos)
+  revalidatePath('/')
+  revalidatePath('/catalogo')
   return { ok: true }
 }

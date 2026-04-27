@@ -1,7 +1,11 @@
-import { getProducts } from './lib/data'
+import { getProducts, getPromos } from './lib/data'
 import ParallaxWatermark from './components/ParallaxWatermark'
 import Reveal from './components/Reveal'
 import AdminTap from './components/AdminTap'
+import CartSection from './components/CartSection'
+import ProductGrid from './components/ProductGrid'
+import FloatingCart from './components/FloatingCart'
+import { CartProvider } from './components/CartContext'
 
 const tickerItems = [
   "ARTESANAL", "//", "COOKIES", "//", "TORTAS", "//", "TARTAS", "//",
@@ -40,23 +44,9 @@ const jsonLd = {
 }
 
 export default async function Home() {
-  const allProducts = await getProducts()
+  const [allProducts, promos] = await Promise.all([getProducts(), getPromos()])
   const products = allProducts.filter((p) => p.active)
   const tickerContent = [...tickerItems, ...tickerItems];
-
-  // Group by category, preserving insertion order; uncategorized goes last
-  const groupOrder: string[] = []
-  const grouped: Record<string, typeof products> = {}
-  for (const p of products) {
-    const key = (p.category ?? '').trim()
-    if (!grouped[key]) { grouped[key] = []; groupOrder.push(key) }
-    grouped[key].push(p)
-  }
-  const hasNamed = groupOrder.some(k => k !== '')
-  if (hasNamed && grouped[''] !== undefined) {
-    const i = groupOrder.indexOf('')
-    if (i !== -1) { groupOrder.splice(i, 1); groupOrder.push('') }
-  }
 
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -128,16 +118,10 @@ export default async function Home() {
             </p>
             <div className="flex flex-row gap-4 sm:gap-6 items-center">
               <a
-                href="#pedidos"
+                href="#catalogo"
                 className="bg-(--btn-bg) text-(--btn-text) px-6 sm:px-8 py-3 font-display text-lg sm:text-xl tracking-widest opacity-100 hover:opacity-85 transition-opacity"
               >
-                PEDIR
-              </a>
-              <a
-                href="#cookies"
-                className="text-foreground/50 text-xs tracking-[0.3em] uppercase hover:text-accent transition-colors"
-              >
-                ver cookies <span className="text-rose">↓</span>
+                ver catálogo <span className="text-rose">↓</span>
               </a>
             </div>
           </div>
@@ -158,8 +142,10 @@ export default async function Home() {
         </div>
       </div>
 
+      <CartProvider>
+
       {/* ─── COOKIES ─── */}
-      <section id="cookies" className="py-14 sm:py-20 bg-background">
+      <section id="catalogo" className="py-14 sm:py-20 bg-background">
         <Reveal className="max-w-6xl mx-auto px-4 sm:px-6">
 
           {/* header */}
@@ -170,98 +156,32 @@ export default async function Home() {
             </h2>
           </div>
 
-          {/* promo */}
-          <div
-            className="mb-10 sm:mb-12 border-2 border-dashed border-accent bg-accent/10 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-            style={{ transform: "rotate(-0.4deg)" }}
-          >
-            <div className="flex items-start gap-3">
-              <span className="text-xl sm:text-2xl select-none mt-0.5">🍪</span>
-              <div>
-                <p className="font-display text-2xl sm:text-3xl text-accent leading-none mb-1">
-                  PROMO X4
-                </p>
-                <p className="text-foreground/60 text-xs leading-relaxed">
-                  Llevate 4 cookies y pagás{" "}
-                  <span className="text-foreground/30 line-through">$18.000</span>{" "}
-                  <span className="text-accent font-bold">$16.000</span>
-                  {" "}— ahorrás $2.000.
-                </p>
-              </div>
-            </div>
-            <a
-              href="#pedidos"
-              className="text-[0.6rem] tracking-[0.3em] uppercase bg-rose text-background px-4 py-2 font-bold whitespace-nowrap hover:bg-rose/80 transition-colors shrink-0 self-start sm:self-auto"
+          {/* promos */}
+          {promos.filter(p => p.active).map((promo, i) => (
+            <div
+              key={promo.id}
+              className="mb-4 last:mb-10 sm:last:mb-12 border-2 border-dashed border-accent bg-accent/10 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              style={{ transform: `rotate(${i % 2 === 0 ? '-0.4' : '0.3'}deg)` }}
             >
-              ENCARGAR →
-            </a>
-          </div>
-
-          {/* grid — grouped by category */}
-          {groupOrder.map((cat) => (
-            <div key={cat || '__none__'} className={hasNamed ? 'mb-12 last:mb-0' : ''}>
-              {/* category header */}
-              {cat && (
-                <div className="flex items-center gap-4 mb-6 sm:mb-8">
-                  <span className="text-rose text-xs">//</span>
-                  <h3 className="font-display text-3xl sm:text-4xl text-foreground leading-none tracking-wide uppercase">
-                    {cat}
-                  </h3>
-                  <div className="flex-1 border-t border-dashed border-accent/20" />
+              <div className="flex items-start gap-3">
+                <span className="text-xl sm:text-2xl select-none mt-0.5">{promo.emoji}</span>
+                <div>
+                  <p className="font-display text-2xl sm:text-3xl text-accent leading-none mb-1">
+                    {promo.name}
+                  </p>
+                  <p className="text-foreground/60 text-xs leading-relaxed">{promo.desc}</p>
                 </div>
-              )}
-              {!cat && hasNamed && (
-                <div className="flex items-center gap-4 mb-6 sm:mb-8">
-                  <div className="flex-1 border-t border-dashed border-accent/10" />
-                  <span className="font-display text-lg text-muted/40 leading-none tracking-widest uppercase">otros</span>
-                  <div className="flex-1 border-t border-dashed border-accent/10" />
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-                {grouped[cat].map((p) => (
-                  <a
-                    key={p.name}
-                    href="#pedidos"
-                    className={`product-card block border border-dashed p-5 sm:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group ${p.rotate}`}
-                    style={{ backgroundColor: 'var(--card-bg)' }}
-                  >
-                    {/* image or emoji */}
-                    <div className="relative w-full aspect-video mb-4 overflow-hidden bg-surface-alt">
-                      {p.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover" style={{ objectPosition: p.imagePosition ?? 'center center', transform: (p.imageZoom ?? 1) !== 1 ? `scale(${p.imageZoom})` : undefined, transformOrigin: p.imagePosition ?? 'center center' }} />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <span className="text-5xl sm:text-6xl select-none">{p.emoji}</span>
-                        </div>
-                      )}
-                      <span
-                        className="absolute top-2 right-2 text-[0.5rem] sm:text-[0.55rem] tracking-[0.2em] uppercase px-2 py-1 font-bold"
-                        style={{ transform: "rotate(2deg)", backgroundColor: 'var(--card-tag-bg)', color: 'var(--bg)' }}
-                      >
-                        {p.tag}
-                      </span>
-                    </div>
-                    <h3 className="font-display text-2xl sm:text-3xl leading-none mb-2 sm:mb-3 tracking-wide" style={{ color: 'var(--card-title)' }}>
-                      {p.name}
-                    </h3>
-                    <p className="text-xs leading-relaxed" style={{ color: 'var(--card-desc)' }}>
-                      {p.desc}
-                    </p>
-                    <div className="flex items-center justify-between mt-5 sm:mt-6 pt-4 border-t border-dashed border-accent/15">
-                      <span className="font-display text-2xl sm:text-3xl text-(--card-price) leading-none">
-                        {p.price}
-                      </span>
-                      <span className="text-[0.6rem] text-foreground/20 tracking-[0.2em] uppercase group-hover:text-foreground/60 transition-colors">
-                        encargar <span className="text-rose/40 group-hover:text-rose transition-colors">→</span>
-                      </span>
-                    </div>
-                  </a>
-                ))}
               </div>
+              <a
+                href="#pedidos"
+                className="text-[0.6rem] tracking-[0.3em] uppercase bg-rose text-background px-4 py-2 font-bold whitespace-nowrap hover:bg-rose/80 transition-colors shrink-0 self-start sm:self-auto"
+              >
+                ENCARGAR →
+              </a>
             </div>
           ))}
+
+          <ProductGrid products={products} />
 
           <p className="text-center text-rose/30 tracking-[0.4em] text-xs mt-12 sm:mt-14 select-none">
             * * * * * * * * * * * * * * * * *
@@ -334,50 +254,38 @@ export default async function Home() {
         </Reveal>
       </section>
 
-      {/* ─── CTA ─── */}
+      {/* ─── PEDIDOS ─── */}
       <section id="pedidos" className="py-16 sm:py-24 bg-accent relative overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
-        >
-          <span
-            className="text-[50vw] leading-none opacity-5"
-            style={{ transform: "rotate(10deg)" }}
-          >
-            🍪
-          </span>
+        <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+          <span className="text-[50vw] leading-none opacity-5" style={{ transform: "rotate(10deg)" }}>🍪</span>
         </div>
 
-        <div className="max-w-xl mx-auto px-4 sm:px-6 text-center relative z-10">
-          <p className="text-background/50 text-4xl sm:text-5xl mb-2 select-none">⚠</p>
-          <p className="text-background/50 text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-3 sm:mb-4"><span className="text-rose/70">//</span> aviso</p>
-
-          <h2 className="font-display text-[13vw] sm:text-[10vw] md:text-7xl text-background leading-none mb-5 sm:mb-6">
-            ¡ENCARGÁ<br />LAS TUYAS!
-          </h2>
-
-          <p className="text-background/60 text-sm leading-relaxed max-w-xs mx-auto mb-8 sm:mb-10">
-            Cookies, tartas y tortas personalizadas. Pedí por WhatsApp o escribinos por Instagram.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-12 sm:mb-16">
-            <a
-              href="https://wa.me/5492974749605?text=Hola!%20queria%20encargar%20"
-              className="bg-(--btn-bg) text-(--btn-text) px-7 sm:px-9 py-3 font-display text-lg sm:text-xl tracking-widest opacity-100 hover:opacity-85 transition-opacity"
-            >
-              WHATSAPP
-            </a>
-            <a
-              href="https://instagram.com/pazz.cavillon"
-              className="border-2 border-(--btn-bg) text-(--btn-bg) px-7 sm:px-9 py-3 font-display text-lg sm:text-xl tracking-widest hover:bg-(--btn-bg) hover:text-(--btn-text) transition-colors"
-            >
-              INSTAGRAM
-            </a>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+          {/* Header */}
+          <div className="mb-10 sm:mb-12">
+            <p className="text-background/50 text-[0.6rem] sm:text-xs tracking-[0.4em] uppercase mb-3 sm:mb-4">
+              <span className="text-rose/70">//</span> encargá
+            </p>
+            <h2 className="font-display text-[13vw] sm:text-[10vw] md:text-7xl text-background leading-none mb-4">
+              ¡ENCARGÁ<br />LAS TUYAS!
+            </h2>
+            <p className="text-background/60 text-sm max-w-sm">
+              Elegí tus productos, completá los datos y enviá el pedido por WhatsApp.
+            </p>
           </div>
 
-          <p className="text-background/40 text-[0.6rem] sm:text-xs tracking-[0.5em] uppercase">
-            @pazz.cavillon
-          </p>
+          <CartSection products={products} promos={promos} />
+
+          {/* Secondary */}
+          <div className="mt-10 sm:mt-12 text-center border-t border-dashed border-background/20 pt-6">
+            <p className="text-background/40 text-xs tracking-widest mb-4">también por instagram</p>
+            <a
+              href="https://instagram.com/pazz.cavillon"
+              className="border border-dashed border-background/30 text-background/60 px-8 py-2.5 font-display text-sm tracking-widest hover:bg-background/10 transition-colors"
+            >
+              @pazz.cavillon
+            </a>
+          </div>
         </div>
       </section>
 
@@ -385,7 +293,7 @@ export default async function Home() {
       <footer className="bg-surface-alt border-t border-dashed border-accent/20 py-8 sm:py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-center md:text-left">
           <AdminTap className="font-display text-xl sm:text-2xl tracking-widest text-accent">
-            <span className="text-rose">*</span> Hermanas Baking
+            Hermanas Baking
           </AdminTap>
           <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
             cookies artesanales · córdoba, argentina · 2026
@@ -398,6 +306,9 @@ export default async function Home() {
           </a>
         </div>
       </footer>
+
+      <FloatingCart products={products} promos={promos} />
+      </CartProvider>
 
     </main>
   );

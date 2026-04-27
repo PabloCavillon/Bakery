@@ -36,6 +36,10 @@ body {
   color: var(--fg);
 }
 
+button, [role="button"], label[for], select {
+  cursor: pointer;
+}
+
 /* reveal on scroll */
 .reveal {
   opacity: 0;

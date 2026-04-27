@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { getProducts, getOrders, getExpenses, getSiteColors, getSiteFonts } from '../lib/data'
+import { getProducts, getOrders, getExpenses, getSiteColors, getSiteFonts, getPromos } from '../lib/data'
 import AdminClient from './AdminClient'
 import LoginPage from './LoginPage'
 
@@ -11,12 +11,13 @@ export default async function AdminPage() {
 
   if (!isAuth) return <LoginPage />
 
-  const [products, orders, expenses, colors, fonts] = await Promise.all([
+  const [products, orders, expenses, colors, fonts, promos] = await Promise.all([
     getProducts(),
     getOrders(),
     getExpenses(),
     getSiteColors(),
     getSiteFonts(),
+    getPromos(),
   ])
-  return <AdminClient initialProducts={products} initialOrders={orders} initialExpenses={expenses} initialColors={colors} initialFonts={fonts} />
+  return <AdminClient initialProducts={products} initialOrders={orders} initialExpenses={expenses} initialColors={colors} initialFonts={fonts} initialPromos={promos} />
 }

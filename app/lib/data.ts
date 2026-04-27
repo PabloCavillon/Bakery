@@ -30,7 +30,7 @@ export type Order = {
   phone: string
   items: OrderItem[]
   notes: string
-  status: 'pendiente' | 'en proceso' | 'listo' | 'entregado' | 'cancelado'
+  status: 'por confirmar' | 'pendiente' | 'en proceso' | 'listo' | 'entregado' | 'cancelado'
   total: number
 }
 
@@ -260,6 +260,53 @@ export async function saveSiteFonts(fonts: SiteFonts): Promise<void> {
   for (const [key, value] of Object.entries({ font_display: fonts.display, font_sans: fonts.sans })) {
     await sql`INSERT INTO settings (key, value) VALUES (${key}, ${value}) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`
   }
+}
+
+// ─── Promos ───────────────────────────────────────────────────────────────────
+
+export type PromoConditionItem = {
+  kind: 'category' | 'product'
+  id: string
+  qty: number
+}
+
+export type Promo = {
+  id: string
+  name: string
+  desc: string
+  emoji: string
+  conditions: PromoConditionItem[]
+  bundlePrice: number
+  active: boolean
+}
+
+const DEFAULT_PROMOS: Promo[] = [
+  {
+    id: 'promo-x4-cookies',
+    name: 'PROMO X4',
+    desc: 'Llevate 4 cookies y pagás $16.000 — ahorrás $2.000',
+    emoji: '🍪',
+    conditions: [{ kind: 'category', id: 'Cookies', qty: 4 }],
+    bundlePrice: 16000,
+    active: true,
+  },
+]
+
+export async function getPromos(): Promise<Promo[]> {
+  try {
+    const rows = await sql`SELECT value FROM settings WHERE key = 'promos'`
+    if (rows.length === 0) return DEFAULT_PROMOS
+    return JSON.parse(rows[0].value) as Promo[]
+  } catch {
+    return DEFAULT_PROMOS
+  }
+}
+
+export async function savePromos(promos: Promo[]): Promise<void> {
+  await sql`
+    INSERT INTO settings (key, value) VALUES ('promos', ${JSON.stringify(promos)})
+    ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value
+  `
 }
 
 export async function saveSiteColors(colors: SiteColors): Promise<void> {
