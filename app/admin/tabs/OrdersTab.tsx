@@ -102,7 +102,7 @@ function NewOrderForm({ products, promos, onCreated }: { products: Product[]; pr
 export default function OrdersTab({ orders, setOrders, products, promos }: { orders: Order[]; setOrders: React.Dispatch<React.SetStateAction<Order[]>>; products: Product[]; promos: Promo[] }) {
   const [isPending, startTransition] = useTransition()
   const [editingOrderId, setEditingOrderId] = useState<string | null>(null)
-  const [editOrderForm, setEditOrderForm] = useState<{ customerName: string; phone: string; notes: string; qtys: Record<string, number> } | null>(null)
+  const [editOrderForm, setEditOrderForm] = useState<{ customerName: string; phone: string; notes: string; qtys: Record<string, number>; customTotal: string } | null>(null)
   const [filterName, setFilterName] = useState('')
   const [filterDate, setFilterDate] = useState('')
 
@@ -113,10 +113,12 @@ export default function OrdersTab({ orders, setOrders, products, promos }: { ord
         .filter((p) => (editOrderForm.qtys[p.id] ?? 0) > 0)
         .map((p) => ({ productId: p.id, productName: p.name, qty: editOrderForm.qtys[p.id], unitPrice: p.priceValue }))
     : []
-  const editQtys         = editOrderForm?.qtys ?? {}
-  const editTotal        = calcTotal(editQtys, activeProducts, promos)
-  const editUnitTotal    = editItems.reduce((s, i) => s + i.qty * i.unitPrice, 0)
-  const editPromoApplied = editTotal < editUnitTotal
+  const editQtys          = editOrderForm?.qtys ?? {}
+  const editCalcTotal     = calcTotal(editQtys, activeProducts, promos)
+  const editUnitTotal     = editItems.reduce((s, i) => s + i.qty * i.unitPrice, 0)
+  const editPromoApplied  = editCalcTotal < editUnitTotal
+  const customTotalNum    = Number(editOrderForm?.customTotal ?? '')
+  const editTotal         = editOrderForm?.customTotal && customTotalNum > 0 ? customTotalNum : editCalcTotal
 
   const handleStatus = (id: string, status: Order['status']) => {
     startTransition(async () => {
@@ -136,7 +138,7 @@ export default function OrdersTab({ orders, setOrders, products, promos }: { ord
   const startEditOrder = (o: Order) => {
     const qtys: Record<string, number> = {}
     for (const item of o.items) qtys[item.productId] = item.qty
-    setEditOrderForm({ customerName: o.customerName, phone: o.phone, notes: o.notes, qtys })
+    setEditOrderForm({ customerName: o.customerName, phone: o.phone, notes: o.notes, qtys, customTotal: '' })
     setEditingOrderId(o.id)
   }
 
@@ -239,24 +241,48 @@ export default function OrdersTab({ orders, setOrders, products, promos }: { ord
                     onChange={(e) => setEditOrderForm((f) => f && ({ ...f, notes: e.target.value }))}
                     className="w-full bg-zinc-100 border border-dashed border-zinc-200 text-zinc-600 text-sm px-3 py-2 focus:outline-none focus:border-zinc-500 resize-none mb-4 placeholder:text-zinc-600"
                   />
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div>
-                      <span className="text-zinc-400 text-sm">Total: </span>
-                      <span className="font-display text-2xl text-zinc-900">${editTotal.toLocaleString('es-AR')}</span>
-                      {editPromoApplied && <span className="text-xs text-green-400 ml-2">promo x4 cookies aplicada</span>}
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <button
-                        type="button"
-                        onClick={() => { setEditingOrderId(null); setEditOrderForm(null) }}
-                        className="text-zinc-400 text-xs tracking-widest hover:text-zinc-700 transition-colors rounded hover:bg-zinc-100 px-3 py-2"
-                      >cancelar</button>
-                      <button
-                        type="button"
-                        onClick={() => handleSaveOrder(o.id)}
-                        disabled={isPending}
-                        className="bg-zinc-900 text-white font-display text-base tracking-widest px-6 py-2 hover:bg-zinc-700 hover:scale-[1.02] transition-all disabled:opacity-50 whitespace-nowrap"
-                      >{isPending ? 'GUARDANDO...' : 'GUARDAR'}</button>
+                  <div className="border-t border-dashed border-zinc-200 pt-4 mt-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center gap-2">
+                          <span className="text-zinc-400 text-xs shrink-0">calculado:</span>
+                          <span className="font-display text-lg text-zinc-400">${editCalcTotal.toLocaleString('es-AR')}</span>
+                          {editPromoApplied && <span className="text-xs text-green-400">promo aplicada</span>}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <label className="text-zinc-500 text-xs shrink-0">precio acordado $</label>
+                          <input
+                            type="number"
+                            min={0}
+                            value={editOrderForm.customTotal}
+                            onChange={(e) => setEditOrderForm((f) => f && ({ ...f, customTotal: e.target.value }))}
+                            placeholder={String(editCalcTotal)}
+                            className="w-32 bg-zinc-100 border border-dashed border-zinc-200 text-zinc-900 font-display text-lg px-3 py-1 focus:outline-none focus:border-zinc-500 placeholder:text-zinc-400"
+                          />
+                          {editOrderForm.customTotal && customTotalNum > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => setEditOrderForm((f) => f && ({ ...f, customTotal: '' }))}
+                              className="text-zinc-400 hover:text-zinc-700 text-xs transition-colors"
+                              title="Volver al calculado"
+                            >✕</button>
+                          )}
+                        </div>
+                        <p className="font-display text-2xl text-zinc-900">${editTotal.toLocaleString('es-AR')}</p>
+                      </div>
+                      <div className="flex items-center gap-3 self-end">
+                        <button
+                          type="button"
+                          onClick={() => { setEditingOrderId(null); setEditOrderForm(null) }}
+                          className="text-zinc-400 text-xs tracking-widest hover:text-zinc-700 transition-colors rounded hover:bg-zinc-100 px-3 py-2"
+                        >cancelar</button>
+                        <button
+                          type="button"
+                          onClick={() => handleSaveOrder(o.id)}
+                          disabled={isPending}
+                          className="bg-zinc-900 text-white font-display text-base tracking-widest px-6 py-2 hover:bg-zinc-700 hover:scale-[1.02] transition-all disabled:opacity-50 whitespace-nowrap"
+                        >{isPending ? 'GUARDANDO...' : 'GUARDAR'}</button>
+                      </div>
                     </div>
                   </div>
                 </>
