@@ -16,7 +16,7 @@ const tickerItems = [
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Bakery',
-  name: 'Paz y Milu',
+  name: 'Hermanas Baking',
   description: 'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas hechas a mano con ingredientes reales.',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app',
   telephone: '+5492974749605',
@@ -63,7 +63,7 @@ export default async function Home() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/icon.svg" alt="" width={32} height={32} className="w-7 h-7 sm:w-8 sm:h-8 select-none" aria-hidden="true" />
             <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-(--nav-text)">
-              Paz y Milu
+              Hermanas Baking
             </span>
           </div>
           <div className="hidden md:flex gap-8 text-sm tracking-wide text-muted/70">
@@ -93,31 +93,34 @@ export default async function Home() {
       </nav>
 
       {/* ─── HERO ─── */}
-      <section className="min-h-screen flex flex-col justify-end bg-background pt-24 sm:pt-16 pb-12 sm:pb-16 relative overflow-hidden">
+      <section className="min-h-screen flex flex-col justify-end bg-background pt-24 sm:pt-16 pb-12 sm:pb-16 relative">
 
-        <ParallaxWatermark />
-
-        {/* logo ilustrado — decorativo, esquina superior derecha */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/icon.svg"
-          alt=""
-          aria-hidden="true"
-          className="absolute top-20 right-4 sm:right-10 w-28 sm:w-40 md:w-52 select-none pointer-events-none opacity-90"
-          style={{ transform: 'rotate(6deg)' }}
-        />
+        {/* watermark en su propio contenedor para que no se derrame */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none select-none" aria-hidden>
+          <ParallaxWatermark />
+        </div>
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full relative z-10">
-          {/* headline */}
-          <h1 className="font-display leading-none text-foreground mb-2">
-            <span className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem]">PAZ</span>
-            <span
-              className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem] text-accent"
-              style={{ transform: "translateX(3vw)" }}
-            >
-              Y MILU
-            </span>
-          </h1>
+          {/* fila: headline + ícono */}
+          <div className="flex items-end justify-between gap-4 sm:gap-6 mb-2">
+            <h1 className="font-display leading-none text-foreground flex-1 min-w-0">
+              <span className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem]">HERMANAS</span>
+              <span
+                className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem] text-accent"
+                style={{ transform: "translateX(3vw)" }}
+              >
+                BAKING
+              </span>
+            </h1>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/icon.svg"
+              alt=""
+              aria-hidden="true"
+              className="w-24 sm:w-36 md:w-44 lg:w-52 shrink-0 select-none pointer-events-none"
+              style={{ transform: 'rotate(5deg)' }}
+            />
+          </div>
 
           {/* subline */}
           <p className="font-display text-base sm:text-[3vw] md:text-2xl text-muted tracking-widest mt-3 sm:mt-4 uppercase">
@@ -307,7 +310,7 @@ export default async function Home() {
       <footer className="bg-surface-alt border-t border-dashed border-accent/20 py-8 sm:py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-center md:text-left">
           <AdminTap className="font-display text-xl sm:text-2xl tracking-widest text-accent">
-            Paz y Milu
+            Hermanas Baking
           </AdminTap>
           <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
             cookies artesanales · córdoba, argentina · 2026

@@ -101,7 +101,7 @@ export default function ColorsTab({ initialColors, initialFonts }: { initialColo
               className={`border border-dashed p-3 text-left transition-colors ${fonts.display === f.id ? 'border-zinc-900 bg-white' : 'border-zinc-200 bg-zinc-100 hover:border-zinc-500'}`}
             >
               <p style={{ fontFamily: `var(${f.var})` }} className="text-zinc-800 text-xl leading-none mb-2 truncate">
-                Paz y Milu
+                Hermanas Baking
               </p>
               <p className="text-zinc-500 text-[0.55rem] tracking-widest uppercase">{f.label}</p>
             </button>
@@ -147,7 +147,7 @@ export default function ColorsTab({ initialColors, initialFonts }: { initialColo
         <div style={pv} className="font-sans border-b border-dashed border-zinc-200">
           <div className="flex items-center justify-between px-5 py-3" style={{ backgroundColor: 'var(--nav-bg)' }}>
             <span className="font-display text-base tracking-widest" style={{ color: 'var(--nav-text)' }}>
-              Paz y Milu
+              Hermanas Baking
             </span>
             <div className="flex items-center gap-4">
               <span className="text-sm tracking-wide" style={{ color: 'var(--muted)', opacity: 0.7 }}>Cookies</span>
@@ -329,7 +329,7 @@ export default function ColorsTab({ initialColors, initialFonts }: { initialColo
         <div style={pv} className="font-sans overflow-hidden">
           <div className="flex items-center justify-between border-b border-zinc-200 px-3 py-2" style={{ backgroundColor: 'var(--nav-bg)' }}>
             <span className="font-display text-[11px] tracking-widest" style={{ color: 'var(--nav-text)' }}>
-              Paz y Milu
+              Hermanas Baking
             </span>
             <div className="flex items-center gap-3">
               <span className="text-[8px] tracking-widest" style={{ color: 'var(--muted)', opacity: 0.6 }}>cookies</span>
@@ -387,7 +387,7 @@ export default function ColorsTab({ initialColors, initialFonts }: { initialColo
           <div className="px-3 py-2 flex items-center justify-between border-t border-dashed border-zinc-200"
             style={{ backgroundColor: 'var(--surface-alt)' }}>
             <span className="font-display text-[9px]" style={{ color: 'var(--accent)' }}>
-              Paz y Milu
+              Hermanas Baking
             </span>
             <span className="text-[6px] tracking-[0.15em] uppercase" style={{ color: 'var(--muted)', opacity: 0.5 }}>cookies · córdoba · 2026</span>
           </div>

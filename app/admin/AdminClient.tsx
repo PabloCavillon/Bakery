@@ -57,7 +57,7 @@ export default function AdminClient({
       <nav className="bg-zinc-100 border-b border-dashed border-zinc-200 sticky top-0 z-10">
         <div className="px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
           <a href="/" className="font-display text-base sm:text-xl text-zinc-900 tracking-widest whitespace-nowrap shrink-0 hover:opacity-70 transition-opacity">
-            Paz y Milu
+            Hermanas Baking
           </a>
           <div className="flex items-center gap-2 shrink-0">
             <a href="/" className="text-zinc-400 text-xs hover:text-zinc-900 transition-colors rounded hover:bg-zinc-100 px-2 py-1">
