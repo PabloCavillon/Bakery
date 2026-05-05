@@ -16,7 +16,7 @@ const tickerItems = [
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Bakery',
-  name: 'Hermanas Baking',
+  name: 'Paz y Milu',
   description: 'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas hechas a mano con ingredientes reales.',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pazbakery.vercel.app',
   telephone: '+5492974749605',
@@ -59,9 +59,13 @@ export default async function Home() {
       <nav className="fixed top-0 w-full z-50 bg-(--nav-bg) border-b border-accent/15">
         {/* fila superior: logo + botón */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16">
-          <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-(--nav-text) whitespace-nowrap">
-            Hermanas Baking
-          </span>
+          <div className="flex items-center gap-2.5 whitespace-nowrap">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icon.svg" alt="" width={32} height={32} className="w-7 h-7 sm:w-8 sm:h-8 select-none" aria-hidden="true" />
+            <span className="font-display text-lg sm:text-xl tracking-wide sm:tracking-widest text-(--nav-text)">
+              Paz y Milu
+            </span>
+          </div>
           <div className="hidden md:flex gap-8 text-sm tracking-wide text-muted/70">
             <a href="#cookies" className="hover:text-accent transition-colors">Cookies</a>
             <a href="#nosotras" className="hover:text-accent transition-colors">Nosotras</a>
@@ -93,15 +97,25 @@ export default async function Home() {
 
         <ParallaxWatermark />
 
+        {/* logo ilustrado — decorativo, esquina superior derecha */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/icon.svg"
+          alt=""
+          aria-hidden="true"
+          className="absolute top-20 right-4 sm:right-10 w-28 sm:w-40 md:w-52 select-none pointer-events-none opacity-90"
+          style={{ transform: 'rotate(6deg)' }}
+        />
+
         <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full relative z-10">
           {/* headline */}
           <h1 className="font-display leading-none text-foreground mb-2">
-            <span className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem]">HERMANAS</span>
+            <span className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem]">PAZ</span>
             <span
               className="block text-[18vw] sm:text-[14vw] md:text-[9rem] lg:text-[10rem] text-accent"
               style={{ transform: "translateX(3vw)" }}
             >
-              BAKING
+              Y MILU
             </span>
           </h1>
 
@@ -293,7 +307,7 @@ export default async function Home() {
       <footer className="bg-surface-alt border-t border-dashed border-accent/20 py-8 sm:py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-center md:text-left">
           <AdminTap className="font-display text-xl sm:text-2xl tracking-widest text-accent">
-            Hermanas Baking
+            Paz y Milu
           </AdminTap>
           <p className="text-muted/50 text-[0.6rem] sm:text-xs tracking-widest uppercase">
             cookies artesanales · córdoba, argentina · 2026

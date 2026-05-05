@@ -28,7 +28,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-surface-alt flex items-center justify-center px-4">
       <div className="w-full max-w-sm border border-dashed border-accent/30 bg-surface p-6 sm:p-8">
         <p className="font-display text-accent text-2xl sm:text-3xl tracking-widest mb-1">
-          Hermanas Baking
+          Paz y Milu
         </p>
         <p className="text-muted text-xs tracking-widest uppercase mb-8">// panel admin</p>
 

@@ -3,7 +3,7 @@ import { getProducts, getOrders, getExpenses, getSiteColors, getSiteFonts, getPr
 import AdminClient from './AdminClient'
 import LoginPage from './LoginPage'
 
-export const metadata = { title: 'Admin — Hermanas Baking' }
+export const metadata = { title: 'Admin — Paz y Milu' }
 
 export default async function AdminPage() {
   const store = await cookies()

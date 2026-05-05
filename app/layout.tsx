@@ -37,8 +37,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: 'Hermanas Baking',
-    template: '%s | Hermanas Baking',
+    default: 'Paz y Milu',
+    template: '%s | Paz y Milu',
   },
 
   description:
@@ -53,20 +53,20 @@ export const metadata: Metadata = {
     'tartas artesanales córdoba',
     'cookies córdoba argentina',
     'pastelería urbana córdoba',
-    'Hermanas Baking',
+    'Paz y Milu',
     'cookies a domicilio córdoba',
   ],
 
-  authors: [{ name: 'Hermanas Baking', url: BASE_URL }],
-  creator: 'Hermanas Baking',
-  publisher: 'Hermanas Baking',
+  authors: [{ name: 'Paz y Milu', url: BASE_URL }],
+  creator: 'Paz y Milu',
+  publisher: 'Paz y Milu',
 
   openGraph: {
     type: 'website',
     locale: 'es_AR',
     url: BASE_URL,
-    siteName: 'Hermanas Baking',
-    title: 'Hermanas Baking — Cookies artesanales por encargo · Córdoba',
+    siteName: 'Paz y Milu',
+    title: 'Paz y Milu — Cookies artesanales por encargo · Córdoba',
     description:
       'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas hechas a mano.',
     images: [
@@ -74,14 +74,14 @@ export const metadata: Metadata = {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Hermanas Baking — Cookies artesanales por encargo en Córdoba',
+        alt: 'Paz y Milu — Cookies artesanales por encargo en Córdoba',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Hermanas Baking — Cookies artesanales por encargo · Córdoba',
+    title: 'Paz y Milu — Cookies artesanales por encargo · Córdoba',
     description:
       'Cookies artesanales por encargo en Córdoba, Argentina. Tartas y tortas personalizadas.',
     images: ['/opengraph-image'],

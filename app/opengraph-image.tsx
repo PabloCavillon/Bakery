@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'Hermanas Baking — Cookies artesanales por encargo · Córdoba'
+export const alt = 'Paz y Milu — Cookies artesanales por encargo · Córdoba'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -52,10 +52,10 @@ export default function Image() {
         {/* headline */}
         <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
           <span style={{ color: '#fafaf0', fontSize: 180, fontWeight: 900, letterSpacing: '-0.01em' }}>
-            HERMANAS
+            PAZ
           </span>
           <span style={{ color: '#e8c030', fontSize: 180, fontWeight: 900, letterSpacing: '-0.01em', marginTop: -20 }}>
-            BAKERY
+            Y MILU
           </span>
         </div>
 
